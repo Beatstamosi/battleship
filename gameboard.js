@@ -1,5 +1,29 @@
 export default class Gameboard {
+    constructor() {
+        this.board = this.createBoardArray();
+    }
 
+    createBoardArray() {
+        const board = [];
+
+        for (let i = 0; i < 10; i++) {
+            board[i] = [];
+            
+            for (let j = 0; j < 10; j++) {
+                board[i][j] = new Field();
+            }
+        }
+
+        return board;
+    }
+}
+
+class Field {
+    constructor() {
+        this.missed = false;
+        this.hit = false;
+        this.ship = null;
+    }
 }
 
 
