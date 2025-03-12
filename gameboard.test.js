@@ -63,6 +63,7 @@ test("updates field hit status to true", () => {
     gameboard.placeShip(2, 3, "vertical", 3);
     gameboard.receiveAttack(2, 3);
     expect(gameboard.board[2][3].hit).toBeTruthy();
+    expect(gameboard.board[2][3].missed).toBeFalsy();
 })
 
 test("updates field missed status to true", () => {
@@ -77,4 +78,16 @@ test("targeted field out of bounds", () => {
     expect(() => {
         gameboard.receiveAttack(5, 11);
     }).toThrow("Coordinates must be from 0 - 9");
+})
+
+// test allShipsSunk
+test("signals when all ships on gameboard are sunk", () => {
+    const gameboard = new Gameboard();
+    gameboard.placeShip(2, 3, "vertical", 3);
+    expect(gameboard.allShipsSunk()).toBeFalsy();
+    let ship = gameboard.board[2][3].ship;
+    ship.hit();
+    ship.hit();
+    ship.hit();
+    expect(gameboard.allShipsSunk()).toBeTruthy();
 })

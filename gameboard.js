@@ -3,6 +3,7 @@ import Ship from "./classShip";
 export default class Gameboard {
     constructor() {
         this.board = this.createBoardArray();
+        this.ships = [];
     }
 
     createBoardArray() {
@@ -25,6 +26,7 @@ export default class Gameboard {
         this.checkShipAlreadyPlaced(x, y, direction, length);
 
         let newShip = new Ship(length);
+        this.ships.push(newShip);
 
         for (let i = 0; i < length; i++) {
             let currentField = this.getField(x, y, direction, i);
@@ -65,16 +67,9 @@ export default class Gameboard {
     }
 
     allShipsSunk() {
-
+        const allSunk = (ship) => ship.sunk === true;
+        return this.ships.every(allSunk);
     }
-
-
-// all Ships sunk
-    // array 
-    // placeShip adds new Ship to array
-    // return if all ship.sunk === true
-
-
 }
 
 class Field {
