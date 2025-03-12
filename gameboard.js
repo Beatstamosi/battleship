@@ -19,16 +19,14 @@ export default class Gameboard {
         return board;
     }
 
-    placeShip(startCord, direction, length) {
-        if (startCord[0] < 0 || startCord[0] > 9 || startCord[1] < 0 || startCord[1] > 9) throw Error("Coordinates must be from 0 - 9");
+    placeShip(x, y, direction, length) {
+        if (x < 0 || x > 9 || y < 0 || y > 9) throw Error("Coordinates must be from 0 - 9");
 
-        if ((startCord[0] + (length - 1)) > 9  || (startCord[1] + (length - 1)) > 9) throw Error("Coordinates must stay in range of gameboard ((starting coordinates + length) < 9)");
+        if ((x + (length - 1)) > 9  || (y + (length - 1)) > 9) throw Error("Coordinates must stay in range of gameboard ((starting coordinates + length) < 9)");
 
-        if (!this.checkShipAlreadyPlaced(startCord, direction, length)) throw Error("A ship has already been placed in this spot");
+        if (!this.checkShipAlreadyPlaced(x, y, direction, length)) throw Error("A ship has already been placed in this spot");
 
         let newShip = new Ship(length);
-
-        let [x, y] = startCord;
 
         for (let i = 0; i < length; i++) {
             let currentField = this.getField(x, y, direction, i);
@@ -36,9 +34,7 @@ export default class Gameboard {
         }
     }
 
-    checkShipAlreadyPlaced(startCord, direction, length) {
-        let [x, y] = startCord;
-
+    checkShipAlreadyPlaced(x, y, direction, length) {
         for (let i = 0; i < length; i++) {
             let currentField = this.getField(x, y, direction, i);
             if (currentField.ship != null) return false;
@@ -49,6 +45,10 @@ export default class Gameboard {
 
     getField(x, y, direction, i) {
         return direction === "horizontal" ? this.board[x + i][y] : this.board[x][y + i];
+    }
+
+    receiveAttack(x, y) {
+        
     }
 
 // receive Attack
