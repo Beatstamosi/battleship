@@ -1,4 +1,111 @@
 * {
     padding: none;
     margin: none;
+    background: none;
+    border: none;
 }
+
+@font-face {
+    font-family: Haunting;
+    src: url(fonts/Haunting\ Attraction.woff2);
+  }
+
+@font-face {
+    font-family: Creepster;
+    src: url(fonts/Creepster-Regular.woff2);
+}
+
+:root {
+    --neonCyan: #00FFFF;
+    --lightCyan: #66FFFF;
+    --deepBlue: #005577;
+    --neonMagenta: #FF00FF;
+    --limeGreen: #00FF00;
+    --goldenYellow: #FFD700;
+    --electricBlue: #1E90FF;
+    --glowingOrange: #FF4500;
+}
+
+body {
+    background-image: url("./img/battleship_ghosts.jpeg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    height: 100vh;
+    display: flex;
+    justify-content: flex-start;
+    font-family: monospace;
+    font-size: 18px;
+}
+
+.start-view {
+    display: flex;
+    flex-direction: column;
+    padding-left: 50px;
+    padding-top: 100px;
+}
+
+.title {
+    text-transform: uppercase;
+    font-size: 10em;
+    font-family: "Haunting";
+    text-shadow: 2px 2px 4px var(--deepBlue);
+    color: var(--neonCyan);
+    text-shadow: 0 0 10px #00ffff, 0 0 15px #00ffff;
+    animation: soft-flicker 3s infinite alternate, slow-distortion 4s infinite;
+}
+
+.choice-game-mode::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -250px;
+    width: 100%;
+    height: 100%;
+    background: url(./img/clouds.png) repeat-x;
+    background-size: contain;
+    opacity: 0.7;
+    filter: blur(10px);
+    pointer-events: none;
+    animation: mist-move 10s infinite linear;
+}
+
+/* Moving mist effect */
+@keyframes mist-move {
+    0% { transform: translateX(-50px); }
+    50% { transform: translateX(50px); }
+    100% { transform: translateX(-50px); }
+}
+
+@keyframes soft-flicker {
+    0%, 100% { opacity: 1; text-shadow: 0 0 12px #00ffff, 0 0 18px #00ffff; }
+    50% { opacity: 0.9; text-shadow: 0 0 15px #00ffff, 0 0 22px #00ffff; }
+}
+
+@keyframes slow-distortion {
+    0%, 100% { transform: translateX(0) skewX(0deg); }
+    50% { transform: translateX(1px) skewX(0.5deg); }
+}
+
+.choice-game-mode {
+    display: flex;
+    gap: 100px;
+    padding-left: 100px;
+    margin-top: -50px;
+}
+
+.choice-game-mode button {
+    font-size: 3em;
+    color: var(--neonMagenta);
+    font-family: "Haunting";
+    text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff;
+    transition: text-shadow 0.3s ease-in-out, transform 0.2s;
+}
+
+.choice-game-mode button:hover {
+    cursor: pointer;
+    color: var(--electricBlue);
+    text-shadow: 0 0 15px #ffffff, 0 0 25px #ffffff;
+    transform: scale(1.1);
+}
+
