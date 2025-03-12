@@ -71,3 +71,10 @@ test("updates field missed status to true", () => {
     expect(gameboard.board[2][3].hit).toBeFalsy();
     expect(gameboard.board[2][3].missed).toBeTruthy();
 })
+
+test("targeted field out of bounds", () => {
+    const gameboard = new Gameboard();
+    expect(() => {
+        gameboard.receiveAttack(5, 11);
+    }).toThrow("Coordinates must be from 0 - 9");
+})

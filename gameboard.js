@@ -20,11 +20,9 @@ export default class Gameboard {
     }
 
     placeShip(x, y, direction, length) {
-        if (x < 0 || x > 9 || y < 0 || y > 9) throw Error("Coordinates must be from 0 - 9");
-
-        if ((x + (length - 1)) > 9  || (y + (length - 1)) > 9) throw Error("Coordinates must stay in range of gameboard ((starting coordinates + length) < 9)");
-
-        if (!this.checkShipAlreadyPlaced(x, y, direction, length)) throw Error("A ship has already been placed in this spot");
+        this.checkIfCoordsInBounds(x, y);
+        this.checkIfLengthInBounds(x, y, length);
+        this.checkShipAlreadyPlaced(x, y, direction, length);
 
         let newShip = new Ship(length);
 
@@ -34,20 +32,13 @@ export default class Gameboard {
         }
     }
 
-    checkShipAlreadyPlaced(x, y, direction, length) {
-        for (let i = 0; i < length; i++) {
-            let currentField = this.getField(x, y, direction, i);
-            if (currentField.ship != null) return false;
-        }
-
-        return true;
-    }
-
     getField(x, y, direction, i) {
         return direction === "horizontal" ? this.board[x + i][y] : this.board[x][y + i];
     }
 
     receiveAttack(x, y) {
+        this.checkIfCoordsInBounds(x, y);
+
         let field = this.board[x][y];
 
         if (field.ship != null) {
@@ -58,8 +49,23 @@ export default class Gameboard {
         }
     }
 
+    checkIfCoordsInBounds(x, y) {
+        if (x < 0 || x > 9 || y < 0 || y > 9) throw Error("Coordinates must be from 0 - 9");
+    }
+
+    checkIfLengthInBounds(x, y, length) {
+        if ((x + (length - 1)) > 9  || (y + (length - 1)) > 9) throw Error("Coordinates must stay in range of gameboard ((starting coordinates + length) < 9)");
+    }
+
+    checkShipAlreadyPlaced(x, y, direction, length) {
+        for (let i = 0; i < length; i++) {
+            let currentField = this.getField(x, y, direction, i);
+            if (currentField.ship != null) throw Error("A ship has already been placed in this spot");
+        }
+    }
+
     allShipsSunk() {
-        
+
     }
 
 
