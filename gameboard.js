@@ -48,17 +48,19 @@ export default class Gameboard {
     }
 
     receiveAttack(x, y) {
-        
+        let field = this.board[x][y];
+
+        if (field.ship != null) {
+            field.ship.hit();
+            field.hit = true;
+        } else {
+            field.missed = true;
+        }
     }
 
-// receive Attack
-    // param: coordinates
-    // access board array
-        // if field has ship
-            // call ship.hit()
-            // set field.hit = true
-        // else
-            // set field.missed = false
+    allShipsSunk() {
+        
+    }
 
 
 // all Ships sunk
