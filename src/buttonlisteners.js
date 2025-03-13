@@ -7,6 +7,8 @@ export default function addEventListeners() {
     let closeDialog2Players = document.querySelector("#close-dialog-two-players");
     let buttonStart1Player = document.querySelector("#start-game-one-player");
     let buttonStart2Players = document.querySelector("#start-game-two-players");
+    let player1NameInput = document.querySelector("#playerOne-input");
+    let player2NameInput = document.querySelector("#playerTwo-input");
 
     // dialog interaction
     buttonChoice1Player.addEventListener("click", () => {
@@ -26,12 +28,20 @@ export default function addEventListeners() {
     })
 
     // start game
-    buttonStart1Player.addEventListener("click", () => {
+    buttonStart1Player.addEventListener("click", (e) => {
+        e.preventDefault();
+        let player1Name = player1NameInput.value ? player1NameInput.value : "Player 1";
         // take player names and start game
+        // disable start-view, enable gameview
     })
 
-    buttonStart2Players.addEventListener("click", () => {
+    buttonStart2Players.addEventListener("click", (e) => {
+        e.preventDefault();
+        let player1Name = player1NameInput.value ? player1NameInput.value : "Player 1";
+        let player2Name = player2NameInput.value ? player2NameInput.value : "Player 2";
+
         // take player names and start game
+        // disable start-view, enable gameview
     })
 
 
