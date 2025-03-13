@@ -6,16 +6,54 @@
     <title>BattleShip</title>
 </head>
 <body>
+    <!-- Start View -->
     <div class="start-view">
         <h1 class="title">Phantom Fleet</h1>
         <div class="choice-game-mode">
-            <button>1 Player</button>
-            <button>2 Players</button>
+            <button id="choice-one-player">1 Player</button>
+            <button id="choice-two-players">2 Players</button>
         </div>
     </div>
 
+    <!-- Game View -->
     <div class="game-view">
-
+        <h1 class="title">Phantom Fleet</h1>
     </div>
+
+    <!-- 1 Player Box -->
+    <dialog id="one-player-dialog">
+        <button class="close-dialog" id="close-dialog-one-player">X</button>
+        <div class="container-input-user-name">
+            <form action="">
+                <div>
+                    <p>Tell us your name, Captain!</p>
+                    <label for="playerOne">Player 1</label>
+                    <input type="text" name="playerOne" id="playerOne-input" placeholder="Enter Name Player 1">
+                </div>
+                <div>
+                <button type="submit" class="start-game-button" id="start-game-one-player">Start Game</button>
+            </form>
+        </div>
+    </dialog>
+
+    <!-- 2 Player Box -->
+    <dialog id="two-players-dialog" id="close-dialog-two-players">
+        <button class="close-dialog" id="close-dialog-two-players">X</button>
+        <div class="container-input-user-name">
+            <form action="">
+                <div>
+                    <p>Give us your names, Captain's!</p>
+                    <label for="playerOne">Player One</label>
+                    <input type="text" name="playerOne" id="playerOne-input" placeholder="Enter Name">
+                </div>
+                <div>
+                    <label for="playerTwo">Player Two</label>
+                    <input type="text" name="playerTwo" id="playerTwo-input" placeholder="Enter Name">
+                </div>
+                <button type="submit" class="start-game-button" id="start-game-two-players">Start Game</button>
+            </form>
+        </div>
+    </dialog>
+    
 </body>
 </html>

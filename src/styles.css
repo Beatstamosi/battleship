@@ -104,8 +104,69 @@ body {
 
 .choice-game-mode button:hover {
     cursor: pointer;
-    color: var(--electricBlue);
+    color: var(--limeGreen);
     text-shadow: 0 0 15px #ffffff, 0 0 25px #ffffff;
     transform: scale(1.1);
+}
+
+#one-player-dialog, #two-players-dialog {
+    background-color: black;
+    opacity: 0.85;
+    font-family: "Haunting";
+    font-size: 3em;
+    border-radius: 5px;
+    border: thick double var(--limeGreen);
+    position: absolute;
+    color: var(--limeGreen);
+    position: relative;
+}
+
+.close-dialog {
+    color: var(--limeGreen);
+    opacity: 0.8;
+    font-size: 0.5em;
+    font-weight: bold;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    cursor: pointer;
+}
+
+dialog label {
+    font-size: 0.6em;
+}
+
+input[type=text] {
+    font-size: 0.9em;
+    font-family: "Haunting";
+    color: var(--neonMagenta);
+}
+
+input[type=text]::placeholder {
+    color: var(--neonCyan);
+    opacity: 0.6;
+}
+
+.start-game-button {
+    background-color: var(--neonMagenta);
+    opacity: 0.85;
+    font-family: "Haunting";
+    font-size: 0.5em;
+    margin-top: 50px;
+    padding: 10px 20px;
+    color: var(--neonCyan);
+}
+
+.start-game-button:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    opacity: 1;
+    box-shadow: 0 0 15px var(--neonCyan), 0 0 25px var(--neonCyan);
+}
+
+
+
+.game-view {
+    display: none;
 }
 
