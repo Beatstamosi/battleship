@@ -1,3 +1,15 @@
+import { setDialogInteraction, setStartGameBtn } from "./buttonlisteners";
+
+export default screencontroller = {
+    addEventListeners() {
+        setDialogInteraction();
+        setStartGameBtn();
+    },
+
+    
+}
+
+
 // - Display game-view
 // - loadBoard on start
 // - updateBoard

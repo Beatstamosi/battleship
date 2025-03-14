@@ -1,4 +1,6 @@
 import "./styles.css";
-import addEventListeners from "./buttonlisteners";
+import screencontroller from "./screencontroller";
 
-document.addEventListener("DOMContentLoaded", addEventListeners);
+document.addEventListener("DOMContentLoaded", () => {
+    screencontroller.addEventListeners();
+});
