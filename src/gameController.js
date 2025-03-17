@@ -28,6 +28,30 @@ export default class GameController {
     getPlayers() {
         return [this.#player1, this.#player2];
     }
+
+    assignRandomShips() {
+        // x, y, direction, length
+        let Ship1 = [1, 3, "vertical", 1];
+        let Ship2 = [2, 7, "horizontal", 2];
+        let Ship3 = [7, 6, "vertical", 3];
+        let Ship4 = [2, 4, "horizontal", 4];
+        let Ship5 = [8, 0, "vertical", 5];
+
+        this.#player1.gameboard.placeShip(...Ship1);
+        this.#player2.gameboard.placeShip(...Ship1);
+
+        this.#player1.gameboard.placeShip(...Ship2);
+        this.#player2.gameboard.placeShip(...Ship2);
+
+        this.#player1.gameboard.placeShip(...Ship3);
+        this.#player2.gameboard.placeShip(...Ship3);
+
+        this.#player1.gameboard.placeShip(...Ship4);
+        this.#player2.gameboard.placeShip(...Ship4);
+
+        this.#player1.gameboard.placeShip(...Ship5);
+        this.#player2.gameboard.placeShip(...Ship5);
+    }
 }
 
 // start game
@@ -35,8 +59,6 @@ export default class GameController {
     // call Screencontroller to loadBoard
 
 // assign random ships
-
-// set active player
 
 // - while(gameOver === false)
     // Player Turn

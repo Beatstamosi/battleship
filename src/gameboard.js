@@ -22,7 +22,7 @@ export default class Gameboard {
 
     placeShip(x, y, direction, length) {
         this.checkIfCoordsInBounds(x, y);
-        this.checkIfLengthInBounds(x, y, length);
+        this.checkIfLengthInBounds(x, y, direction, length);
         this.checkShipAlreadyPlaced(x, y, direction, length);
 
         let newShip = new Ship(length);
@@ -55,8 +55,12 @@ export default class Gameboard {
         if (x < 0 || x > 9 || y < 0 || y > 9) throw Error("Coordinates must be from 0 - 9");
     }
 
-    checkIfLengthInBounds(x, y, length) {
-        if ((x + (length - 1)) > 9  || (y + (length - 1)) > 9) throw Error("Coordinates must stay in range of gameboard ((starting coordinates + length) < 9)");
+    checkIfLengthInBounds(x, y, direction, length) {
+        if (direction === "horizontal") {
+            if ((x + (length - 1)) > 9) throw Error("Coordinates must stay in range of gameboard ((starting coordinates + length) < 9)");
+        } else {
+            if ((y + (length - 1)) > 9) throw Error("Coordinates must stay in range of gameboard ((starting coordinates + length) < 9)");
+        }
     }
 
     checkShipAlreadyPlaced(x, y, direction, length) {
