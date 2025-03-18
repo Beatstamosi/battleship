@@ -1,5 +1,4 @@
 import { setDialogInteraction, setStartGameBtn } from "./buttonlisteners";
-import GameController from "./gameController";
 
 const screencontroller = {
     addEventListeners() {
@@ -7,32 +6,38 @@ const screencontroller = {
         setStartGameBtn();
     },
 
-    startGame() {
+    startGame(game) {
         let startView = document.querySelector("#start-view");
         let gameView = document.querySelector("#game-view");
 
         startView.style.display = "none",
         gameView.style.display = "flex";
+
+        this._loadBoardOnStart(game);
     },
 
-    _loadBoardOnStart: function() {
-        let game = new GameController();
+    _loadBoardOnStart: function(game) {
         let [player1, player2] = game.getPlayers();
+        let boardPlayer1 = document.querySelector("#board-player-1");
+        let boardPlayer2 = document.querySelector("#board-player-2");
 
-        player1.gameboard.board.forEach((field) => {
+        this._renderBoard(player1, boardPlayer1);
+        this._renderBoard(player2, boardPlayer2);
+    },
 
-        })
-        
-        // get gameboards
-        // for each gameboard --> for loop through inner and outer arr
-            // loop through board
-            // create button
-            // add row and column dataset via i + j
-            // add class missed, hit, sunk
-            // append to DOM
-            // only for computerBoard
-                // add eventlistener for each button
+    _renderBoard: function(player, boardPlayer) {
+        let board = player.gameboard.board;
+        let length = board.length;
 
+        for (let i = 0; i < length; i++) {
+            for (let j = 0; j < board[i].length; j++) {
+                let button = document.createElement("button");
+                button.dataset.row = i;
+                button.dataset.column = j;
+                button.classList.add("field-board");
+                boardPlayer.append(button);
+            }
+        }
     }
 }
 
@@ -41,6 +46,7 @@ export default screencontroller;
 
 // - Display game-view
 // - loadBoard on start
+    // add eventlistener for each button
 // - updateBoard
 //     - miss
 //     - hit

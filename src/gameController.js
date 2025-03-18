@@ -1,4 +1,5 @@
 import Player from "./classPlayers";
+import screencontroller from "./screencontroller";
 
 export default class GameController {
     #player1;
@@ -54,9 +55,9 @@ export default class GameController {
     }
 
     startGame() {
-        // initialize Players
-        // assign Ships
-        // call Screencontroller to loadBoard
+        this.initializePlayers("Test");
+        this.assignRandomShips();
+        screencontroller.startGame(this);
     }
 }
 
