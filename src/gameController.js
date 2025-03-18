@@ -52,6 +52,12 @@ export default class GameController {
         this.#player1.gameboard.placeShip(...Ship5);
         this.#player2.gameboard.placeShip(...Ship5);
     }
+
+    startGame() {
+        // initialize Players
+        // assign Ships
+        // call Screencontroller to loadBoard
+    }
 }
 
 // start game
