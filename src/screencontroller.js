@@ -23,6 +23,12 @@ const screencontroller = {
 
         this._renderBoard(player1, boardPlayer1);
         this._renderBoard(player2, boardPlayer2);
+
+        // TODO: later this needs to be called after ships have been assigned via gameController
+            // screencontroller.addEventListenerToBoard
+            // takes game as input, gets players, gets boards from DOM
+        this._addEventListenerBoard(player1, boardPlayer1);
+        this._addEventListenerBoard(player2, boardPlayer2);
     },
 
     _renderBoard: function(player, boardPlayer) {
@@ -38,19 +44,48 @@ const screencontroller = {
                 boardPlayer.append(button);
             }
         }
+    },
+
+    _addEventListenerBoard: function(player, boardPlayer) {
+        let fields = Array.from(boardPlayer.querySelectorAll(".field-board"));
+
+        // use a named function so it can be removed after first click
+        const attack = (event) => {
+                let field = event.target;
+                let x = field.dataset.row;
+                let y = field.dataset.column;
+
+                player.gameboard.receiveAttack(x, y);
+
+                this._updateFieldStatus(player.gameboard.board[x][y], field, attack);
+        }
+
+        fields.forEach((field) => {
+            field.addEventListener("click", attack);
+        })
+    },
+
+    _updateFieldStatus: function(boardfield, DOMfield, attack) {
+        if (boardfield.missed === true) {
+            DOMfield.textContent = "X";
+            DOMfield.classList.add("missed");
+        } else if (boardfield.hit === true) {
+            DOMfield.textContent = "0";
+            DOMfield.classList.add("hit");
+        }
+
+        // deactivate button
+        DOMfield.removeEventListener("click", attack);
+
+        // TODO: update later with ship.sunk ?
+            // update all fields of ship
     }
 }
 
 export default screencontroller;
 
 
-// - Display game-view
-// - loadBoard on start
-    // add eventlistener for each button
-// - updateBoard
-//     - miss
-//     - hit
-//     - Ship sunk
+
 // - Display turn message
 // - Display how many ships left
 // - Display game over
