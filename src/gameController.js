@@ -62,6 +62,7 @@ export default class GameController {
         this.initializePlayers("Test");
         this.assignRandomShips();
         screencontroller.startGame(this);
+        this.playRound();
     }
 
     playRound() {
@@ -88,7 +89,7 @@ export default class GameController {
     }
 
     computerPlay() {
-        
+
     }
 
     isGameOver() {
