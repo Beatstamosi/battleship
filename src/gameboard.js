@@ -39,16 +39,24 @@ export default class Gameboard {
     }
 
     receiveAttack(x, y) {
-        this.checkIfCoordsInBounds(x, y);
-
-        let field = this.board[x][y];
-
-        if (field.ship != null) {
-            field.ship.hit();
-            field.hit = true;
-        } else {
-            field.missed = true;
-        }
+        return new Promise((resolve, reject) => {
+            try {
+                this.checkIfCoordsInBounds(x, y);
+    
+                let field = this.board[x][y];
+    
+                if (field.ship != null) {
+                    field.ship.hit();
+                    field.hit = true;
+                    resolve("Ship hit");
+                } else {
+                    field.missed = true;
+                    resolve("Ship missed");
+                }
+            } catch (error) {
+                reject(error);
+            }
+        });
     }
 
     checkIfCoordsInBounds(x, y) {
