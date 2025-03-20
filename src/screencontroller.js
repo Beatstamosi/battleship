@@ -47,30 +47,30 @@ const screencontroller = {
     },
 
     _addEventListenerBoard: function(player, boardPlayer) {
-        let fields = Array.from(boardPlayer.querySelectorAll(".field-board"));
+        let DOMfields = Array.from(boardPlayer.querySelectorAll(".field-board"));
 
         // use a named function so it can be removed after first click
         const attack = (event) => {
-                let field = event.target;
-                let x = field.dataset.row;
-                let y = field.dataset.column;
+                let DOMfield = event.target;
+                let x = DOMfield.dataset.row;
+                let y = DOMfield.dataset.column;
 
                 player.gameboard.receiveAttack(x, y);
 
-                this._updateFieldStatus(player.gameboard.board[x][y], field, attack);
+                this._updateFieldStatus(player.gameboard.board[x][y], DOMfield, attack);
         }
 
-        fields.forEach((field) => {
-            field.addEventListener("click", attack);
+        DOMfields.forEach((DOMfield) => {
+            DOMfield.addEventListener("click", attack);
         })
     },
 
     _updateFieldStatus: function(boardfield, DOMfield, attack) {
         if (boardfield.missed === true) {
-            DOMfield.textContent = "X";
+            DOMfield.textContent = "X";     // TODO: remove after class has design
             DOMfield.classList.add("missed");
         } else if (boardfield.hit === true) {
-            DOMfield.textContent = "0";
+            DOMfield.textContent = "0";     // TODO: remove after class has design
             DOMfield.classList.add("hit");
         }
 
@@ -84,9 +84,10 @@ const screencontroller = {
 
 export default screencontroller;
 
+// screencontroller.displayTurnInfo(activePlayer);
+// screencontroller.disableBoard(activePlayer);
 
 
-// - Display turn message
 // - Display how many ships left
 // - Display game over
 //     - Offer restart

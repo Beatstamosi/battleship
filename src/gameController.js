@@ -59,20 +59,38 @@ export default class GameController {
         this.assignRandomShips();
         screencontroller.startGame(this);
     }
+
+    playRound() {
+        if (this.isGameOver()) {
+            this.endGame();
+            return;
+        }
+
+        let activePlayer = this.getActivePlayer();
+        
+        screencontroller.displayTurnInfo(activePlayer);
+        screencontroller.disableBoard(activePlayer);
+
+        if (activePlayer.type == "computer") {
+            this.computerPlay();
+        }
+
+        // else
+            // screencontroller hide ships of non-active player ?
+
+            // else wait for receive attack --> refactor into promise
+
+            // switch player
+                
+    }
+
+    isGameOver() {
+        // via gameboard.allShipsSunk()
+        // update gameOver variable
+        // if gameover update UI via screencontroller
+    }
 }
 
-// start game
-    // initialize Players
-    // call Screencontroller to loadBoard
-
-// assign random ships
-
-// - while(gameOver === false)
-    // Player Turn
-        // set board to inactive
-    // Call screencontroller to updateBoard
-    // Change Turn / active Player
-    // Gameover condition (all shipsSunk)
 
 
 // restart
