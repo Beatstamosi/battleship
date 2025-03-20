@@ -48,10 +48,10 @@ export default class Gameboard {
                 if (field.ship != null) {
                     field.ship.hit();
                     field.hit = true;
-                    resolve("Ship hit");
+                    resolve("hit");
                 } else {
                     field.missed = true;
-                    resolve("Ship missed");
+                    resolve("missed");
                 }
             } catch (error) {
                 reject(error);

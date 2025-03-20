@@ -1,4 +1,5 @@
 import { setDialogInteraction, setStartGameBtn } from "./buttonlisteners";
+import GameController from "./gameController";
 
 const screencontroller = {
     addEventListeners() {
@@ -27,8 +28,8 @@ const screencontroller = {
         // TODO: later this needs to be called after ships have been assigned via gameController
             // screencontroller.addEventListenerToBoard
             // takes game as input, gets players, gets boards from DOM
-        this._addEventListenerBoard(player1, boardPlayer1);
-        this._addEventListenerBoard(player2, boardPlayer2);
+        this._addEventListenerBoard(player1, boardPlayer1, game);
+        this._addEventListenerBoard(player2, boardPlayer2, game);
     },
 
     _renderBoard: function(player, boardPlayer) {
@@ -46,7 +47,7 @@ const screencontroller = {
         }
     },
 
-    _addEventListenerBoard: function(player, boardPlayer) {
+    _addEventListenerBoard: function(player, boardPlayer, game) {
         let DOMfields = Array.from(boardPlayer.querySelectorAll(".field-board"));
 
         // use a named function so it can be removed after first click
@@ -55,9 +56,10 @@ const screencontroller = {
                 let x = DOMfield.dataset.row;
                 let y = DOMfield.dataset.column;
 
-                player.gameboard.receiveAttack(x, y);
-
-                this._updateFieldStatus(player.gameboard.board[x][y], DOMfield, attack);
+                player.gameboard.receiveAttack(x, y)
+                .then((result) => this._updateFieldStatus(result, DOMfield))
+                .then(() => this._deactivateEventlistenerBoard(DOMfield, attack))
+                .then(() => this._onAttackCompleted(game));
         }
 
         DOMfields.forEach((DOMfield) => {
@@ -65,20 +67,39 @@ const screencontroller = {
         })
     },
 
-    _updateFieldStatus: function(boardfield, DOMfield, attack) {
-        if (boardfield.missed === true) {
-            DOMfield.textContent = "X";     // TODO: remove after class has design
-            DOMfield.classList.add("missed");
-        } else if (boardfield.hit === true) {
-            DOMfield.textContent = "0";     // TODO: remove after class has design
-            DOMfield.classList.add("hit");
-        }
-
-        // deactivate button
-        DOMfield.removeEventListener("click", attack);
+    _updateFieldStatus: function(result, DOMfield) {
+        DOMfield.classList.add(result);
 
         // TODO: update later with ship.sunk ?
             // update all fields of ship
+    },
+
+    _deactivateEventlistenerBoard: function(DOMfield, attack) {
+        DOMfield.removeEventListener("click", attack);
+    },
+
+    _onAttackCompleted: function(game) {
+        game.switchActivePlayer();
+        game.playRound();
+    },
+
+    displayTurnInfo(activePlayer) {
+        let instructions = document.querySelector("#instructions");
+        instructions.textContent = `${activePlayer.name}'s Turn`;
+    },
+
+    disableBoard(player) {
+        let board = this.getDOMBoard(player);
+        board.classList.add("disabled");
+    },
+
+    enableBoard(player) {
+        let board = this.getDOMBoard(player);
+        board.classList.remove("disabled");
+    },
+
+    getDOMBoard(player) {
+        return document.querySelector(`#board-${player.order}`);
     }
 }
 

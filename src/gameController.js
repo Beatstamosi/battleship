@@ -13,8 +13,8 @@ export default class GameController {
     }
 
     initializePlayers(name1, name2=undefined) {
-        this.#player1 = new Player("human", name1);
-        this.#player2 = name2 ? new Player("human", name2) : new Player("computer");
+        this.#player1 = new Player("human", 1, name1);
+        this.#player2 = name2 ? new Player("human", 2, name2) : new Player("computer", 2);
         this.#activePlayer = this.#player1;
     }
 
@@ -24,6 +24,10 @@ export default class GameController {
 
     getActivePlayer() {
         return this.#activePlayer;
+    }
+
+    getNonActivePlayer() {
+        return this.#player1 == this.#activePlayer ? this.#player2 : this.#player1;
     }
 
     getPlayers() {
@@ -67,21 +71,24 @@ export default class GameController {
         }
 
         let activePlayer = this.getActivePlayer();
+        let nonActivePlayer = this.getNonActivePlayer();
         
         screencontroller.displayTurnInfo(activePlayer);
         screencontroller.disableBoard(activePlayer);
+        screencontroller.enableBoard(nonActivePlayer);
 
-        if (activePlayer.type == "computer") {
-            this.computerPlay();
-        }
+        // if (activePlayer.type == "computer") {
+        //     this.computerPlay();
+        //     // at end of computer play call switchActivePlayer
+        // }
 
         // else
             // screencontroller hide ships of non-active player ?
-
-            // else wait for receive attack --> refactor into promise
-
-            // switch player
                 
+    }
+
+    computerPlay() {
+        
     }
 
     isGameOver() {
