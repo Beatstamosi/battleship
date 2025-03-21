@@ -41,7 +41,7 @@ const screencontroller = {
                 let button = document.createElement("button");
                 button.dataset.row = i;
                 button.dataset.column = j;
-                button.classList.add("field-board");
+                button.classList.add("field-board", "show-grid");
                 boardPlayer.append(button);
             }
         }
@@ -72,6 +72,7 @@ const screencontroller = {
 
         // TODO: update later with ship.sunk ?
             // update all fields of ship
+            // update with different kind of ship
     },
 
     _deactivateEventlistenerBoard: function(DOMfield, attack) {
