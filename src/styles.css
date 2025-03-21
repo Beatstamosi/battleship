@@ -229,3 +229,7 @@ input[type=text]::placeholder {
 .disabled {
     pointer-events: none;
 }
+
+#instructions {
+    color: var(--neonMagenta);
+}

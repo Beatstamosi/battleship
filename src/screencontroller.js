@@ -100,13 +100,15 @@ const screencontroller = {
 
     getDOMBoard(player) {
         return document.querySelector(`#board-${player.order}`);
+    },
+
+    displayWinner(player) {
+        let instructions = document.querySelector("#instructions");
+        instructions.textContent = `${player.name} wins!`; // TODO: Update with more Text
     }
 }
 
 export default screencontroller;
-
-// screencontroller.displayTurnInfo(activePlayer);
-// screencontroller.disableBoard(activePlayer);
 
 
 // - Display how many ships left
