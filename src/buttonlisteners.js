@@ -33,8 +33,10 @@ export function setStartGameBtn() {
     buttonStart1Player.addEventListener("click", (e) => {
         e.preventDefault();
         let player1Name = player1NameInput.value ? player1NameInput.value : "Player 1";
-        // take player names and start game via Screencontroller
-        // disable start-view, enable gameview
+
+        // take player names
+        // start game via Screencontroller
+        // disable start-view, enable enemy-view
     })
 
     buttonStart2Players.addEventListener("click", (e) => {
@@ -42,6 +44,7 @@ export function setStartGameBtn() {
         let player1Name = player1NameInput.value ? player1NameInput.value : "Player 1";
         let player2Name = player2NameInput.value ? player2NameInput.value : "Player 2";
 
+        // get character choices
         // take player names and start game
         // disable start-view, enable gameview
     })

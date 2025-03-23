@@ -42,9 +42,7 @@ body {
 #start-view {
     display: none;
     flex-direction: column;
-    padding-left: 50px;
-    padding-top: 100px;
-    justify-content: flex-start;
+    justify-content: center;
 }
 
 .title, .title-small {
@@ -102,7 +100,7 @@ body {
     display: flex;
     gap: 100px;
     padding-left: 100px;
-    margin-top: -50px;
+    margin-top: 50px;
 }
 
 .choice-game-mode button {
@@ -127,9 +125,15 @@ body {
     font-size: 3em;
     border-radius: 5px;
     border: thick double var(--limeGreen);
-    position: absolute;
     color: var(--limeGreen);
     position: relative;
+    justify-self: center;
+    align-self: center;
+    padding: 50px;
+}
+
+.container-input-user-name p {
+    margin-bottom: 20px;
 }
 
 .close-dialog {
@@ -176,7 +180,7 @@ input[type=text]::placeholder {
 }
 
 #game-view {
-    display: none;
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -240,7 +244,7 @@ input[type=text]::placeholder {
 }
 
 .hit {
-    background-image: url(./img/ghost_1.png);
+    background-image: url(./img/wraithmoor/ghost_1.png);
     background-repeat: no-repeat;
     background-size: cover;
     opacity: 1;
@@ -255,7 +259,7 @@ input[type=text]::placeholder {
 }
 
 #enemy-selection-view {
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -340,4 +344,31 @@ input[type=text]::placeholder {
 
 .enemie-intro p {
     color: var(--neonCyan);
+}
+
+.character-selection img{
+    width: 70px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+[type=radio] { 
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+[type=radio] + img {
+    cursor: pointer;
+}
+
+[type=radio]:checked + img {
+    outline: 2px solid var(--neonMagenta);
+    box-shadow: 0 0 15px var(--neonMagenta), 0 0 25px var(--neonMagenta);
+  }
+
+#playerOne-input, #playerTwo-input {
+    margin-bottom: 20px;
+    margin-top: 20px;
 }

@@ -8,7 +8,9 @@
 <body>
     <!-- Start View -->
     <div id="start-view">
-        <h1 class="title">Phantom Fleet</h1>
+        <div>
+            <h1 class="title">Phantom Fleet</h1>
+        </div>
         <div class="choice-game-mode">
             <button id="choice-one-player">1 Player</button>
             <button id="choice-two-players">2 Players</button>
@@ -44,17 +46,17 @@
         </div>
         <div id="container-enemies">
             <div class="enemie-intro wraithmoor">
-                <img src="./img/wraithmoor.jpeg" alt="">
+                <img src="./img/wraithmoor/wraithmoor.jpeg" alt="">
                 <h2>Captain Wraithmoor</h2>
                 <p>Captain Wraithmoor, a ghostly commander from the depths of the afterlife, leads a fleet of restless spirits. His ethereal ship sails through fog and mist, guided by haunting whispers. While his attacks are swift and eerie, his army is less aggressive than the others. Face him if you seek a challenge that's chilling yet manageable.</p>
             </div>
             <div class="enemie-intro grimhollow">
-                <img src="./img/grimhollow.jpeg" alt="">
+                <img src="./img/grimhollow/grimhollow.jpeg" alt="">
                 <h2>Captain Grimhollow</h2>
                 <p>Once a ruthless pirate, now a decaying terror, Captain Grimhollow commands a fleet of the undead. His body rots, but his hunger for battle is unyielding. His zombie crew is relentless, and they will not rest until they've claimed victory. Prepare for a gruesome fight against this cursed captain and his undead legion.</p>
             </div>
             <div class="enemie-intro boneshard">
-                <img src="./img/boneshard.jpeg" alt="">
+                <img src="./img/boneshard/boneshard.jpeg" alt="">
                 <h2>Captain Boneshard</h2>
                 <p>Captain Boneshard, the skeletal commander of a cursed fleet, strikes fear into the hearts of all who cross his path. He stands tall atop of shattered bones, his army of skeletons ever-ready for battle. His merciless attacks and his unwavering warriors will test your every skill. Only the bravest can hope to survive against this legendary captain.</p>
             </div>
@@ -68,8 +70,7 @@
             <form action="">
                 <div>
                     <p>Tell us your name, Captain!</p>
-                    <label for="playerOne">Player 1</label>
-                    <input type="text" name="playerOne" id="playerOne-input" placeholder="Enter Name Player 1">
+                    <input type="text" name="playerOne" id="playerOne-input" placeholder="Enter Name">
                 </div>
                 <div>
                 <button type="submit" class="start-game-button" id="start-game-one-player">Start Game</button>
@@ -83,13 +84,49 @@
         <div class="container-input-user-name">
             <form action="">
                 <div>
-                    <p>Give us your names, Captain's!</p>
+                    <p>Who do you want to be, Captain's?</p>
                     <label for="playerOne">Player One</label>
                     <input type="text" name="playerOne" id="playerOne-input" placeholder="Enter Name">
+                </div>
+                <div class="character-selection">
+                    <label>
+                        <input type="radio" name="player-1-character" value="human" checked>
+                        <img src="img/human/human_pirate.jpeg" alt="Option 1">
+                    </label>
+                    <label>
+                        <input type="radio" name="player-1-character" value="wraithmoor">
+                        <img src="img/wraithmoor/wraithmoor.jpeg" alt="Option 2">
+                    </label>
+                    <label>
+                        <input type="radio" name="player-1-character" value="grimhollow">
+                        <img src="img/grimhollow/grimhollow.jpeg" alt="Option 3">
+                    </label>
+                    <label>
+                        <input type="radio" name="player-1-character" value="boneshard">
+                        <img src="img/boneshard/boneshard.jpeg" alt="Option 4">
+                    </label>
                 </div>
                 <div>
                     <label for="playerTwo">Player Two</label>
                     <input type="text" name="playerTwo" id="playerTwo-input" placeholder="Enter Name">
+                </div>
+                <div class="character-selection">
+                    <label>
+                        <input type="radio" name="player-2-character" value="human" checked>
+                        <img src="img/human/human_pirate.jpeg" alt="Option 1">
+                    </label>
+                    <label>
+                        <input type="radio" name="player-2-character" value="wraithmoor">
+                        <img src="img/wraithmoor/wraithmoor.jpeg" alt="Option 2">
+                    </label>
+                    <label>
+                        <input type="radio" name="player-2-character" value="grimhollow">
+                        <img src="img/grimhollow/grimhollow.jpeg" alt="Option 3">
+                    </label>
+                    <label>
+                        <input type="radio" name="player-2-character" value="boneshard">
+                        <img src="img/boneshard/boneshard.jpeg" alt="Option 4">
+                    </label>
                 </div>
                 <button type="submit" class="start-game-button" id="start-game-two-players">Start Game</button>
             </form>
