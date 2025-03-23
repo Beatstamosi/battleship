@@ -1,8 +1,9 @@
 * {
-    padding: none;
-    margin: none;
+    padding: 0;
+    margin: 0;
     background: none;
     border: none;
+    box-sizing: border-box;
 }
 
 @font-face {
@@ -33,7 +34,7 @@ body {
     background-position: center center;
     height: 100vh;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     font-family: monospace;
     font-size: 18px;
 }
@@ -43,9 +44,10 @@ body {
     flex-direction: column;
     padding-left: 50px;
     padding-top: 100px;
+    justify-content: flex-start;
 }
 
-.title {
+.title, .title-small {
     text-transform: uppercase;
     font-size: 10em;
     font-family: "Haunting";
@@ -55,10 +57,10 @@ body {
     animation: soft-flicker 3s infinite alternate, slow-distortion 4s infinite;
 }
 
-#game-view .title {
+.title-small {
     font-size: 3em;
     position: absolute;
-    top: 0px;
+    top: 20px;
     left: 20px;
     color: var(--neonMagenta);
     text-shadow: 0 0 10px var(--limeGreen), 0 0 15px var(--limeGreen);
@@ -68,7 +70,7 @@ body {
     content: "";
     position: absolute;
     top: 0;
-    left: -250px;
+    left: -50px;
     width: 100%;
     height: 100%;
     background: url(./img/clouds.png) repeat-x;
@@ -174,7 +176,7 @@ input[type=text]::placeholder {
 }
 
 #game-view {
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -231,15 +233,17 @@ input[type=text]::placeholder {
 
 /* TODO: Update with icons */
 .missed {
-    background-image: url(./img/sea.png);
+    background-image: url(./img/sea_1.png);
     background-repeat: no-repeat;
     background-size: cover;
+    opacity: 1;
 }
 
 .hit {
     background-image: url(./img/ghost_1.png);
     background-repeat: no-repeat;
     background-size: cover;
+    opacity: 1;
 }
 
 .disabled {
@@ -248,4 +252,92 @@ input[type=text]::placeholder {
 
 #instructions {
     color: var(--neonMagenta);
+}
+
+#enemy-selection-view {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#container-enemies {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.enemie-intro {
+    width: 400px;
+    height: 650px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: rgba(0, 85, 119, 0.2);
+}
+
+.enemie-intro:hover {
+    cursor: pointer;
+}
+
+.enemie-intro p {
+    font-size: 0.9em;
+}
+
+.enemie-intro h2 {
+    text-transform: uppercase;
+    font-family: "Haunting";
+    font-size: 2.5em;
+}
+
+.wraithmoor h2 {
+    color: var(--limeGreen);
+}
+
+.grimhollow h2 {
+    color: var(--goldenYellow);
+}
+
+.boneshard h2 {
+    color: var(--glowingOrange);
+}
+
+.wraithmoor img {
+    border: 1px solid var(--limeGreen);
+}
+
+.grimhollow img {
+    border: 1px solid var(--goldenYellow);
+}
+
+.boneshard img {
+    border: 1px solid var(--glowingOrange);
+}
+
+.wraithmoor:hover {
+    box-shadow: 0 0 15px var(--limeGreen), 0 0 25px var(--limeGreen);
+    border: 1px solid var(--limeGreen);
+}
+
+.grimhollow:hover {
+    box-shadow: 0 0 15px var(--goldenYellow), 0 0 25px var(--goldenYellow);
+    border: 1px solid var(--goldenYellow);
+}
+
+.boneshard:hover {
+    box-shadow: 0 0 15px var(--glowingOrange), 0 0 25px var(--glowingOrange);
+    border: 1px solid var(--glowingOrange);
+}
+
+.enemie-intro img {
+    width: 350px;
+}
+
+.enemie-intro p {
+    color: var(--neonCyan);
 }
