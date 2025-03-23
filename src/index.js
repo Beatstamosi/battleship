@@ -6,5 +6,5 @@ let game = new GameController();
 
 document.addEventListener("DOMContentLoaded", () => {
     screencontroller.addEventListeners();
-    // game.startGame();
+    game.startGame();
 });
