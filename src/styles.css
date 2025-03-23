@@ -40,7 +40,7 @@ body {
 }
 
 #start-view {
-    display: none;
+    display: flex;
     flex-direction: column;
     justify-content: center;
 }
@@ -180,7 +180,7 @@ input[type=text]::placeholder {
 }
 
 #game-view {
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: center;
     align-items: center;
