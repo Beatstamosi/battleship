@@ -98,6 +98,7 @@ export default class GameController {
             // screencontroller hide ships of non-active player ?
     }
 
+    // TODO: Delete from here as it is handled by character objects
     computerPlayEasy() {
         if (this.#availableTargets.length == 0) return;
 
@@ -111,32 +112,6 @@ export default class GameController {
         }, 1200);   
 
         this.#availableTargets.splice(index, 1);
-    }
-
-    computerPlayHard() {
-        if (this.#availableTargets.length == 0) return;
-        
-        // store last successfull attack
-        // if nextAttack empty
-            // attack random via 
-                // if hit
-                    // field.ship != sunk
-                        // store row and column data in successful attack
-                        // calculate next attacks
-                        // row +1, row-1, column+1, column-1
-                            // if in bounds store fields in next attack
-                    // field.ship === sunk
-                        // clear nextAttack, clear last successfull attack
-                
-        // else
-            // get first field from nextAttack
-
-        // array next attacks
-        // get array of fields from player1 board
-        // choose random field via index
-        // check if field has missed and hit set to false
-            // if not new random coordinate
-            // else call randomField.click()
     }
 
     isGameOver() {

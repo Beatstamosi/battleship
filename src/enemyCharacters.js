@@ -3,6 +3,31 @@ function getSpeech(event) {
     return this.speech[event];
 }
 
+function simulateClickAndObserve(attackField) {
+    return new Promise((resolve) => {
+        // Create a MutationObserver to watch for changes in the attackField
+        const observer = new MutationObserver((mutationsList, observer) => {
+            // Check if the field has been updated with a "hit" or "missed" class
+            if (attackField.classList.contains('hit')) {
+                resolve("hit");
+            } else if (attackField.classList.contains('missed')) {
+                 resolve("missed");
+            }
+            observer.disconnect();
+        });
+
+        // Observe the field for class changes
+        observer.observe(attackField, { attributes: true, childList: false, subtree: false });
+
+        // Trigger the click event
+        attackField.click();
+    });
+}
+
+function getRandomIndex(availableTargets) {
+    return Math.floor(Math.random() * availableTargets.length);
+}
+
 const wraithmoor = {
     name: "Captain Wraithmoor",
     difficulty: "easy",
@@ -22,8 +47,7 @@ const wraithmoor = {
     attack: function(availableTargets) {
         if (availableTargets.length == 0) return;
 
-        let index = Math.floor(Math.random() * availableTargets.length);
-
+        let index = getRandomIndex(availableTargets);
         let randomField = availableTargets[index];
 
         setTimeout(() => {
@@ -61,45 +85,88 @@ const grimhollow = {
         playerWin: "Impossible! The dead never stay down... but you've won this time."
     },
     getSpeech: getSpeech,
-    attack: function(availableTargets) {
-        // if (availableTargets.length == 0) return;
-
-        // let attackField;
-
-        // if nextAttack empty
-            // let index = Math.floor(Math.random() * availableTargets.length);
-            // attackField = availableTargets[index];
-        // else 
-            // attackField = nextAttack.shift();
-
-        // await simulateClickAndObserve
-            // setTimeout(() => {
-            //     attackField.click();
-            // }, 1200);   
-
-        // checkUpdatedField
-        // if hit
-            // clear nextAttack
-            // if !attackField.ship.sunk
-                // if lastSuccessAttack
-                    // if attackField.row < lastSuccessAttack.row
-                        // nextField = attackField.row - 1
-                    // if attackField.row > lastSuccessAttack.row
-                        // nextField = attackField.row + 1
-                    // if attackField.column < lastSuccessAttack.column
-                        // nextField = attackField.column - 1
-                    // if attackField.column > lastSuccessAttack.column
-                        // nextField = attackField.column + 1
-                // else 
-                    // get next fields:
-                    // attackField.row + 1; -1
-                    // attackField.column + 1, -1
-                    // add to nextAttack
-                
-            // lastSuccessAttack = attackField;
-
-        // availableTargets.splice(index, 1);
-    },
+    nextAttack: [],
+    lastSuccessfullAttack: null,
+    attack: async function(availableTargets) {
+        if (availableTargets.length == 0) return;
+    
+        let attackField;
+        let nextField;
+    
+        // attack patterns
+        const getAttackLeft = (attackField, availableTargets) => {
+            return availableTargets.find(item => 
+                item.dataset.column === (attackField.dataset.column - 1) && 
+                item.dataset.row == attackField.dataset.row
+            );
+        };
+        const getAttackRight = (attackField, availableTargets) => {
+            return availableTargets.find(item => 
+                item.dataset.column === (attackField.dataset.column + 1) && 
+                item.dataset.row == attackField.dataset.row
+            );
+        };
+        const getAttackTop = (attackField, availableTargets) => {
+            return availableTargets.find(item => 
+                item.dataset.row === (attackField.dataset.row - 1) && 
+                item.dataset.column == attackField.dataset.column
+            );
+        };
+        const getAttackBottom = (attackField, availableTargets) => {
+            return availableTargets.find(item => 
+                item.dataset.row === (attackField.dataset.row + 1) && 
+                item.dataset.column == attackField.dataset.column
+            );
+        };
+    
+        // start attack
+        if (this.nextAttack.length == 0) {
+            let index = getRandomIndex(availableTargets);
+            attackField = availableTargets[index];
+        } else {
+            attackField = this.nextAttack.shift();
+        }
+    
+        await simulateClickAndObserve(attackField)
+        .then(result => {
+            if (result === "hit") {
+                this.nextAttack.length = 0;
+    
+                if (attackField.ship && !attackField.ship.sunk) {
+                    // if second hit on ship, make sure it attacks along the row / column of the ship
+                    if (this.lastSuccessfullAttack) {
+                        if (attackField.dataset.row < this.lastSuccessfullAttack.dataset.row) {
+                            nextField = getAttackTop(attackField, availableTargets);
+                        } else if (attackField.dataset.row > this.lastSuccessfullAttack.dataset.row) {
+                            nextField = getAttackBottom(attackField, availableTargets);
+                        } else if (attackField.dataset.column < this.lastSuccessfullAttack.dataset.column) {
+                            nextField = getAttackLeft(attackField, availableTargets);
+                        } else if (attackField.dataset.column > this.lastSuccessfullAttack.dataset.column) {
+                            nextField = getAttackRight(attackField, availableTargets);
+                        }
+    
+                        if (nextField) this.nextAttack.push(nextField);
+                    // if first hit on this ship, get surrounding fields as nextAttack
+                    } else {
+                        let attackTop = getAttackTop(attackField, availableTargets);
+                        let attackBottom = getAttackBottom(attackField, availableTargets);
+                        let attackLeft = getAttackLeft(attackField, availableTargets);
+                        let attackRight = getAttackRight(attackField, availableTargets);
+    
+                        if (attackTop) this.nextAttack.push(attackTop);
+                        if (attackBottom) this.nextAttack.push(attackBottom);
+                        if (attackLeft) this.nextAttack.push(attackLeft);
+                        if (attackRight) this.nextAttack.push(attackRight);
+                    }
+                }
+            }
+    
+            this.lastSuccessfullAttack = attackField;
+            availableTargets.splice(availableTargets.indexOf(attackField), 1);
+        }).catch((error) => {
+            console.error('Attack failed:', error);
+        });
+    },    
     styling: {
         backGroundColorBoard: "var(--goldenYellow)",  
         playerBoardBoxShadow: "2px 2px 10px var(--goldenYellow)",
@@ -129,30 +196,40 @@ const boneshard = {
         playerWin: "No! My bones were unyielding... yet you've broken me. A temporary victory, human!"
     },
     getSpeech: getSpeech,
-    attack: function(availableTargets) {
-        // if (availableTargets.length == 0) return;
-
-        // let attackField;
-
-        // if nextAttack empty
-            // let index = Math.floor(Math.random() * availableTargets.length);
-            // attackField = availableTargets[index];
-        // else 
-            // attackField = nextAttack.shift();
-
-        // await simulateClickAndObserve
-            // setTimeout(() => {
-            //     attackField.click();
-            // }, 1200);   
-
-        // availableTargets.splice(index, 1);
-        
-        // checkUpdatedField
-        // if hit && nextAttack empty
-            // let nextTargets = availableTargets.filter(field.ship === attackField.ship)
-                // nextTargets.forEach if not attackField add to nextAttack
-
-        
+    nextAttack: [],
+    lastSuccessfullAttack: null,
+    attack: async function(availableTargets) {
+        if (availableTargets.length === 0) return;
+    
+        let attackField;
+    
+        // If there are no next attacks, pick a random target from availableTargets
+        if (this.nextAttack.length === 0) {
+            let index = getRandomIndex(availableTargets);
+            attackField = availableTargets[index];
+        } else {
+            // If there are next attacks, use the first one
+            attackField = this.nextAttack.shift();
+        }
+    
+        // Perform the attack
+        await simulateClickAndObserve(attackField)
+        .then(result => {
+            // Remove attackField from availableTargets so we don't attack it again
+            availableTargets.splice(availableTargets.indexOf(attackField), 1);
+    
+            // If it's a "hit", and there are no next attacks queued, look for other fields related to the same ship
+            if (result === "hit" && this.nextAttack.length === 0) {
+                let nextTargets = availableTargets.filter(field => field.ship && field.ship.length === attackField.ship.length);
+                
+                nextTargets.forEach(target => {
+                    // Add these related targets to the next attacks queue
+                    this.nextAttack.push(target);
+                });
+            }
+        }).catch(error => {
+            console.error("Error during attack:", error);
+        });
     },
     styling: {
         backGroundColorBoard: "var(--glowingOrange)",  
