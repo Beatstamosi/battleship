@@ -1,5 +1,6 @@
 import Player from "./classPlayers";
 import screencontroller from "./screencontroller";
+import { wraithmoor, grimhollow, boneshard } from "./enemyCharacters";
 
 export default class GameController {
     #player1;
@@ -14,6 +15,7 @@ export default class GameController {
         this.#activePlayer = null;
         this.#winner = null;
         this.#availableTargets = null;
+        this.boneshard = boneshard;
     }
 
     initializePlayers(name1, name2=undefined) {
@@ -40,25 +42,25 @@ export default class GameController {
 
     assignRandomShips() {
         let Ship1 = [1, 3, "vertical", 1];
-        // let Ship2 = [2, 7, "horizontal", 2];
-        // let Ship3 = [7, 6, "vertical", 3];
-        // let Ship4 = [2, 4, "horizontal", 4];
-        // let Ship5 = [8, 0, "vertical", 5];
+        let Ship2 = [2, 7, "horizontal", 2];
+        let Ship3 = [7, 6, "vertical", 3];
+        let Ship4 = [2, 4, "horizontal", 4];
+        let Ship5 = [8, 0, "vertical", 5];
 
         this.#player1.gameboard.placeShip(...Ship1);
         this.#player2.gameboard.placeShip(...Ship1);
 
-        // this.#player1.gameboard.placeShip(...Ship2);
-        // this.#player2.gameboard.placeShip(...Ship2);
+        this.#player1.gameboard.placeShip(...Ship2);
+        this.#player2.gameboard.placeShip(...Ship2);
 
-        // this.#player1.gameboard.placeShip(...Ship3);
-        // this.#player2.gameboard.placeShip(...Ship3);
+        this.#player1.gameboard.placeShip(...Ship3);
+        this.#player2.gameboard.placeShip(...Ship3);
 
-        // this.#player1.gameboard.placeShip(...Ship4);
-        // this.#player2.gameboard.placeShip(...Ship4);
+        this.#player1.gameboard.placeShip(...Ship4);
+        this.#player2.gameboard.placeShip(...Ship4);
 
-        // this.#player1.gameboard.placeShip(...Ship5);
-        // this.#player2.gameboard.placeShip(...Ship5);
+        this.#player1.gameboard.placeShip(...Ship5);
+        this.#player2.gameboard.placeShip(...Ship5);
     }
 
     startGame() {
@@ -91,7 +93,7 @@ export default class GameController {
         screencontroller.enableBoard(nonActivePlayer);
 
         if (activePlayer.type == "computer") {
-            this.computerPlayEasy();
+            this.boneshard.attack(this.#availableTargets);
         }
 
         // else

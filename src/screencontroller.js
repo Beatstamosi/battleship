@@ -42,6 +42,10 @@ const screencontroller = {
                 button.dataset.row = i;
                 button.dataset.column = j;
                 button.classList.add("field-board", "show-grid");
+
+                // Link the button with the corresponding field
+                button.gameField = board[i][j];
+
                 boardPlayer.append(button);
             }
         }
