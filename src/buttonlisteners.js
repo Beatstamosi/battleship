@@ -39,6 +39,7 @@ export function setStartGameBtn() {
         e.preventDefault();
         let player1Name = player1NameInput.value ? player1NameInput.value : "Player 1";
         storePlayer1Name(player1Name);
+        storePlayer1Character("human");
 
         dialog1Player.close();
 
@@ -47,7 +48,7 @@ export function setStartGameBtn() {
 
         // TODO: Set Buttonlistener on enemy div to start game
             // First display message of enemy
-            // startGame later via setTimeOut
+            // startGame later via setTimeOut to have delay
     })
 
     buttonStart2Players.addEventListener("click", (e) => {
@@ -65,5 +66,15 @@ export function setStartGameBtn() {
         dialog2Players.close();
 
         // TODO: disable start-view, enable gameview
+    })
+}
+
+export function setBtnEnemyIntro() {
+    let wraithmoor = document.querySelector(".enemie-intro.wraithmoor");
+    let grimhollow = document.querySelector(".enemie-intro.grimhollow");
+    let boneshard = document.querySelector("-enemy-intro.boneshard");
+
+    wraithmoor.addEventListener("click", () => {
+        
     })
 }
