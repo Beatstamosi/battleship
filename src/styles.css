@@ -231,7 +231,8 @@ input[type=text]::placeholder {
     width: 100%;
     height: 100%;
     cursor: url("./img/target.png") 16 16, auto;
-    opacity: 0.6;
+    opacity: 0.7;
+    background-size: cover;
 }
 
 /* TODO: Update with icons */
@@ -239,13 +240,13 @@ input[type=text]::placeholder {
     background-image: url(./img/sea_1.png);
     background-repeat: no-repeat;
     background-size: cover;
-    opacity: 0.6;
+    opacity: 0.7;
 }
 
 .hit {
     background-repeat: no-repeat;
     background-size: cover;
-    opacity: 0.6;
+    opacity: 0.7;
 }
 
 .hit img {
@@ -373,4 +374,21 @@ input[type=text]::placeholder {
 #playerOne-input, #playerTwo-input {
     margin-bottom: 20px;
     margin-top: 20px;
+}
+
+@keyframes lightning-strike {
+    0% {
+        background-image: url('https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExMmlnMDZiYjZwZ3A4M3M0bHExdXBkZHczMGl0Y2FmN2x1bDAyMWtiYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3f4Km8SmluRb50fogD/giphy.gif');
+    }
+    80% {
+        background-image: url('https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExMmlnMDZiYjZwZ3A4M3M0bHExdXBkZHczMGl0Y2FmN2x1bDAyMWtiYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3f4Km8SmluRb50fogD/giphy.gif');
+    }
+    100% {
+        background-image: none;  /* Stop showing the GIF after the animation */
+    }
+}
+
+/* The class that triggers the lightning animation */
+.lightning-flash {
+    animation: lightning-strike 0.8s ease-out forwards;
 }

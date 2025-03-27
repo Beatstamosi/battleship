@@ -1,5 +1,5 @@
 import { setDialogInteraction, setStartGameBtn, setBtnsEnemyIntro } from "./buttonlisteners";
-import game from "./game";
+import missed from "./img/sea_1.png";
 
 const screencontroller = {
     addEventListeners() {
@@ -43,7 +43,7 @@ const screencontroller = {
                 button.classList.add("field-board", "show-grid");
 
                 // add styling in character look to each button, because board will have background img
-                button.style.backgroundColor = player.character.styling.backGroundColorBoard;
+                button.style.backgroundColor = "black";
         
                 // Link the button with the corresponding field
                 button.gameField = board[i][j];
@@ -63,7 +63,7 @@ const screencontroller = {
                 let y = DOMfield.dataset.column;
 
                 player.gameboard.receiveAttack(x, y)
-                .then((result) => this._updateFieldStatus(result, DOMfield))
+                .then((result) => this._updateFieldStatus(result, DOMfield, boardPlayer))
                 .then(() => this._deactivateEventlistenerBoard(DOMfield, attack))
                 .then(() => this._onAttackCompleted(game));
         }
@@ -73,16 +73,17 @@ const screencontroller = {
         })
     },
 
-    _updateFieldStatus: function(result, DOMfield) {
-        DOMfield.classList.add(result);
-
-        if (result == "hit") {
-            DOMfield.style.backgroundImage = `url(${DOMfield.gameField.ship.imageURL})`;
-        }
-
-        // TODO: update later with ship.sunk ?
-            // update all fields of ship
-            // update with different kind of ship
+    _updateFieldStatus: function(result, DOMfield, boardPlayer) {   
+        DOMfield.classList.add('lightning-flash');
+        // Determine the background image based on the result
+        let image = result == "hit" ? `url(${DOMfield.gameField.ship.imageURL})` : `url(${missed})`;
+    
+        // Wait for the lightning flash animation to finish, then update the background image
+        setTimeout(() => {
+            DOMfield.style.backgroundImage = image; // Update the background image
+            DOMfield.classList.add(result);
+            DOMfield.classList.remove('lightning-flash'); // Add the class (hit or missed)
+        }, 800); // This matches the duration of the lightning animation (200ms)
     },
 
     _deactivateEventlistenerBoard: function(DOMfield, attack) {

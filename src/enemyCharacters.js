@@ -90,7 +90,7 @@ export const wraithmoor = {
     },
     styling: {
         backGroundColorBoard: "var(--limeGreen)",  
-        playerBoardBoxShadow: "2px 2px 10px var(--limeGreen)",
+        playerBoardBoxShadow: "4px 4px 15px 10px var(--limeGreen)",
     },
     ships: {
         1: ghost1,
@@ -220,7 +220,7 @@ export const grimhollow = {
     }, 
     styling: {
         backGroundColorBoard: "var(--goldenYellow)",  
-        playerBoardBoxShadow: "2px 2px 10px var(--goldenYellow)",
+        playerBoardBoxShadow: "4px 4px 15px 10px var(--goldenYellow)",
     },
     ships: {
         1: zombie1,
@@ -285,7 +285,7 @@ export const boneshard = {
     },
     styling: {
         backGroundColorBoard: "var(--glowingOrange)",  
-        playerBoardBoxShadow: "2px 2px 10px var(--glowingOrange)",
+        playerBoardBoxShadow: "4px 4px 15px 10px var(--glowingOrange)",
     },
     ships: {
         1: skeleton1,
@@ -299,7 +299,7 @@ export const boneshard = {
 export const human = {
     styling: {
         backGroundColorBoard: "var(--electricBlue)",  
-        playerBoardBoxShadow: "2px 2px 10px var(--electricBlue)",
+        playerBoardBoxShadow: "4px 4px 15px 10px var(--electricBlue)",
     },
     ships: {
         1: human1,
