@@ -91,8 +91,11 @@ const screencontroller = {
     },
 
     _onAttackCompleted: function(game) {
-        game.switchActivePlayer();
-        game.playRound();
+        setTimeout(() => {
+            game.switchActivePlayer();
+            game.playRound();
+        }, 1800);
+        
     },
 
     fogGameboard(gameboard) {
