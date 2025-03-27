@@ -76,14 +76,14 @@ const screencontroller = {
     _updateFieldStatus: function(result, DOMfield, boardPlayer) {   
         DOMfield.classList.add('lightning-flash');
         DOMfield.classList.add(result);
-        // Determine the background image based on the result
+     
         let image = result == "hit" ? `url(${DOMfield.gameField.ship.imageURL})` : `url(${missed})`;
     
         // Wait for the lightning flash animation to finish, then update the background image
         setTimeout(() => {
-            DOMfield.style.backgroundImage = image; // Update the background image
-            DOMfield.classList.remove('lightning-flash'); // Add the class (hit or missed)
-        }, 800); // This matches the duration of the lightning animation (200ms)
+            DOMfield.style.backgroundImage = image;
+            DOMfield.classList.remove('lightning-flash');
+        }, 800); // This matches the duration of the lightning animation
     },
 
     _deactivateEventlistenerBoard: function(DOMfield, attack) {
