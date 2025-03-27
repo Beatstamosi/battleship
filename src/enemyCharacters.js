@@ -1,3 +1,27 @@
+import ghost1 from './img/wraithmoor/ghost_1.png';
+import ghost2 from './img/wraithmoor/ghost_2.png';
+import ghost3 from './img/wraithmoor/ghost_3.png';
+import ghost4 from './img/wraithmoor/ghost_4.png';
+import ghost5 from './img/wraithmoor/ghost_5.png';
+
+import zombie1 from './img/grimhollow/zombie_1.png';
+import zombie2 from './img/grimhollow/zombie_2.png';
+import zombie3 from './img/grimhollow/zombie_3.png';
+import zombie4 from './img/grimhollow/zombie_4.png';
+import zombie5 from './img/grimhollow/zombie_5.png';
+
+import skeleton1 from './img/boneshard/skeleton_1.png';
+import skeleton2 from './img/boneshard/skeleton_2.png';
+import skeleton3 from './img/boneshard/skeleton_3.png';
+import skeleton4 from './img/boneshard/skeleton_4.png';
+import skeleton5 from './img/boneshard/skeleton_5.png';
+
+import human1 from './img/human/human_1.png';
+import human2 from './img/human/human_2.png';
+import human3 from './img/human/human_3.png';
+import human4 from './img/human/human_4.png';
+import human5 from './img/human/human_5.png';
+
 function getSpeech(character) {
     const randomIndex = Math.floor(Math.random() * character.speech.length);
     return character.speech[randomIndex];
@@ -69,11 +93,11 @@ export const wraithmoor = {
         playerBoardBoxShadow: "2px 2px 10px var(--limeGreen)",
     },
     ships: {
-        shipImage1: "./img/wraithmoor/ghost_1.png",
-        shipImage2: "./img/wraithmoor/ghost_2.png",
-        shipImage3: "./img/wraithmoor/ghost_3.png",
-        shipImage4: "./img/wraithmoor/ghost_4.png",
-        shipImage5: "./img/wraithmoor/ghost_5.png",
+        1: ghost1,
+        2: ghost2,
+        3: ghost3,
+        4: ghost4,
+        5: ghost5,
     }
 }
 
@@ -199,11 +223,11 @@ export const grimhollow = {
         playerBoardBoxShadow: "2px 2px 10px var(--goldenYellow)",
     },
     ships: {
-        shipImage1: "./img/grimhollow/zombie_1.png",
-        shipImage2: "./img/grimhollow/zombie_2.png",
-        shipImage3: "./img/grimhollow/zombie_3.png",
-        shipImage4: "./img/grimhollow/zombie_4.png",
-        shipImage5: "./img/grimhollow/zombie_5.png",
+        1: zombie1,
+        2: zombie2,
+        3: zombie3,
+        4: zombie4,
+        5: zombie5,
     }
 };
 
@@ -264,11 +288,11 @@ export const boneshard = {
         playerBoardBoxShadow: "2px 2px 10px var(--glowingOrange)",
     },
     ships: {
-        shipImage1: "./img/boneshard/skeleton_1.png",
-        shipImage2: "./img/boneshard/skeleton_2.png",
-        shipImage3: "./img/boneshard/skeleton_3.png",
-        shipImage4: "./img/boneshard/skeleton_4.png",
-        shipImage5: "./img/boneshard/skeleton_5.png",
+        1: skeleton1,
+        2: skeleton2,
+        3: skeleton3,
+        4: skeleton4,
+        5: skeleton5,
     }
 };
 
@@ -278,10 +302,17 @@ export const human = {
         playerBoardBoxShadow: "2px 2px 10px var(--electricBlue)",
     },
     ships: {
-        shipImage1: "./img/human/human_1.png",
-        shipImage2: "./img/human/human_2.png",
-        shipImage3: "./img/human/human_3.png",
-        shipImage4: "./img/human/human_4.png",
-        shipImage5: "./img/human/human_5.png",
+        1: human1,
+        2: human2,
+        3: human3,
+        4: human4,
+        5: human5,
     }
 };
+
+export const characters = {
+    wraithmoor: wraithmoor,
+    grimhollow: grimhollow,
+    boneshard: boneshard,
+    human: human
+}

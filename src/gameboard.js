@@ -20,12 +20,12 @@ export default class Gameboard {
         return board;
     }
 
-    placeShip(x, y, direction, length) {
+    placeShip(x, y, direction, length, imageURL) {
         this.checkIfCoordsInBounds(x, y);
         this.checkIfLengthInBounds(x, y, direction, length);
         this.checkShipAlreadyPlaced(x, y, direction, length);
 
-        let newShip = new Ship(length); // TODO: Add ship styling
+        let newShip = new Ship(length, imageURL);
         this.ships.push(newShip);
 
         for (let i = 0; i < length; i++) {

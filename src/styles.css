@@ -243,7 +243,6 @@ input[type=text]::placeholder {
 }
 
 .hit {
-    background-image: url(./img/wraithmoor/ghost_1.png);
     background-repeat: no-repeat;
     background-size: cover;
     opacity: 0.6;

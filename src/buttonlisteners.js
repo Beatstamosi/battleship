@@ -1,4 +1,4 @@
-import { wraithmoor, grimhollow, boneshard, human } from "./enemyCharacters";
+import { characters } from "./enemyCharacters";
 import game from "./game";
 
 let dialog1Player = document.querySelector("#one-player-dialog");
@@ -69,8 +69,10 @@ export function setStartGameBtn() {
         e.preventDefault();
         let player1Name = player1NameInput.value ? player1NameInput.value : "Player 1";
         let player2Name = player2NameInput.value ? player2NameInput.value : "Player 2";
-        let player1Character = document.querySelector('input[name="player-1-character"]:checked').value;
-        let player2Character = document.querySelector('input[name="player-2-character"]:checked').value;
+        let player1CharacterChoice = document.querySelector('input[name="player-1-character"]:checked').value;
+        let player2CharacterChoice = document.querySelector('input[name="player-2-character"]:checked').value;
+        let player1Character = characters[player1CharacterChoice];
+        let player2Character = characters[player2CharacterChoice];
 
         dialog2Players.close();
 
@@ -90,19 +92,19 @@ export function setBtnsEnemyIntro() {
     let boneshardDiv = document.querySelector(".enemy-intro.boneshard");
 
     wraithmoorDiv.addEventListener("click", () => {
-        game.updateCharacterPlayer2(wraithmoor);
+        game.updateCharacterPlayer2(characters.wraithmoor);
         toggleEnemyIntroView()
         turnOnGame();        
     });
 
     grimhollowDiv.addEventListener("click", () => {
-        game.updateCharacterPlayer2(grimhollow);
+        game.updateCharacterPlayer2(characters.grimhollow);
         toggleEnemyIntroView()
         turnOnGame();
     });
 
    boneshardDiv.addEventListener("click", () => {
-        game.updateCharacterPlayer2(boneshard);
+        game.updateCharacterPlayer2(characters.boneshard);
         toggleEnemyIntroView()
         turnOnGame();
     });

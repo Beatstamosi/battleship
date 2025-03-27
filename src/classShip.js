@@ -1,8 +1,9 @@
 export default class Ship {
-    constructor(length) {
+    constructor(length, imageURL) {
         this.length = length;
         this.hits = 0;
         this.sunk = false;
+        this.imageURL = imageURL;
     }
 
     hit() {

@@ -43,31 +43,59 @@ export default class GameController {
         return [this.#player1, this.#player2];
     }
 
-    assignRandomShips() {
-        let Ship1 = [1, 3, "vertical", 1];
-        let Ship2 = [2, 7, "horizontal", 2];
-        let Ship3 = [7, 6, "vertical", 3];
-        let Ship4 = [2, 4, "horizontal", 4];
-        let Ship5 = [8, 0, "vertical", 5];
+    assignRandomShips(player) {
+        for (let length = 1; length <= 5; length++) {
+            let shipPlaced = false;
+            let retries = 0;
+            const maxRetries = 50;
+            let imageURL = player.character.ships[length];
 
-        this.#player1.gameboard.placeShip(...Ship1);
-        this.#player2.gameboard.placeShip(...Ship1);
+            while (!shipPlaced && retries < maxRetries) {
+                let x = Math.floor(Math.random() * 10);
+                let y = Math.floor(Math.random() * 10);
+                let direction = Math.random() < 0.5 ? "vertical" : "horizontal";
 
-        this.#player1.gameboard.placeShip(...Ship2);
-        this.#player2.gameboard.placeShip(...Ship2);
+                try {
+                    player.gameboard.placeShip(x, y, direction, length, imageURL);  
+                    shipPlaced = true;
+                } catch (error) {
+                    retries++;
+                    console.log(`Failed to place ship of length ${length} at (${x}, ${y}) with direction ${direction}: ${error.message}`);
+                }
+            }
 
-        this.#player1.gameboard.placeShip(...Ship3);
-        this.#player2.gameboard.placeShip(...Ship3);
+            // If maxRetries exceeded
+            if (!shipPlaced) {
+                console.log(`Failed to place ship of length ${length} after ${maxRetries} retries.`);
+                // TODO: Reset Grid and try again?
+            }
+        }
 
-        this.#player1.gameboard.placeShip(...Ship4);
-        this.#player2.gameboard.placeShip(...Ship4);
+        // let Ship1 = [1, 3, "vertical", 1];
+        // let Ship2 = [2, 7, "horizontal", 2];
+        // let Ship3 = [7, 6, "vertical", 3];
+        // let Ship4 = [2, 4, "horizontal", 4];
+        // let Ship5 = [8, 0, "vertical", 5];
 
-        this.#player1.gameboard.placeShip(...Ship5);
-        this.#player2.gameboard.placeShip(...Ship5);
+        // this.#player1.gameboard.placeShip(...Ship1);
+        // this.#player2.gameboard.placeShip(...Ship1);
+
+        // this.#player1.gameboard.placeShip(...Ship2);
+        // this.#player2.gameboard.placeShip(...Ship2);
+
+        // this.#player1.gameboard.placeShip(...Ship3);
+        // this.#player2.gameboard.placeShip(...Ship3);
+
+        // this.#player1.gameboard.placeShip(...Ship4);
+        // this.#player2.gameboard.placeShip(...Ship4);
+
+        // this.#player1.gameboard.placeShip(...Ship5);
+        // this.#player2.gameboard.placeShip(...Ship5);
     }
 
     startGame() {
-        this.assignRandomShips();
+        this.assignRandomShips(this.#player1);
+        this.assignRandomShips(this.#player2);
         screencontroller.startGame(this);
 
         if (this.#player2.type == "computer") this.#initializeAvailableTargets();

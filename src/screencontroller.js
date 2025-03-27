@@ -76,6 +76,10 @@ const screencontroller = {
     _updateFieldStatus: function(result, DOMfield) {
         DOMfield.classList.add(result);
 
+        if (result == "hit") {
+            DOMfield.style.backgroundImage = `url(${DOMfield.gameField.ship.imageURL})`;
+        }
+
         // TODO: update later with ship.sunk ?
             // update all fields of ship
             // update with different kind of ship
