@@ -1,7 +1,24 @@
-import { storePlayer1Name, storePlayer2Name, getPlayer1Name, getPlayer2Name, storePlayer1Character, storePlayer2Character, getPlayer1Character, getPlayer2Character } from "./localStorage";
+import { wraithmoor, grimhollow, boneshard, human } from "./enemyCharacters";
+import game from "./game";
 
 let dialog1Player = document.querySelector("#one-player-dialog");
 let dialog2Players = document.querySelector("#two-players-dialog");
+
+function turnOffStartView() {
+    let startView = document.querySelector("#start-view");
+    startView.style.display = "none";
+}
+
+function turnOnGame() {
+    let gameView = document.querySelector("#game-view");
+    gameView.style.display = "flex";
+    game.startGame();
+}
+
+function toggleEnemyIntroView() {
+    let enemySelectionView = document.querySelector("#enemy-selection-view");
+    enemySelectionView.style.display = (enemySelectionView.style.display === "none" || enemySelectionView.style.display === "") ? "flex" : "none";
+}
 
 export function setDialogInteraction() {
     let buttonChoice1Player = document.querySelector("#choice-one-player");
@@ -31,24 +48,21 @@ export function setStartGameBtn() {
     let buttonStart2Players = document.querySelector("#start-game-two-players");
     let player1NameInput = document.querySelector("#playerOne-input");
     let player2NameInput = document.querySelector("#playerTwo-input");
-    let startView = document.querySelector("#start-view");
-    let enemySelectionView = document.querySelector("#enemy-selection-view");
 
-    // start game
+    // initialize game
     buttonStart1Player.addEventListener("click", (e) => {
         e.preventDefault();
         let player1Name = player1NameInput.value ? player1NameInput.value : "Player 1";
-        storePlayer1Name(player1Name);
-        storePlayer1Character("human");
 
         dialog1Player.close();
 
-        startView.style.display = "none";
-        enemySelectionView.style.display = "flex";
+        // change view
+        turnOffStartView();
+        toggleEnemyIntroView();
 
-        // TODO: Set Buttonlistener on enemy div to start game
-            // First display message of enemy
-            // startGame later via setTimeOut to have delay
+        // initialize players
+        game.initializePlayers(player1Name);
+
     })
 
     buttonStart2Players.addEventListener("click", (e) => {
@@ -58,23 +72,38 @@ export function setStartGameBtn() {
         let player1Character = document.querySelector('input[name="player-1-character"]:checked').value;
         let player2Character = document.querySelector('input[name="player-2-character"]:checked').value;
 
-        storePlayer1Name(player1Name);
-        storePlayer2Name(player2Name);
-        storePlayer1Character(player1Character);
-        storePlayer2Character(player2Character);
-
         dialog2Players.close();
 
-        // TODO: disable start-view, enable gameview
+        // initialize both players with styling
+        game.initializePlayers(player1Name, player1Character, player2Name, player2Character);
+
+        // change view and start game
+        turnOffStartView();
+        turnOnGame();
+        
     })
 }
 
-export function setBtnEnemyIntro() {
-    let wraithmoor = document.querySelector(".enemie-intro.wraithmoor");
-    let grimhollow = document.querySelector(".enemie-intro.grimhollow");
-    let boneshard = document.querySelector("-enemy-intro.boneshard");
+export function setBtnsEnemyIntro() {
+    let wraithmoorDiv = document.querySelector(".enemy-intro.wraithmoor");
+    let grimhollowDiv = document.querySelector(".enemy-intro.grimhollow");
+    let boneshardDiv = document.querySelector(".enemy-intro.boneshard");
 
-    wraithmoor.addEventListener("click", () => {
-        
-    })
+    wraithmoorDiv.addEventListener("click", () => {
+        game.updateCharacterPlayer2(wraithmoor);
+        toggleEnemyIntroView()
+        turnOnGame();        
+    });
+
+    grimhollowDiv.addEventListener("click", () => {
+        game.updateCharacterPlayer2(grimhollow);
+        toggleEnemyIntroView()
+        turnOnGame();
+    });
+
+   boneshardDiv.addEventListener("click", () => {
+        game.updateCharacterPlayer2(boneshard);
+        toggleEnemyIntroView()
+        turnOnGame();
+    });
 }

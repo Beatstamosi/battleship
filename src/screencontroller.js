@@ -1,19 +1,14 @@
-import { setDialogInteraction, setStartGameBtn } from "./buttonlisteners";
-import GameController from "./gameController";
+import { setDialogInteraction, setStartGameBtn, setBtnsEnemyIntro } from "./buttonlisteners";
+import game from "./game";
 
 const screencontroller = {
     addEventListeners() {
         setDialogInteraction();
         setStartGameBtn();
+        setBtnsEnemyIntro();
     },
 
     startGame(game) {
-        let startView = document.querySelector("#start-view");
-        let gameView = document.querySelector("#game-view");
-
-        startView.style.display = "none",
-        gameView.style.display = "flex";
-
         this._loadBoardOnStart(game);
     },
 
@@ -28,6 +23,8 @@ const screencontroller = {
         // TODO: later this needs to be called after ships have been assigned via gameController
             // screencontroller.addEventListenerToBoard
             // takes game as input, gets players, gets boards from DOM
+        this.fogGameboard(boardPlayer1);
+        this.fogGameboard(boardPlayer2);
         this._addEventListenerBoard(player1, boardPlayer1, game);
         this._addEventListenerBoard(player2, boardPlayer2, game);
     },
@@ -36,6 +33,8 @@ const screencontroller = {
         let board = player.gameboard.board;
         let length = board.length;
 
+        boardPlayer.style.boxShadow = player.character.styling.playerBoardBoxShadow;
+
         for (let i = 0; i < length; i++) {
             for (let j = 0; j < board[i].length; j++) {
                 let button = document.createElement("button");
@@ -43,6 +42,9 @@ const screencontroller = {
                 button.dataset.column = j;
                 button.classList.add("field-board", "show-grid");
 
+                // add styling in character look to each button, because board will have background img
+                button.style.backgroundColor = player.character.styling.backGroundColorBoard;
+        
                 // Link the button with the corresponding field
                 button.gameField = board[i][j];
 
@@ -86,6 +88,15 @@ const screencontroller = {
     _onAttackCompleted: function(game) {
         game.switchActivePlayer();
         game.playRound();
+    },
+
+    fogGameboard(gameboard) {
+        gameboard.classList.add("fog");
+
+        let buttons = Array.from(gameboard.querySelectorAll("button"));
+        buttons.forEach(btn => {
+            btn.classList.remove("show-grid");
+        })
     },
 
     displayTurnInfo(activePlayer) {

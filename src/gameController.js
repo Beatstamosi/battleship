@@ -1,6 +1,6 @@
 import Player from "./classPlayers";
 import screencontroller from "./screencontroller";
-import { wraithmoor, grimhollow, boneshard } from "./enemyCharacters";
+import { human } from "./enemyCharacters";
 
 export default class GameController {
     #player1;
@@ -15,13 +15,16 @@ export default class GameController {
         this.#activePlayer = null;
         this.#winner = null;
         this.#availableTargets = null;
-        this.boneshard = boneshard;
     }
 
-    initializePlayers(name1, name2=undefined) {
-        this.#player1 = new Player("human", 1, name1);
-        this.#player2 = name2 ? new Player("human", 2, name2) : new Player("computer", 2);
+    initializePlayers(name1, character1=human, name2=undefined, character2=undefined) {
+        this.#player1 = new Player("human", 1, name1, character1);
+        this.#player2 = name2 ? new Player("human", 2, name2, character2) : new Player("computer", 2);
         this.#activePlayer = this.#player1;
+    }
+
+    updateCharacterPlayer2(character) {
+        this.#player2.updatePlayer(character);
     }
 
     switchActivePlayer() {
@@ -64,7 +67,6 @@ export default class GameController {
     }
 
     startGame() {
-        this.initializePlayers("Test");
         this.assignRandomShips();
         screencontroller.startGame(this);
 
@@ -93,27 +95,11 @@ export default class GameController {
         screencontroller.enableBoard(nonActivePlayer);
 
         if (activePlayer.type == "computer") {
-            this.boneshard.attack(this.#availableTargets);
+            this.#player2.character.attack(this.#availableTargets);
         }
 
         // else
             // screencontroller hide ships of non-active player ?
-    }
-
-    // TODO: Delete from here as it is handled by character objects
-    computerPlayEasy() {
-        if (this.#availableTargets.length == 0) return;
-
-        // choose random field via index
-        let index = Math.floor(Math.random() * this.#availableTargets.length);
-
-        let randomField = this.#availableTargets[index];
-
-        setTimeout(() => {
-            randomField.click();
-        }, 1200);   
-
-        this.#availableTargets.splice(index, 1);
     }
 
     isGameOver() {

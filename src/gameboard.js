@@ -25,7 +25,7 @@ export default class Gameboard {
         this.checkIfLengthInBounds(x, y, direction, length);
         this.checkShipAlreadyPlaced(x, y, direction, length);
 
-        let newShip = new Ship(length);
+        let newShip = new Ship(length); // TODO: Add ship styling
         this.ships.push(newShip);
 
         for (let i = 0; i < length; i++) {

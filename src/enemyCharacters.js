@@ -1,6 +1,7 @@
-function getSpeech(event) {
-    return this.speech[event];
-}
+function getSpeech(character) {
+    const randomIndex = Math.floor(Math.random() * character.speech.length);
+    return character.speech[randomIndex];
+};
 
 function simulateClickAndObserve(attackField) {
     return new Promise((resolve, reject) => {
@@ -29,7 +30,7 @@ function simulateClickAndObserve(attackField) {
             reject("Click event failed: " + error);
         }
     });
-}
+};
 
 function getRandomIndex(availableTargets) {
     return Math.floor(Math.random() * availableTargets.length);
@@ -38,18 +39,18 @@ function getRandomIndex(availableTargets) {
 export const wraithmoor = {
     name: "Captain Wraithmoor",
     difficulty: "easy",
-    speech: {
-        captainHit: "A hit! Your fleet will be claimed by the fog.",
-        playerHit: "You think you've struck a blow? I'll return, stronger than before!",
-        captainMiss: "A miss! The spirits are restless, but not yet in your favor.",
-        playerMiss: "Your shot goes wide. You cannot escape the fog's grip.",
-        captainSink: "Your fleet is no more. The fog devours all.",
-        playerSink: "Impossible! How could my fleet vanish into the mist?",
-        placeShips: "Place your ships carefully. The fog can turn the tide at any moment.",
-        gameStart: "The fog rises. It's time to face the spirits of the deep.",
-        captainWin: "You have lost, and now the fog will claim you. I shall never fade.",
-        playerWin: "How...? My ghostly fleet cannot be defeated. But you've won this round, mortal."
-    },
+    speech: [
+        "The fog rises once more... Your fate is sealed in the mist.",
+        "You strike, but it will not matter. The fog will return to claim what is lost.",
+        "The spirits of the deep stir. They whisper your doom through the fog.",
+        "The mist thickens. Your every move is lost in its endless embrace.",
+        "The fog does not forget, and neither will I. Your fate is but a fleeting moment in the mist.",
+        "My ghostly fleet never truly fades. The fog will bring us back... always.",
+        "Beware, mortal. The fog twists reality, and soon you'll be trapped within it.",
+        "You may think you've gained ground, but the fog consumes all in the end.",
+        "The fog has eyes, and it watches. It sees all, and so do I.",
+        "You fight well, but the fog's grip is stronger. It will never let you go."
+    ],
     getSpeech: getSpeech,
     attack: function(availableTargets) {
         if (availableTargets.length == 0) return;
@@ -74,23 +75,23 @@ export const wraithmoor = {
         shipImage4: "./img/wraithmoor/ghost_4.png",
         shipImage5: "./img/wraithmoor/ghost_5.png",
     }
-};
+}
 
 export const grimhollow = {
     name: "Captain Grimhollow",
     difficulty: "medium",
-    speech: {
-        captainHit: "Another strike! The dead will rise against you.",
-        playerHit: "Ugh, you've struck my ship! But it won't stay down long!",
-        captainMiss: "A futile strike! The undead will not falter.",
-        playerMiss: "The undead remain unscathed. Try again, if you dare.",
-        captainSink: "Your ships are lost to the deep, just as the living fade to dust.",
-        playerSink: "No...! My undead will rise again, but not today!",
-        placeShips: "The dead never rest. And neither should you. Place your ships wisely.",
-        gameStart: "The undead rise again, and your fleet shall feel their wrath!",
-        captainWin: "Your fleet is shattered, just like your hopes. The undead reign supreme!",
-        playerWin: "Impossible! The dead never stay down... but you've won this time."
-    },
+    speech: [
+        "The dead never rest. They rise, again and again, as the fog stirs.",
+        "You may delay them, but the undead are eternal. The fog will see to it.",
+        "The fog is thick with the restless souls. The dead shall always return.",
+        "In the mist, the undead rise, relentless and unyielding. No one escapes their grasp.",
+        "The dead are never truly gone. They wander, forever bound to the fog's will.",
+        "You cannot escape the fog, nor the undead it brings. They will always find their way back.",
+        "The undead rise from the depths, and with them, the fog. It is inevitable.",
+        "The fog claims all, even the living. The dead are never far behind.",
+        "Time means nothing to the undead. The fog carries them back, always.",
+        "You may think you've overcome them, but the undead cannot be vanquished. The fog ensures it."
+    ],
     getSpeech: getSpeech,
     nextAttack: [],
     lastSuccessfullAttack: null,
@@ -142,10 +143,11 @@ export const grimhollow = {
     
                 if (gameField.ship && !gameField.ship.sunk) { 
                     if (this.lastSuccessfullAttack) {
-                        let rowDiff = parseInt(attackField.dataset.row) - parseInt(this.lastSuccessfullAttack.dataset.row);
-                        let colDiff = parseInt(attackField.dataset.column) - parseInt(this.lastSuccessfullAttack.dataset.column);
-
+                        // check if attack direction is  not set
                         if (!this.attackDirection) {
+                            let rowDiff = parseInt(attackField.dataset.row) - parseInt(this.lastSuccessfullAttack.dataset.row);
+                            let colDiff = parseInt(attackField.dataset.column) - parseInt(this.lastSuccessfullAttack.dataset.column);
+
                             // Determine attack direction after the second hit
                             if (rowDiff !== 0) {
                                 this.attackDirection = "vertical";
@@ -208,18 +210,18 @@ export const grimhollow = {
 export const boneshard = {
     name: "Captain Boneshard",
     difficulty: "hard",
-    speech: {
-        captainHit: "I see the bones of your ship splintering!",
-        playerHit: "So, you've hit me. But you will not break me!",
-        captainMiss: "A wasted blow! My bones will not break so easily!",
-        playerMiss: "Pathetic! You can't pierce my bones that easily.",
-        captainSink: "Your fleet is broken! Not even the living can defeat me!",
-        playerSink: "My fleet... shattered... But I shall return to haunt you!",
-        placeShips: "You have but one chance to prepare. The bones of fate have already begun their dance.",
-        gameStart: "The bones are cast... now prepare for your doom!",
-        captainWin: "Your defeat is inevitable, mortal. The bones always win!",
-        playerWin: "No! My bones were unyielding... yet you've broken me. A temporary victory, human!"
-    },
+    speech: [
+        "The bones of fate are cast. There is no escaping the inevitable.",
+        "You may strike, but my bones are unyielding. I will always rise again.",
+        "The bones are strong and unbroken. Nothing can shatter them... nothing.",
+        "You may try, but the bones will not bend or break. The dance of fate is already set.",
+        "The bones do not yield. The longer you fight, the closer you come to your doom.",
+        "The bones never falter, they simply wait. And when the time comes, they will claim all.",
+        "You cannot break what is already unbroken. The bones will endure as long as the fog lingers.",
+        "The dance of bones has already begun. There is no escaping fate’s grasp.",
+        "You may think you can defeat me, but the bones are eternal. Time cannot undo them.",
+        "The bones will not break. They are a reminder that death is never far behind."
+    ],
     getSpeech: getSpeech,
     nextAttack: [],
     lastSuccessfullAttack: null,
@@ -270,7 +272,7 @@ export const boneshard = {
     }
 };
 
-const human = {
+export const human = {
     styling: {
         backGroundColorBoard: "var(--electricBlue)",  
         playerBoardBoxShadow: "2px 2px 10px var(--electricBlue)",
