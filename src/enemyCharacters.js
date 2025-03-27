@@ -49,7 +49,7 @@ function simulateClickAndObserve(attackField) {
             setTimeout(() => {
                 observer.disconnect();
                 reject("Click event timed out: No class change detected.");
-            }, 2000);
+            }, 4000);
         } catch (error) {
             reject("Click event failed: " + error);
         }
