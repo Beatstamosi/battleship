@@ -259,6 +259,9 @@ input[type=text]::placeholder {
 
 #instructions {
     color: var(--neonMagenta);
+    text-align: center;
+    font-size: 2em;
+    font-family: "Haunting";
 }
 
 #enemy-selection-view {
@@ -391,4 +394,25 @@ input[type=text]::placeholder {
 /* The class that triggers the lightning animation */
 .lightning-flash {
     animation: lightning-strike 0.8s ease-out forwards;
+}
+
+.container-ship-assignment {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.container-ship {
+    display: flex;
+}
+
+.container-ship img {
+    width: 45px;
+    height: 45px;
+}
+
+.field-board.drag-over {
+    border: 3px dashed var(--neonCyan);
+    opacity: 1;
 }

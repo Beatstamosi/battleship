@@ -4,6 +4,7 @@ export default class Gameboard {
     constructor() {
         this.board = this.createBoardArray();
         this.ships = [];
+        this.eventTarget = new EventTarget();
     }
 
     createBoardArray() {
@@ -21,6 +22,10 @@ export default class Gameboard {
     }
 
     placeShip(x, y, direction, length, imageURL) {
+        x = Number(x);
+        y = Number(y);
+        length = Number(length);
+
         this.checkIfCoordsInBounds(x, y);
         this.checkIfLengthInBounds(x, y, direction, length);
         this.checkShipAlreadyPlaced(x, y, direction, length);
@@ -28,10 +33,24 @@ export default class Gameboard {
         let newShip = new Ship(length, imageURL);
         this.ships.push(newShip);
 
+        let shipFields = [];
+
         for (let i = 0; i < length; i++) {
             let currentField = this.getField(x, y, direction, i);
             currentField.ship = newShip;
+            shipFields.push(currentField);
         }
+
+        console.log(shipFields);
+        // Emit custom event after placing the ship
+        const event = new CustomEvent("shipPlaced", {
+            detail: {
+                shipFields,
+                imageURL // Send useful data in the event
+            }
+        });
+
+        this.eventTarget.dispatchEvent(event);
     }
 
     getField(x, y, direction, i) {

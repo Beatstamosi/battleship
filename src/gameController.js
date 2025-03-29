@@ -71,13 +71,13 @@ export default class GameController {
     }
 
     startGame() {
-        this.assignRandomShips(this.#player1);
-        this.assignRandomShips(this.#player2);
+        // this.assignRandomShips(this.#player1);
+        // this.assignRandomShips(this.#player2);
         screencontroller.startGame(this);
 
-        if (this.#player2.type == "computer") this.#initializeAvailableTargets();
+        // if (this.#player2.type == "computer") this.#initializeAvailableTargets();
         
-        this.playRound();
+        // this.playRound();
     }
 
     #initializeAvailableTargets() {
