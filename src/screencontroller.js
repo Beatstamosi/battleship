@@ -20,7 +20,6 @@ const screencontroller = {
                 // renderAssignShips player1
                 this._renderAssignShips(player);
 
-                // eventListener "shipPlaced"
                 // After ship assigning is started, listen for the 'shipPlaced' event
                 player.gameboard.eventTarget.addEventListener("shipPlaced", (event) => {
                     const { shipFields, imageURL } = event.detail;
@@ -32,6 +31,7 @@ const screencontroller = {
                     setTimeout(() => {
                         this._fogInstructions();
                         this._removeAllShipsFromView(boardPlayer);
+                        this._updateDisplayHowManyShipsLeft(player);
                         this._fogGameboard(boardPlayer);
                     }, 1500);
                     setTimeout(() => {
@@ -40,9 +40,15 @@ const screencontroller = {
                 });
             } else {
                 this._fogGameboard(boardPlayer);
+                this._updateDisplayHowManyShipsLeft(player);
                 resolve();
             }
         })
+    },
+
+    _updateDisplayHowManyShipsLeft(player) {
+        let display = document.querySelector(`#ships-left-${player.order}`);
+        display.textContent = `Ships Left: ${player.gameboard.ships.length}`;
     },
 
     activateAttackFunctionsBoards(game) {
@@ -137,6 +143,7 @@ const screencontroller = {
                 player.gameboard.receiveAttack(x, y)
                 .then((result) => this._updateFieldStatus(result, DOMfield, boardPlayer))
                 .then(() => this._deactivateEventlistenerBoard(DOMfield, attack))
+                .then(() => this._updateDisplayHowManyShipsLeft(player))
                 .then(() => this._onAttackCompleted(game));
         }
 
@@ -240,7 +247,7 @@ const screencontroller = {
             this.enableDragStartOnShipAssignment(shipDiv);
         }
 
-        // add 1 button to rotate all ships
+        // add button to rotate all ships
         let rotateBtnContainer = document.createElement("div");
         rotateBtnContainer.classList.add("container-rotate-btn");
 
@@ -306,7 +313,7 @@ const screencontroller = {
 
     displayTurnInfo(activePlayer) {
         let instructions = document.querySelector("#instructions");
-        instructions.textContent = `${activePlayer.name}'s Turn`; // TODO: More Instructions
+        instructions.textContent = `${activePlayer.name}'s Turn`;
     },
 
     disableBoard(player) {

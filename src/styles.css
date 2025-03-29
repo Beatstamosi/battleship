@@ -430,3 +430,10 @@ input[type=text]::placeholder {
 .container-rotate-btn img {
     width: 20px;
 }
+
+#ships-left-player-1, #ships-left-player-2 {
+    margin-top: 50px;
+    font-family: "Haunting";
+    color: var(--neonMagenta);
+    font-size: 2.5em;
+}

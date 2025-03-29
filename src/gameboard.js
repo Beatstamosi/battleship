@@ -69,6 +69,9 @@ export default class Gameboard {
                 if (field.ship != null) {
                     field.ship.hit();
                     field.hit = true;
+                    if (field.ship.sunk) {
+                        this.removeShip(field.ship)
+                    }
                     resolve("hit");
                 } else {
                     field.missed = true;
@@ -100,8 +103,12 @@ export default class Gameboard {
     }
 
     allShipsSunk() {
-        const allSunk = (ship) => ship.sunk === true;
-        return this.ships.every(allSunk);
+        return this.ships.length === 0;
+    }
+
+    removeShip(ship) {
+        let index = this.ships.indexOf(ship);
+        this.ships.splice(index, 1);
     }
 }
 

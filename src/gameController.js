@@ -73,7 +73,7 @@ export default class GameController {
     async startGame() {
         await screencontroller.handleBoardSetUp(this.#player1);
 
-        // wait until ships have been assigned THEN:
+        // wait until ships have been assigned
         await screencontroller.handleBoardSetUp(this.#player2);
 
         if (this.#player2.type == "computer") {
@@ -81,7 +81,7 @@ export default class GameController {
             this.#initializeAvailableTargets();
         } 
         
-        // THEN AFTER SHIPS HAVE BEEN ASSIGNED
+        // after ships of player2 have been assigned
         screencontroller.activateAttackFunctionsBoards(this);
 
         // set activePlayer
@@ -112,9 +112,6 @@ export default class GameController {
         if (activePlayer.type == "computer") {
             this.#player2.character.attack(this.#availableTargets);
         }
-
-        // else
-            // screencontroller hide ships of non-active player ?
     }
 
     isGameOver() {
@@ -126,7 +123,7 @@ export default class GameController {
     }
 
     endGame() {
-        // disabled both boards
+        // disable both boards
         screencontroller.disableBoard(this.#player1);
         screencontroller.disableBoard(this.#player2);
 
@@ -136,9 +133,5 @@ export default class GameController {
         // TODO: show restart button
     }
 }
-
-
-
-// restart
 
 
