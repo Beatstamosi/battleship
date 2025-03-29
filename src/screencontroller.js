@@ -11,7 +11,7 @@ const screencontroller = {
 
     handleBoardSetUp(player) {
         return new Promise((resolve) => {
-            let boardPlayer = document.querySelector(`#board-${player.order}`);
+            let boardPlayer = this.getDOMBoard(player);
 
             // renderBoard player
             this._renderBoard(player, boardPlayer);
@@ -53,8 +53,8 @@ const screencontroller = {
 
     activateAttackFunctionsBoards(game) {
         let [player1, player2] = game.getPlayers();
-        let boardPlayer1 = document.querySelector("#board-player-1");
-        let boardPlayer2 = document.querySelector("#board-player-2");
+        let boardPlayer1 = this.getDOMBoard(player1)
+        let boardPlayer2 = this.getDOMBoard(player2)
 
         this._addEventListenerBoard(player1, boardPlayer1, game);
         this._addEventListenerBoard(player2, boardPlayer2, game);
@@ -139,12 +139,17 @@ const screencontroller = {
                 let x = DOMfield.dataset.row;
                 let y = DOMfield.dataset.column;
 
+                let inactivePLayer = game.getNonActivePlayer();
+                this.disableBoard(inactivePLayer);
+
                 // TODO: Handle via eventTarget?
                 player.gameboard.receiveAttack(x, y)
                 .then((result) => this._updateFieldStatus(result, DOMfield, boardPlayer))
-                .then(() => this._deactivateEventlistenerBoard(DOMfield, attack))
                 .then(() => this._updateDisplayHowManyShipsLeft(player))
-                .then(() => this._onAttackCompleted(game));
+                .then(() => this._onAttackCompleted(game))
+                .catch((error) => {
+                    console.error('Error during attack:', error);
+                })
         }
 
         DOMfields.forEach((DOMfield) => {
