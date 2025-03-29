@@ -9,39 +9,49 @@ const screencontroller = {
         setBtnsEnemyIntro();
     },
 
-    startGame(game) {
-        this._loadBoardOnStart(game);
+    handleBoardSetUp(player) {
+        return new Promise((resolve) => {
+            let boardPlayer = document.querySelector(`#board-${player.order}`);
+
+            // renderBoard player
+            this._renderBoard(player, boardPlayer);
+
+            if (player.type === "human") {
+                // renderAssignShips player1
+                this._renderAssignShips(player);
+
+                // eventListener "shipPlaced"
+                // After ship assigning is started, listen for the 'shipPlaced' event
+                player.gameboard.eventTarget.addEventListener("shipPlaced", (event) => {
+                    const { shipFields, imageURL } = event.detail;
+                    this._showShipsInGridAfterDrop(shipFields, boardPlayer, imageURL);
+                });
+
+                player.gameboard.eventTarget.addEventListener("allShipsPlaced", () => {
+                    this._clearInstructions();
+                    setTimeout(() => {
+                        this._fogInstructions();
+                        this._removeAllShipsFromView(boardPlayer);
+                        this._fogGameboard(boardPlayer);
+                    }, 1500);
+                    setTimeout(() => {
+                        resolve()
+                    }, 4000);
+                });
+            } else {
+                this._fogGameboard(boardPlayer);
+                resolve();
+            }
+        })
     },
 
-    _loadBoardOnStart: function(game) {
+    activateAttackFunctionsBoards(game) {
         let [player1, player2] = game.getPlayers();
         let boardPlayer1 = document.querySelector("#board-player-1");
         let boardPlayer2 = document.querySelector("#board-player-2");
 
-        this._renderBoard(player1, boardPlayer1);
-        // this._renderBoard(player2, boardPlayer2);
-
-        this.renderAssignShips(player1);
-
-        // After ship assigning is started, listen for the 'shipPlaced' event
-        player1.gameboard.eventTarget.addEventListener("shipPlaced", (event) => {
-            const { shipFields, imageURL } = event.detail;
-            this.showShipsInGridAfterDrop(shipFields, boardPlayer1, imageURL);
-        });
-
-        // Listen for 'shipPlaced' on player 2's board as well
-        player2.gameboard.eventTarget.addEventListener("shipPlaced", (event) => {
-            const { shipFields, imageURL } = event.detail;
-            this.showShipsInGridAfterDrop(shipFields, boardPlayer2, imageURL);
-        });
-
-        // TODO: later this needs to be called after ships have been assigned via gameController
-            // screencontroller.addEventListenerToBoard
-            // takes game as input, gets players, gets boards from DOM
-        // this.fogGameboard(boardPlayer1);
-        // this.fogGameboard(boardPlayer2);
-        // this._addEventListenerBoard(player1, boardPlayer1, game);
-        // this._addEventListenerBoard(player2, boardPlayer2, game);
+        this._addEventListenerBoard(player1, boardPlayer1, game);
+        this._addEventListenerBoard(player2, boardPlayer2, game);
     },
 
     _renderBoard: function(player, boardPlayer) {
@@ -68,10 +78,10 @@ const screencontroller = {
 
         // assign drop Functionality to Grid after board is rendered
         let fields = Array.from(boardPlayer.querySelectorAll("button"));
-        this.dropFunctionalityGridButtons(player, fields);
+        this._dropFunctionalityGridButtons(player, fields);
     },
 
-    dropFunctionalityGridButtons(player, fields) {
+    _dropFunctionalityGridButtons(player, fields) {
         fields.forEach((button) => {
             // Enable the grid cell to accept drops
             button.addEventListener("dragover", (e) => {
@@ -160,7 +170,14 @@ const screencontroller = {
         
     },
 
-    fogGameboard(gameboard) {
+    _removeAllShipsFromView(gameboard) {
+        let buttons = Array.from(gameboard.querySelectorAll("button"));
+        buttons.forEach(btn => {
+            btn.style.backgroundImage = "";
+        })
+    },
+
+    _fogGameboard(gameboard) {
         gameboard.classList.add("fog");
 
         let buttons = Array.from(gameboard.querySelectorAll("button"));
@@ -169,11 +186,27 @@ const screencontroller = {
         })
     },
 
-    renderAssignShips(player) {
+    _fogInstructions() {
+        let instructions = document.querySelector("#instructions");
+        instructions.textContent = "The Fog has swallowed your fleet!";
+    },
+
+    _clearInstructions() {
+        let instructions = document.querySelector("#instructions");
+        let containerShips = document.querySelector(".container-ship-assignment");
+        let containerRotateFn = document.querySelector(".container-rotate-btn");
+
+        if (containerShips) containerShips.remove();
+        if (containerRotateFn) containerRotateFn.remove();
+    
+        instructions.textContent = "";
+    },
+
+    _renderAssignShips(player) {
         let containerInstructions = document.querySelector(".container-instructions");
         let instructions = document.querySelector("#instructions");
     
-        instructions.textContent = `${player.name} drag your ships onto your board.`;
+        instructions.textContent = `${player.name} drag your fleet onto your board.`;
     
         let containerShips = document.createElement("div");
         containerShips.classList.add("container-ship-assignment");
@@ -260,7 +293,7 @@ const screencontroller = {
         });
     },
 
-    showShipsInGridAfterDrop(shipFields, boardPlayer, imageURL) {
+    _showShipsInGridAfterDrop(shipFields, boardPlayer, imageURL) {
         let allFields = Array.from(boardPlayer.querySelectorAll(".field-board")); // Use the provided board element
 
         shipFields.forEach(field => {
@@ -273,7 +306,7 @@ const screencontroller = {
 
     displayTurnInfo(activePlayer) {
         let instructions = document.querySelector("#instructions");
-        instructions.textContent = `${activePlayer.name}'s Turn`;
+        instructions.textContent = `${activePlayer.name}'s Turn`; // TODO: More Instructions
     },
 
     disableBoard(player) {
@@ -292,7 +325,7 @@ const screencontroller = {
 
     displayWinner(player) {
         let instructions = document.querySelector("#instructions");
-        instructions.textContent = `${player.name} wins!`; // TODO: Update with more Text
+        instructions.textContent = `${player.name} wins!`;
     }
 }
 

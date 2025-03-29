@@ -41,7 +41,6 @@ export default class Gameboard {
             shipFields.push(currentField);
         }
 
-        console.log(shipFields);
         // Emit custom event after placing the ship
         const event = new CustomEvent("shipPlaced", {
             detail: {
@@ -49,8 +48,11 @@ export default class Gameboard {
                 imageURL // Send useful data in the event
             }
         });
-
         this.eventTarget.dispatchEvent(event);
+
+        // Emit custom event after all ships have been placed
+        const event2 = new CustomEvent("allShipsPlaced");
+        if (this.ships.length === 5) this.eventTarget.dispatchEvent(event2);
     }
 
     getField(x, y, direction, i) {

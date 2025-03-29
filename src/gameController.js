@@ -70,14 +70,24 @@ export default class GameController {
         }
     }
 
-    startGame() {
-        // this.assignRandomShips(this.#player1);
-        // this.assignRandomShips(this.#player2);
-        screencontroller.startGame(this);
+    async startGame() {
+        await screencontroller.handleBoardSetUp(this.#player1);
 
-        // if (this.#player2.type == "computer") this.#initializeAvailableTargets();
+        // wait until ships have been assigned THEN:
+        await screencontroller.handleBoardSetUp(this.#player2);
+
+        if (this.#player2.type == "computer") {
+            this.assignRandomShips(this.#player2);
+            this.#initializeAvailableTargets();
+        } 
         
-        // this.playRound();
+        // THEN AFTER SHIPS HAVE BEEN ASSIGNED
+        screencontroller.activateAttackFunctionsBoards(this);
+
+        // set activePlayer
+        this.#activePlayer = this.#player1;
+
+        this.playRound();
     }
 
     #initializeAvailableTargets() {
