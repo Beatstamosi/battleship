@@ -36,7 +36,7 @@ const screencontroller = {
                     }, 1500);
                     setTimeout(() => {
                         resolve()
-                    }, 4000);
+                    }, 3000);
                 });
             } else {
                 this._fogGameboard(boardPlayer);
@@ -170,15 +170,11 @@ const screencontroller = {
         }, 800); // matches the duration of the lightning animation
     },
 
-    _deactivateEventlistenerBoard: function(DOMfield, attack) {
-        DOMfield.removeEventListener("click", attack);
-    },
-
     _onAttackCompleted: function(game) {
         setTimeout(() => {
             game.switchActivePlayer();
             game.playRound();
-        }, 1500);
+        }, 1700);
         
     },
 

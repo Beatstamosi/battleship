@@ -43,7 +43,7 @@ function simulateClickAndObserve(attackField) {
             setTimeout(() => {
                 observer.observe(attackField, { attributes: true });
                 attackField.click();
-            }, 1000);  
+            }, 10);  
 
             // Timeout to prevent infinite waiting
             setTimeout(() => {
@@ -82,9 +82,7 @@ export const wraithmoor = {
         let index = getRandomIndex(availableTargets);
         let randomField = availableTargets[index];
 
-        setTimeout(() => {
-            randomField.click();
-        }, 1200);   
+        randomField.click();   
 
         availableTargets.splice(index, 1);
     },
