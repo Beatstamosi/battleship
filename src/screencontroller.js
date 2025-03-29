@@ -1,5 +1,6 @@
 import { setDialogInteraction, setStartGameBtn, setBtnsEnemyIntro } from "./buttonlisteners";
 import missed from "./img/sea_1.png";
+import rotate from "./img/rotate.svg";
 
 const screencontroller = {
     addEventListeners() {
@@ -176,18 +177,20 @@ const screencontroller = {
     
         let containerShips = document.createElement("div");
         containerShips.classList.add("container-ship-assignment");
+        containerShips.style.flexDirection = "column";
         containerInstructions.appendChild(containerShips);
     
         for (let i = 1; i <= 5; i++) {
             let shipDiv = document.createElement("div");
             shipDiv.classList.add("container-ship");
+            shipDiv.style.flexDirection = "row";
             shipDiv.setAttribute("draggable", "true"); // Make the ship draggable
     
             // Set custom properties for direction, length, and image URL
             shipDiv.dataset.direction = "horizontal"; // Default to horizontal direction
             shipDiv.dataset.shipLength = i; // Length of the ship (1 to 5)
     
-            let image = player.character.ships[i]; // Assuming this holds the image URL
+            let image = player.character.ships[i];
             shipDiv.imageURL = image; // Store the image URL directly on the shipDiv
     
             // Create ship images based on the ship length
@@ -205,8 +208,37 @@ const screencontroller = {
         }
 
         // add 1 button to rotate all ships
-            // change flex-direction of containerShips.classList.add("container-ship-assignment"); to column
-            // set shipDiv.dataset.direction to "vertical" for all shipDivs
+        let rotateBtnContainer = document.createElement("div");
+        rotateBtnContainer.classList.add("container-rotate-btn");
+
+        let text = document.createElement("p");
+        text.textContent = "Rotate Ships";
+        let img = document.createElement("img");
+        img.src = rotate;
+
+        rotateBtnContainer.append(text, img);
+
+        containerInstructions.insertBefore(rotateBtnContainer, containerShips);
+
+        rotateBtnContainer.addEventListener("click", () => {
+            this._toggleAssignShipDirection();
+        })
+    },
+
+    _toggleAssignShipDirection() {
+        let containerShips = document.querySelector(".container-ship-assignment");
+        let shipDivs = Array.from(containerShips.querySelectorAll('.container-ship'));
+    
+        // Toggle flex-direction of containerShips
+        containerShips.style.flexDirection = containerShips.style.flexDirection === "column" ? "row" : "column";
+    
+        // Now toggle the flex-direction of each ship
+        shipDivs.forEach((ship) => {
+            ship.style.flexDirection = ship.style.flexDirection === "row" ? "column" : "row";
+    
+            // Toggle the dataset direction for the ships
+            ship.dataset.direction = ship.dataset.direction === "horizontal" ? "vertical" : "horizontal";
+        });
     },
 
     enableDragStartOnShipAssignment(shipDiv) {

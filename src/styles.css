@@ -399,7 +399,6 @@ input[type=text]::placeholder {
 .container-ship-assignment {
     padding: 20px;
     display: flex;
-    flex-direction: column;
     gap: 10px;
 }
 
@@ -415,4 +414,19 @@ input[type=text]::placeholder {
 .field-board.drag-over {
     border: 3px dashed var(--neonCyan);
     opacity: 1;
+}
+
+.container-rotate-btn {
+    display: flex;
+    justify-content: center;
+    color: var(--neonCyan);
+    margin-top: 20px;
+    font-size: 0.8em;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.container-rotate-btn img {
+    width: 20px;
 }
