@@ -33,10 +33,10 @@ const screencontroller = {
                         this._removeAllShipsFromView(boardPlayer);
                         this._fogGameboard(boardPlayer);
                         this._updateDisplayHowManyShipsLeft(player);
-                    }, 1500);
+                    }, 1000);
                     setTimeout(() => {
                         resolve()
-                    }, 3000);
+                    }, 2000);
                 });
             } else {
                 this._fogGameboard(boardPlayer);
@@ -340,6 +340,14 @@ const screencontroller = {
     displayTurnInfo(activePlayer) {
         let instructions = document.querySelector("#instructions");
         instructions.textContent = `${activePlayer.name}'s Turn`;
+
+        let attackInstructions = document.querySelector("#attack-instructions");
+
+        if (activePlayer.type === "human") {
+            attackInstructions.textContent = "Click on enemies board to attack field";
+        } else {
+            attackInstructions.textContent = "";
+        }
     },
 
     disableBoard(player) {
@@ -359,6 +367,9 @@ const screencontroller = {
     displayWinner(player) {
         let instructions = document.querySelector("#instructions");
         instructions.textContent = `${player.name} wins!`;
+        
+        let attackInstructions = document.querySelector("#attack-instructions");
+        attackInstructions.textContent = "";
     }
 }
 

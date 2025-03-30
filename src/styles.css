@@ -197,6 +197,13 @@ input[type=text]::placeholder {
     padding-right: 50px;
 }
 
+.container-instructions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .column-left {
     grid-column: 1;
     justify-self: center;
@@ -263,6 +270,12 @@ input[type=text]::placeholder {
     text-align: center;
     font-size: 2em;
     font-family: "Haunting";
+}
+
+#attack-instructions {
+    color: var(--neonMagenta);
+    text-align: center;
+    padding: 5px 20px;
 }
 
 #enemy-selection-view {
@@ -421,7 +434,6 @@ input[type=text]::placeholder {
     display: flex;
     justify-content: center;
     color: var(--neonCyan);
-    margin-top: 20px;
     font-size: 0.8em;
     align-items: center;
     gap: 10px;
