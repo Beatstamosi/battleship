@@ -1,15 +1,18 @@
+import wraithmoorImg from './img/wraithmoor/wraithmoor.jpeg';
 import ghost1 from './img/wraithmoor/ghost_1.png';
 import ghost2 from './img/wraithmoor/ghost_2.png';
 import ghost3 from './img/wraithmoor/ghost_3.png';
 import ghost4 from './img/wraithmoor/ghost_4.png';
 import ghost5 from './img/wraithmoor/ghost_5.png';
 
+import grimhollowImg from './img/grimhollow/grimhollow.jpeg'
 import zombie1 from './img/grimhollow/zombie_1.png';
 import zombie2 from './img/grimhollow/zombie_2.png';
 import zombie3 from './img/grimhollow/zombie_3.png';
 import zombie4 from './img/grimhollow/zombie_4.png';
 import zombie5 from './img/grimhollow/zombie_5.png';
 
+import boneshardImg from './img/boneshard/boneshard.jpeg';
 import skeleton1 from './img/boneshard/skeleton_1.png';
 import skeleton2 from './img/boneshard/skeleton_2.png';
 import skeleton3 from './img/boneshard/skeleton_3.png';
@@ -22,7 +25,7 @@ import human3 from './img/human/human_3.png';
 import human4 from './img/human/human_4.png';
 import human5 from './img/human/human_5.png';
 
-function getSpeech(character) {
+export function getSpeech(character) {
     const randomIndex = Math.floor(Math.random() * character.speech.length);
     return character.speech[randomIndex];
 };
@@ -89,6 +92,7 @@ export const wraithmoor = {
     styling: {
         backGroundColorBoard: "var(--limeGreen)",  
         playerBoardBoxShadow: "4px 4px 15px 10px var(--limeGreen)",
+        imageUrl: wraithmoorImg,
     },
     ships: {
         1: ghost1,
@@ -219,6 +223,7 @@ export const grimhollow = {
     styling: {
         backGroundColorBoard: "var(--goldenYellow)",  
         playerBoardBoxShadow: "4px 4px 15px 10px var(--goldenYellow)",
+        imageUrl: grimhollowImg,
     },
     ships: {
         1: zombie1,
@@ -284,6 +289,7 @@ export const boneshard = {
     styling: {
         backGroundColorBoard: "var(--glowingOrange)",  
         playerBoardBoxShadow: "4px 4px 15px 10px var(--glowingOrange)",
+        imageUrl: boneshardImg,
     },
     ships: {
         1: skeleton1,

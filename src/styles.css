@@ -463,11 +463,33 @@ input[type=text]::placeholder {
 
 .crossed-out::after {
     content: "☠";
-    font-size: 4em;
+    font-size: 5em;
     font-family: "Haunting";
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     animation: flicker 5s infinite;
+}
+
+.container-enemy-speech {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35%;
+    padding: 10px;
+}
+
+.container-enemy-speech img {
+    width: 120px;
+}
+
+.container-enemy-speech p {
+    padding-left: 10px;
+    font-family: "Haunting";
+    text-wrap: wrap;
+    font-size: 1.5em;
 }

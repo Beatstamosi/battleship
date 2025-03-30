@@ -1,6 +1,8 @@
 import { setDialogInteraction, setStartGameBtn, setBtnsEnemyIntro } from "./buttonlisteners";
+import { getSpeech } from "./enemyCharacters";
 import missed from "./img/sea_1.png";
 import rotate from "./img/rotate.svg";
+let intervalEnemySpeech;
 
 const screencontroller = {
     addEventListeners() {
@@ -41,6 +43,8 @@ const screencontroller = {
             } else {
                 this._fogGameboard(boardPlayer);
                 this._updateDisplayHowManyShipsLeft(player);
+                this._displayEnemySpeech(player)
+                this._startUpdatingEnemySpeech(player);
                 resolve();
             }
         })
@@ -175,9 +179,8 @@ const screencontroller = {
 
             // filter allButtons for matching DOMfield.gamefield.ship.imageURL
             let shipFields = DOMfields.filter((field) => {
-                // Check if field.gameField and field.gameField.ship exist
                 return field.gameField && field.gameField.ship && field.gameField.ship.imageURL === DOMfield.gameField.ship.imageURL;
-        });
+            });
 
             // for each button classlist.add(crossed-out)
             shipFields.forEach((field) => {
@@ -185,7 +188,7 @@ const screencontroller = {
                 // TODO: Add color based on player.character
                 let color = player.character.styling.backGroundColorBoard;
                 field.style.color = `${color}`;
-                field.style.textShadow = `0 0 5px ${color}, 0 0 10px ${color};`
+                field.style.boxShadow = `0 0 5px ${color}, 0 0 10px ${color}, 0 0 15px ${color};`
             });
         };
         
@@ -350,6 +353,39 @@ const screencontroller = {
         }
     },
 
+    _displayEnemySpeech(player) {
+        let container = document.createElement("div");
+        container.classList.add("container-enemy-speech");
+
+        let img = document.createElement("img");
+        img.src = player.character.styling.imageUrl;
+        img.style.border = `1px solid ${player.character.styling.backGroundColorBoard}`;
+
+        let text = document.createElement("p");
+        text.textContent = `${getSpeech(player.character)}`;
+        text.style.color = player.character.styling.backGroundColorBoard;
+
+        container.append(img, text);
+        document.body.append(container);
+    },
+
+    _updateEnemySpeech(player) {
+        let speechDOM = document.querySelector(".container-enemy-speech p");
+        let speech = getSpeech(player.character);
+
+        speechDOM.textContent = speech;
+    },
+
+    _startUpdatingEnemySpeech(player) {
+        intervalEnemySpeech = setInterval(() => {
+            this._updateEnemySpeech(player);
+        }, 6000);
+    },
+    
+    _stopUpdatingEnemySpeech() {
+        clearInterval(intervalEnemySpeech);
+    },
+
     disableBoard(player) {
         let board = this.getDOMBoard(player);
         board.classList.add("disabled");
@@ -370,6 +406,8 @@ const screencontroller = {
         
         let attackInstructions = document.querySelector("#attack-instructions");
         attackInstructions.textContent = "";
+
+        this._stopUpdatingEnemySpeech();
     }
 }
 
