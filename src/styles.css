@@ -423,7 +423,7 @@ input[type=text]::placeholder {
 
 /* The class that triggers the lightning animation */
 .lightning-flash {
-    animation: lightning-strike 0.8s ease-out forwards;
+    animation: lightning-strike 0.6s ease-out forwards;
 }
 
 .container-ship-assignment {

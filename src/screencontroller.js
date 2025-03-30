@@ -170,7 +170,7 @@ const screencontroller = {
         setTimeout(() => {
             DOMfield.style.backgroundImage = image;
             DOMfield.classList.remove('lightning-flash');
-        }, 800); // matches the duration of the lightning animation
+        }, 600); // matches the duration of the lightning animation
 
         if (result.includes("sunk")) {
             let DOMfields = Array.from(boardPlayer.querySelectorAll(".field-board"));
@@ -187,7 +187,7 @@ const screencontroller = {
                     let color = player.character.styling.backGroundColorBoard;
                     field.style.color = `${color}`;
                     field.style.boxShadow = `0 0 5px ${color}, 0 0 10px ${color}, 0 0 15px ${color};`
-                }, 1000);
+                }, 800);
                 
             });
         };

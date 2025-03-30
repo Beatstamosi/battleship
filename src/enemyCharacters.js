@@ -34,30 +34,45 @@ function simulateClickAndObserve(attackField) {
     return new Promise((resolve, reject) => {
         try {
             const observer = new MutationObserver((mutationsList, observer) => {
-                if (attackField.classList.contains('hit')) {
-                    resolve("hit");
-                } else if (attackField.classList.contains('missed')) {
-                    resolve("missed");
+                for (let mutation of mutationsList) {
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                        if (attackField.classList.contains('hit')) {
+                            observer.disconnect();
+                            resolve("hit");
+                            return;
+                        } else if (attackField.classList.contains('missed')) {
+                            observer.disconnect();
+                            resolve("missed");
+                            return;
+                        } else if (attackField.classList.contains('crossed-out')) {
+                            observer.disconnect();
+                            resolve("hit");
+                            return;
+                        }
+                    }
                 }
-                observer.disconnect();
             });
 
-            // Observe after a short delay to ensure class changes happen
-            setTimeout(() => {
-                observer.observe(attackField, { attributes: true });
-                attackField.click();
-            }, 10);  
+            // Start observing immediately
+            observer.observe(attackField, { 
+                attributes: true, 
+                attributeFilter: ['class'] 
+            });
 
-            // Timeout to prevent infinite waiting
+            // Trigger the click
+            attackField.click();
+
+            // Longer timeout to account for animation delays
             setTimeout(() => {
                 observer.disconnect();
                 reject("Click event timed out: No class change detected.");
-            }, 4000);
+            }, 5000); 
+
         } catch (error) {
             reject("Click event failed: " + error);
         }
     });
-};
+}
 
 function getRandomIndex(availableTargets) {
     return Math.floor(Math.random() * availableTargets.length);
@@ -122,6 +137,8 @@ export const grimhollow = {
     nextAttack: [],
     lastSuccessfullAttack: null,
     attackDirection: null,
+    alreadyAttacked: [],
+    firstHit: null,
     attack: async function(availableTargets) {
         if (availableTargets.length == 0) return;
     
@@ -165,7 +182,12 @@ export const grimhollow = {
         await simulateClickAndObserve(attackField)
         .then(result => {
             if (result == "hit") {
-                // this.nextAttack.length = 0; // Clear queue
+
+                if(!this.firstHit) {
+                    this.firstHit = attackField;
+                }
+
+                this.alreadyAttacked.push(attackField);
     
                 if (gameField.ship && !gameField.ship.sunk) { 
                     if (this.lastSuccessfullAttack) {
@@ -184,42 +206,65 @@ export const grimhollow = {
 
                         // Continue attack in the determined direction
                         if (this.attackDirection === "vertical") {
-                            let nextTop = getAttackTop(attackField, availableTargets);
-                            let nextBottom = getAttackBottom(attackField, availableTargets);
-                            if (nextTop) this.nextAttack.push(nextTop);
-                            if (nextBottom) this.nextAttack.push(nextBottom);
+                            let nextTargets = [
+                                getAttackTop(attackField, availableTargets),
+                                getAttackBottom(attackField, availableTargets),
+                                getAttackTop(this.firstHit, availableTargets),      // include first hit to cover both sides
+                                getAttackBottom(this.firstHit, availableTargets),   // include first hit to cover both sides
+                            ]
+
+                            nextTargets.forEach(target => {
+                                if (target && !this.nextAttack.includes(target) && !this.alreadyAttacked.includes(target)) {
+                                    this.nextAttack.push(target);
+                                }
+                            });
                         } else if (this.attackDirection === "horizontal") {
-                            let nextLeft = getAttackLeft(attackField, availableTargets);
-                            let nextRight = getAttackRight(attackField, availableTargets);
-                            if (nextLeft) this.nextAttack.push(nextLeft);
-                            if (nextRight) this.nextAttack.push(nextRight);
+                            let nextTargets = [
+                                getAttackLeft(attackField, availableTargets),
+                                getAttackRight(attackField, availableTargets),
+                                getAttackLeft(this.firstHit, availableTargets),      // include first hit to cover both sides
+                                getAttackRight(this.firstHit, availableTargets),   // include first hit to cover both sides
+                            ]
+
+                            nextTargets.forEach(target => {
+                                if (target && !this.nextAttack.includes(target) && !this.alreadyAttacked.includes(target)) {
+                                    this.nextAttack.push(target);
+                                }
+                            });
                         }
                     } else {
                         // First hit: check all four directions
-                        let attackTop = getAttackTop(attackField, availableTargets);
-                        let attackBottom = getAttackBottom(attackField, availableTargets);
-                        let attackLeft = getAttackLeft(attackField, availableTargets);
-                        let attackRight = getAttackRight(attackField, availableTargets);
-                    
-                        if (attackTop) this.nextAttack.push(attackTop);
-                        if (attackBottom) this.nextAttack.push(attackBottom);
-                        if (attackLeft) this.nextAttack.push(attackLeft);
-                        if (attackRight) this.nextAttack.push(attackRight);
+                        let attack;
+                        if (attack = getAttackTop(attackField, availableTargets)) {
+                            this.nextAttack.push(attack);
+                        } else if (attack = getAttackBottom(attackField, availableTargets)) {
+                            this.nextAttack.push(attack);
+                        } else if (attack = getAttackLeft(attackField, availableTargets)) {
+                            this.nextAttack.push(attack);
+                        } else if (attack = getAttackRight(attackField, availableTargets)) {
+                            this.nextAttack.push(attack);
+                        }
                     }
                 };
 
                 if (gameField.ship && gameField.ship.sunk) {
                     this.lastSuccessfullAttack = null;
                     this.attackDirection = null;
+                    this.firstHit = null;
                 }  else {
                     this.lastSuccessfullAttack = attackField;
                 }
             }
+
             availableTargets = availableTargets.filter(field => field !== attackField);
+
+            console.log({attackField});
+            console.log(this.nextAttack);
+
         }).catch(error => {
             console.error('Attack failed:', error);
         });
-    }, 
+    },
     styling: {
         backGroundColorBoard: "var(--goldenYellow)",  
         playerBoardBoxShadow: "4px 4px 15px 10px var(--goldenYellow)",
@@ -279,8 +324,6 @@ export const boneshard = {
                         this.nextAttack.push(target);
                     }
                 });
-                console.log("Last success attack:", this.lastSuccessfullAttack);
-                console.log("Next Attack:", this.nextAttack);
             }
         }).catch(error => {
             console.error("Error during boneshard attack:", error);
