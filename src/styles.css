@@ -162,7 +162,7 @@ input[type=text]::placeholder {
     opacity: 0.6;
 }
 
-.start-game-button {
+.start-game-button, .restart-btn {
     background-color: var(--neonMagenta);
     opacity: 0.85;
     font-family: "Haunting";
@@ -170,9 +170,14 @@ input[type=text]::placeholder {
     margin-top: 50px;
     padding: 10px 20px;
     color: var(--neonCyan);
+    cursor: pointer;
 }
 
-.start-game-button:hover {
+.restart-btn {
+    font-size: 1.5em;
+}
+
+.start-game-button:hover, .restart-btn:hover {
     cursor: pointer;
     transform: scale(1.1);
     opacity: 1;
@@ -229,6 +234,7 @@ input[type=text]::placeholder {
     background-image: url(./img/fog2.jpg);
     background-repeat: repeat;
     background-size: cover;
+    opacity: 0.2;
 }
 
 .show-grid {
@@ -241,6 +247,7 @@ input[type=text]::placeholder {
     cursor: url("./img/target.png") 16 16, auto;
     opacity: 0.8;
     background-size: cover;
+    background-color: rgba(0, 0, 0, 0.8);
 }
 
 /* TODO: Update with icons */
@@ -396,12 +403,21 @@ input[type=text]::placeholder {
 @keyframes lightning-strike {
     0% {
         background-image: url('https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExMmlnMDZiYjZwZ3A4M3M0bHExdXBkZHczMGl0Y2FmN2x1bDAyMWtiYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3f4Km8SmluRb50fogD/giphy.gif');
+        opacity: 0.3;
+        filter: brightness(2);
+    }
+    50% {
+        opacity: 0.5;
+        filter: brightness(3); /* Brighten the image for a flash effect */
     }
     80% {
         background-image: url('https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExMmlnMDZiYjZwZ3A4M3M0bHExdXBkZHczMGl0Y2FmN2x1bDAyMWtiYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3f4Km8SmluRb50fogD/giphy.gif');
+        opacity: 0.6;
+        filter: brightness(2);
     }
     100% {
-        background-image: none;  /* Stop showing the GIF after the animation */
+        background-image: none;
+        opacity: 0; /* Optional: fade out the image */
     }
 }
 

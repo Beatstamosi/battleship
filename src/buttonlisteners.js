@@ -9,7 +9,7 @@ function turnOffStartView() {
     startView.style.display = "none";
 }
 
-function turnOnGame() {
+export function turnOnGame() {
     let gameView = document.querySelector("#game-view");
     gameView.style.display = "flex";
     game.startGame();

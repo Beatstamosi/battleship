@@ -1,5 +1,6 @@
 import Player from "./classPlayers";
 import screencontroller from "./screencontroller";
+import { turnOnGame } from "./buttonlisteners";
 import { human } from "./enemyCharacters";
 
 export default class GameController {
@@ -21,6 +22,26 @@ export default class GameController {
         this.#player1 = new Player("human", 1, name1, character1);
         this.#player2 = name2 ? new Player("human", 2, name2, character2) : new Player("computer", 2);
         this.#activePlayer = this.#player1;
+    }
+
+    resetGame() {
+        // get player values
+        let [player1, player2] = this.getPlayers();
+        let player1Name = player1.name;
+        let player1Char = player1.character;
+
+        if (player2.type === "computer") {
+            let player2Char = player2.character;
+            this.initializePlayers(player1Name, player1Char);
+            this.updateCharacterPlayer2(player2Char);
+        } else {
+            let player2Name = player2.name;
+            let player2Char = player2.character;
+            this.initializePlayers(player1Name, player1Char, player2Name, player2Char);
+        }
+
+        // turnOnGame from screenController
+        turnOnGame();
     }
 
     updateCharacterPlayer2(character) {

@@ -32,8 +32,8 @@ const screencontroller = {
                     this._clearInstructions();
                     setTimeout(() => {
                         this._fogInstructions();
-                        this._removeAllShipsFromView(boardPlayer);
                         this._fogGameboard(boardPlayer);
+                        this._removeAllShipsFromView(boardPlayer);
                         this._updateDisplayHowManyShipsLeft(player);
                     }, 1000);
                     setTimeout(() => {
@@ -76,8 +76,6 @@ const screencontroller = {
                 button.dataset.row = j;
                 button.dataset.column = i;
                 button.classList.add("field-board", "show-grid");
-    
-                button.style.backgroundColor = "black";
     
                 // Link the button with the corresponding field
                 button.gameField = board[j][i];
@@ -184,11 +182,13 @@ const screencontroller = {
 
             // for each button classlist.add(crossed-out)
             shipFields.forEach((field) => {
-                field.classList.add("crossed-out");
-                // TODO: Add color based on player.character
-                let color = player.character.styling.backGroundColorBoard;
-                field.style.color = `${color}`;
-                field.style.boxShadow = `0 0 5px ${color}, 0 0 10px ${color}, 0 0 15px ${color};`
+                setTimeout(() => {
+                    field.classList.add("crossed-out");
+                    let color = player.character.styling.backGroundColorBoard;
+                    field.style.color = `${color}`;
+                    field.style.boxShadow = `0 0 5px ${color}, 0 0 10px ${color}, 0 0 15px ${color};`
+                }, 1000);
+                
             });
         };
         
@@ -408,12 +408,18 @@ const screencontroller = {
         attackInstructions.textContent = "";
 
         this._stopUpdatingEnemySpeech();
+
+        // restart Game
+        let containerInstructions = document.querySelector(".container-instructions");
+        let restartBtn = document.createElement("button");
+        restartBtn.classList.add("restart-btn");
+        restartBtn.textContent = "Back to Start";
+        containerInstructions.appendChild(restartBtn);
+
+        restartBtn.addEventListener("click", () => {
+            location.reload();
+        });
     }
 }
 
 export default screencontroller;
-
-
-// - Display how many ships left
-// - Display game over
-//     - Offer restart
