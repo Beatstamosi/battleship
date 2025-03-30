@@ -70,7 +70,8 @@ export default class Gameboard {
                     field.ship.hit();
                     field.hit = true;
                     if (field.ship.sunk) {
-                        this.removeShip(field.ship)
+                        this.removeShip(field.ship);
+                        resolve("hit-sunk");
                     }
                     resolve("hit");
                 } else {

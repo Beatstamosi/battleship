@@ -215,6 +215,7 @@ input[type=text]::placeholder {
     height: 450px;
     border-radius: 2px;
     opacity: 0.8;
+    margin-top: 80px;
 }
 
 .fog {
@@ -436,4 +437,25 @@ input[type=text]::placeholder {
     font-family: "Haunting";
     color: var(--neonMagenta);
     font-size: 2.5em;
+}
+
+.crossed-out {
+    position: relative;
+}
+
+
+@keyframes flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+.crossed-out::after {
+    content: "☠";
+    font-size: 4em;
+    font-family: "Haunting";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: flicker 5s infinite;
 }

@@ -31,8 +31,8 @@ const screencontroller = {
                     setTimeout(() => {
                         this._fogInstructions();
                         this._removeAllShipsFromView(boardPlayer);
-                        this._updateDisplayHowManyShipsLeft(player);
                         this._fogGameboard(boardPlayer);
+                        this._updateDisplayHowManyShipsLeft(player);
                     }, 1500);
                     setTimeout(() => {
                         resolve()
@@ -144,7 +144,8 @@ const screencontroller = {
 
                 // TODO: Handle via eventTarget?
                 player.gameboard.receiveAttack(x, y)
-                .then((result) => this._updateFieldStatus(result, DOMfield, boardPlayer))
+                .then((result) => this._updateFieldStatus(result, DOMfield, boardPlayer, player))
+                .then(() => this._deactivateEventlistenerBoard(DOMfield, attack))
                 .then(() => this._updateDisplayHowManyShipsLeft(player))
                 .then(() => this._onAttackCompleted(game))
                 .catch((error) => {
@@ -157,17 +158,41 @@ const screencontroller = {
         })
     },
 
-    _updateFieldStatus: function(result, DOMfield) {   
+    _updateFieldStatus: function(result, DOMfield, boardPlayer, player) {   
         DOMfield.classList.add('lightning-flash');
         DOMfield.classList.add(result);
      
-        let image = result == "hit" ? `url(${DOMfield.gameField.ship.imageURL})` : `url(${missed})`;
+        let image = result.includes("hit") ? `url(${DOMfield.gameField.ship.imageURL})` : `url(${missed})`;
     
         // Wait for the lightning flash animation to finish, then update the background image
         setTimeout(() => {
             DOMfield.style.backgroundImage = image;
             DOMfield.classList.remove('lightning-flash');
         }, 800); // matches the duration of the lightning animation
+
+        if (result.includes("sunk")) {
+            let DOMfields = Array.from(boardPlayer.querySelectorAll(".field-board"));
+
+            // filter allButtons for matching DOMfield.gamefield.ship.imageURL
+            let shipFields = DOMfields.filter((field) => {
+                // Check if field.gameField and field.gameField.ship exist
+                return field.gameField && field.gameField.ship && field.gameField.ship.imageURL === DOMfield.gameField.ship.imageURL;
+        });
+
+            // for each button classlist.add(crossed-out)
+            shipFields.forEach((field) => {
+                field.classList.add("crossed-out");
+                // TODO: Add color based on player.character
+                let color = player.character.styling.backGroundColorBoard;
+                field.style.color = `${color}`;
+                field.style.textShadow = `0 0 5px ${color}, 0 0 10px ${color};`
+            });
+        };
+        
+    },
+
+    _deactivateEventlistenerBoard: function(DOMfield, attack) {
+        DOMfield.removeEventListener("click", attack);
     },
 
     _onAttackCompleted: function(game) {
