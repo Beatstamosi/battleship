@@ -47,9 +47,11 @@ export function setStartGameBtn() {
     let buttonStart1Player = document.querySelector("#start-game-one-player");
     let buttonStart2Players = document.querySelector("#start-game-two-players");
     let player1NameInput = document.querySelector("#playerOne-input");
+    let player1NameInput2Players = document.querySelector("#playerOne-input-2-players");
     let player2NameInput = document.querySelector("#playerTwo-input");
 
-    // initialize game
+    // initialize players
+    // single player
     buttonStart1Player.addEventListener("click", (e) => {
         e.preventDefault();
         let player1Name = player1NameInput.value ? player1NameInput.value : "Player 1";
@@ -65,9 +67,10 @@ export function setStartGameBtn() {
 
     })
 
+    // multi player
     buttonStart2Players.addEventListener("click", (e) => {
         e.preventDefault();
-        let player1Name = player1NameInput.value ? player1NameInput.value : "Player 1";
+        let player1Name = player1NameInput2Players.value ? player1NameInput2Players.value : "Player 1";
         let player2Name = player2NameInput.value ? player2NameInput.value : "Player 2";
         let player1CharacterChoice = document.querySelector('input[name="player-1-character"]:checked').value;
         let player2CharacterChoice = document.querySelector('input[name="player-2-character"]:checked').value;
