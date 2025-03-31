@@ -1,4 +1,5 @@
 import { characters } from "./enemyCharacters";
+import screencontroller from "./screencontroller";
 import game from "./game";
 
 let dialog1Player = document.querySelector("#one-player-dialog");
@@ -16,8 +17,15 @@ export function turnOnGame() {
 }
 
 function toggleEnemyIntroView() {
-    let enemySelectionView = document.querySelector("#enemy-selection-view");
-    enemySelectionView.style.display = (enemySelectionView.style.display === "none" || enemySelectionView.style.display === "") ? "flex" : "none";
+    const enemySelectionView = document.getElementById('enemy-selection-view');
+    const isHidden = !enemySelectionView.style.display || enemySelectionView.style.display === "none";
+    
+    enemySelectionView.style.display = isHidden ? "flex" : "none";
+    
+    // Only render when showing the view
+    if (isHidden) {
+        screencontroller.renderEnemySelectionView();
+    }
 }
 
 export function setDialogInteraction() {
@@ -90,25 +98,19 @@ export function setStartGameBtn() {
 }
 
 export function setBtnsEnemyIntro() {
-    let wraithmoorDiv = document.querySelector(".enemy-intro.wraithmoor");
-    let grimhollowDiv = document.querySelector(".enemy-intro.grimhollow");
-    let boneshardDiv = document.querySelector(".enemy-intro.boneshard");
-
-    wraithmoorDiv.addEventListener("click", () => {
-        game.updateCharacterPlayer2(characters.wraithmoor);
-        toggleEnemyIntroView()
-        turnOnGame();        
-    });
-
-    grimhollowDiv.addEventListener("click", () => {
-        game.updateCharacterPlayer2(characters.grimhollow);
-        toggleEnemyIntroView()
-        turnOnGame();
-    });
-
-   boneshardDiv.addEventListener("click", () => {
-        game.updateCharacterPlayer2(characters.boneshard);
-        toggleEnemyIntroView()
-        turnOnGame();
+    const enemyIntros = document.querySelectorAll('.enemy-intro');
+    
+    enemyIntros.forEach(intro => {
+        intro.addEventListener('click', () => {
+            const character = Object.values(characters).find(
+                char => char.styling.cssClass === intro.classList[1]
+            );
+            
+            if (character) {
+                game.updateCharacterPlayer2(character);
+                toggleEnemyIntroView();
+                turnOnGame();
+            }
+        });
     });
 }

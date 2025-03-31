@@ -1,4 +1,5 @@
 import { setDialogInteraction, setStartGameBtn, setBtnsEnemyIntro } from "./buttonlisteners";
+import { characters } from "./enemyCharacters";
 import { getSpeech } from "./enemyCharacters";
 import missed from "./img/sea_1.png";
 import rotate from "./img/rotate.svg";
@@ -8,7 +9,6 @@ const screencontroller = {
     addEventListeners() {
         setDialogInteraction();
         setStartGameBtn();
-        setBtnsEnemyIntro();
     },
 
     handleBoardSetUp(player) {
@@ -293,6 +293,26 @@ const screencontroller = {
             this._toggleAssignShipDirection();
         })
     },
+    
+    renderEnemySelectionView() {
+        const enemySelectionView = document.getElementById('enemy-selection-view');
+        enemySelectionView.innerHTML = `
+            <div>
+                <h1 class="title-small">Choose your enemy</h1>
+            </div>
+            <div id="container-enemies">
+                ${Object.values(characters).filter(char => char !== characters.human).map(character => `
+                    <div class="enemy-intro ${character.styling.cssClass}">
+                        <img src="${character.styling.imageUrl}" alt="">
+                        <h2>${character.name}</h2>
+                        <p>${character.description}</p>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+        
+        setBtnsEnemyIntro(); // Set up the event listeners
+    },   
 
     _toggleAssignShipDirection() {
         let containerShips = document.querySelector(".container-ship-assignment");

@@ -102,6 +102,7 @@ function getRandomIndex(availableTargets) {
 export const wraithmoor = {
     name: "Captain Wraithmoor",
     difficulty: "easy",
+    description: "Captain Wraithmoor, a ghostly commander from the depths of the afterlife, leads a fleet of restless spirits. His ethereal ship sails through fog and mist, guided by haunting whispers. While his attacks are swift and eerie, his army is less aggressive than the others. Face him if you seek a challenge that's chilling yet manageable.",
     speech: [
         "The fog rises once more... Your fate is sealed in the mist.",
         "You strike, but it will not matter. The fog will return to claim what is lost.",
@@ -139,6 +140,7 @@ export const wraithmoor = {
         backGroundColorBoard: "var(--limeGreen)",  
         playerBoardBoxShadow: "4px 4px 15px 10px var(--limeGreen)",
         imageUrl: wraithmoorImg,
+        cssClass: "wraithmoor",
     },
     ships: {
         1: ghost1,
@@ -152,6 +154,7 @@ export const wraithmoor = {
 export const grimhollow = {
     name: "Captain Grimhollow",
     difficulty: "medium",
+    description: "Once a ruthless pirate, now a decaying terror, Captain Grimhollow commands a fleet of the undead. His body rots, but his hunger for battle is unyielding. His zombie crew is relentless, and they will not rest until they've claimed victory. Prepare for a gruesome fight against this cursed captain and his undead legion.",
     speech: [
         "The dead never rest. They rise, again and again, as the fog stirs.",
         "You may delay them, but the undead are eternal. The fog will see to it.",
@@ -278,6 +281,7 @@ export const grimhollow = {
         backGroundColorBoard: "var(--goldenYellow)",  
         playerBoardBoxShadow: "4px 4px 15px 10px var(--goldenYellow)",
         imageUrl: grimhollowImg,
+        cssClass: "grimhollow",
     },
     ships: {
         1: zombie1,
@@ -291,6 +295,7 @@ export const grimhollow = {
 export const boneshard = {
     name: "Captain Boneshard",
     difficulty: "hard",
+    description: "Captain Boneshard, the skeletal commander of a cursed fleet, strikes fear into the hearts of all who cross his path. He stands tall atop of shattered bones, his army of skeletons ever-ready for battle. His merciless attacks and his unwavering warriors will test your every skill. Only the bravest can hope to survive against this legendary captain.",
     speech: [
         "The bones of fate are cast. There is no escaping the inevitable.",
         "You may strike, but my bones are unyielding. I will always rise again.",
@@ -339,6 +344,7 @@ export const boneshard = {
         backGroundColorBoard: "var(--glowingOrange)",  
         playerBoardBoxShadow: "4px 4px 15px 10px var(--glowingOrange)",
         imageUrl: boneshardImg,
+        cssClass: "boneshard",
     },
     ships: {
         1: skeleton1,
