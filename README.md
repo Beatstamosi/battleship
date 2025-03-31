@@ -1,7 +1,7 @@
 # Phantom Fleet  
 **A Haunting Twist on Naval Warfare**  
 
-![Phantom Fleet Banner](./screenshot.png)  
+![Phantom Fleet Game View](./src/img/game_screenshot.png)  
 
 ## Table of Contents
 - [About](#about)
