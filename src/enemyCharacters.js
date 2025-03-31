@@ -66,7 +66,7 @@ function simulateClickAndObserve(attackField) {
             setTimeout(() => {
                 observer.disconnect();
                 reject("Click event timed out: No class change detected.");
-            }, 5000); 
+            }, 6000); 
 
         } catch (error) {
             reject("Click event failed: " + error);
@@ -135,10 +135,8 @@ export const grimhollow = {
     ],
     getSpeech: getSpeech,
     nextAttack: [],
-    lastSuccessfullAttack: null,
-    attackDirection: null,
     alreadyAttacked: [],
-    firstHit: null,
+    hitCounter: 0,
     attack: async function(availableTargets) {
         if (availableTargets.length == 0) return;
     
@@ -182,85 +180,48 @@ export const grimhollow = {
         await simulateClickAndObserve(attackField)
         .then(result => {
             if (result == "hit") {
-
-                if(!this.firstHit) {
-                    this.firstHit = attackField;
-                }
-
+                this.hitCounter += 1;
                 this.alreadyAttacked.push(attackField);
-    
-                if (gameField.ship && !gameField.ship.sunk) { 
-                    if (this.lastSuccessfullAttack) {
-                        // check if attack direction is  not set
-                        if (!this.attackDirection) {
-                            let rowDiff = parseInt(attackField.dataset.row) - parseInt(this.lastSuccessfullAttack.dataset.row);
-                            let colDiff = parseInt(attackField.dataset.column) - parseInt(this.lastSuccessfullAttack.dataset.column);
+        
+                if (this.hitCounter >= 2) { 
+                    // reset next attacks
+                    this.nextAttack.length = 0;
 
-                            // Determine attack direction after the second hit
-                            if (rowDiff !== 0) {
-                                this.attackDirection = "vertical";
-                            } else if (colDiff !== 0) {
-                                this.attackDirection = "horizontal";
-                            }
+                    // filter attackField out for next attacks
+                    availableTargets = availableTargets.filter(field => field !== attackField);
+        
+                    // add all fields with this ship as next attack
+                    let nextTargets = availableTargets.filter(field => field.gameField?.ship && field.gameField.ship.length === gameField.ship.length);
+                    nextTargets.forEach(target => {
+                        if (!this.nextAttack.includes(target) && !this.alreadyAttacked.includes(target)) {
+                            this.nextAttack.push(target);
                         }
-
-                        // Continue attack in the determined direction
-                        if (this.attackDirection === "vertical") {
-                            let nextTargets = [
-                                getAttackTop(attackField, availableTargets),
-                                getAttackBottom(attackField, availableTargets),
-                                getAttackTop(this.firstHit, availableTargets),      // include first hit to cover both sides
-                                getAttackBottom(this.firstHit, availableTargets),   // include first hit to cover both sides
-                            ]
-
-                            nextTargets.forEach(target => {
-                                if (target && !this.nextAttack.includes(target) && !this.alreadyAttacked.includes(target)) {
-                                    this.nextAttack.push(target);
-                                }
-                            });
-                        } else if (this.attackDirection === "horizontal") {
-                            let nextTargets = [
-                                getAttackLeft(attackField, availableTargets),
-                                getAttackRight(attackField, availableTargets),
-                                getAttackLeft(this.firstHit, availableTargets),      // include first hit to cover both sides
-                                getAttackRight(this.firstHit, availableTargets),   // include first hit to cover both sides
-                            ]
-
-                            nextTargets.forEach(target => {
-                                if (target && !this.nextAttack.includes(target) && !this.alreadyAttacked.includes(target)) {
-                                    this.nextAttack.push(target);
-                                }
-                            });
+                    });
+                } else {
+                    // First hit: check all four directions
+                    let nextTargets = [
+                        getAttackTop(attackField, availableTargets),
+                        getAttackBottom(attackField, availableTargets),
+                        getAttackLeft(attackField, availableTargets),
+                        getAttackRight(attackField, availableTargets),
+                    ]
+        
+                    nextTargets.forEach(target => {
+                        if (target && !this.nextAttack.includes(target) && !this.alreadyAttacked.includes(target)) {
+                            this.nextAttack.push(target);
                         }
-                    } else {
-                        // First hit: check all four directions
-                        let attack;
-                        if (attack = getAttackTop(attackField, availableTargets)) {
-                            this.nextAttack.push(attack);
-                        } else if (attack = getAttackBottom(attackField, availableTargets)) {
-                            this.nextAttack.push(attack);
-                        } else if (attack = getAttackLeft(attackField, availableTargets)) {
-                            this.nextAttack.push(attack);
-                        } else if (attack = getAttackRight(attackField, availableTargets)) {
-                            this.nextAttack.push(attack);
-                        }
-                    }
-                };
-
-                if (gameField.ship && gameField.ship.sunk) {
-                    this.lastSuccessfullAttack = null;
-                    this.attackDirection = null;
-                    this.firstHit = null;
-                }  else {
-                    this.lastSuccessfullAttack = attackField;
+                    });
+        
+                    availableTargets = availableTargets.filter(field => field !== attackField);
                 }
             }
-
-            availableTargets = availableTargets.filter(field => field !== attackField);
-
+        
+            if (gameField.ship && gameField.ship.sunk) {
+                this.hitCounter = 0;
+            }
+        
             console.log({attackField});
             console.log(this.nextAttack);
-
         }).catch(error => {
             console.error('Attack failed:', error);
         });
