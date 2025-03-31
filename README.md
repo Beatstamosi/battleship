@@ -53,13 +53,13 @@ Originally inspired by [The Odin Project's Battleship assignment](https://www.th
 
 ## Installation
 
-# Clone repository
+#### Clone repository
 git clone https://github.com/yourusername/phantom-fleet.git
 
-# Install dependencies
+#### Install dependencies
 npm install
 
-# Start development server
+#### Start development server
 npm run dev
 
 
