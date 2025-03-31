@@ -32,45 +32,66 @@ export function getSpeech(character) {
 
 function simulateClickAndObserve(attackField) {
     return new Promise((resolve, reject) => {
-        try {
-            const observer = new MutationObserver((mutationsList, observer) => {
-                for (let mutation of mutationsList) {
-                    if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                        if (attackField.classList.contains('hit')) {
-                            observer.disconnect();
-                            resolve("hit");
-                            return;
-                        } else if (attackField.classList.contains('missed')) {
-                            observer.disconnect();
-                            resolve("missed");
-                            return;
-                        } else if (attackField.classList.contains('crossed-out')) {
-                            observer.disconnect();
-                            resolve("hit");
-                            return;
-                        }
-                    }
-                }
-            });
-
-            // Start observing immediately
-            observer.observe(attackField, { 
-                attributes: true, 
-                attributeFilter: ['class'] 
-            });
-
-            // Trigger the click
-            attackField.click();
-
-            // Longer timeout to account for animation delays
-            setTimeout(() => {
-                observer.disconnect();
-                reject("Click event timed out: No class change detected.");
-            }, 6000); 
-
-        } catch (error) {
-            reject("Click event failed: " + error);
+        // 1. Pre-attack validation
+        if (attackField.classList.contains('hit') || 
+            attackField.classList.contains('crossed-out')) {
+            console.warn('Already hit:', attackField);
+            return resolve("hit");
         }
+        if (attackField.classList.contains('missed')) {
+            return resolve("missed");
+        }
+
+        // 2. Verify clickability
+        if (typeof attackField.click !== 'function' || 
+            attackField.disabled || 
+            attackField.style.pointerEvents === 'none') {
+            console.warn('Field not clickable - resolving as miss');
+            return resolve("missed"); // Treat as failed attack
+        }
+
+        // 3. Setup observer
+        const observer = new MutationObserver(() => {
+            if (attackField.classList.contains('hit') || 
+                attackField.classList.contains('crossed-out')) {
+                cleanup();
+                resolve("hit");
+            } 
+            else if (attackField.classList.contains('missed')) {
+                cleanup();
+                resolve("missed");
+            }
+        });
+
+        // 4. Cleanup function
+        let timeoutId;
+        const cleanup = () => {
+            observer.disconnect();
+            clearTimeout(timeoutId);
+        };
+
+        // 5. Start observing
+        observer.observe(attackField, {
+            attributes: true,
+            attributeFilter: ['class']
+        });
+
+        // 6. Trigger click
+        try {
+            attackField.click();
+        } catch (err) {
+            cleanup();
+            reject("Click failed: " + err);
+            return;
+        }
+
+        // 7. Timeout fallback
+        timeoutId = setTimeout(() => {
+            cleanup();
+            if (attackField.classList.contains('hit')) resolve("hit");
+            else if (attackField.classList.contains('missed')) resolve("missed");
+            else reject(`Timeout (classes: ${attackField.className})`);
+        }, 3000);
     });
 }
 
@@ -94,15 +115,25 @@ export const wraithmoor = {
         "You fight well, but the fog's grip is stronger. It will never let you go."
     ],
     getSpeech: getSpeech,
-    attack: function(availableTargets) {
+    attack: async function(availableTargets) {
         if (availableTargets.length == 0) return;
-
+        
         let index = getRandomIndex(availableTargets);
-        let randomField = availableTargets[index];
+        let field = availableTargets.splice(index, 1)[0];
 
-        randomField.click();   
-
-        availableTargets.splice(index, 1);
+        // 2. Validate field state
+        if (field.classList.contains('hit') || field.classList.contains('missed')) {
+            console.warn('Attempted to attack already-hit field');
+            return;
+        }
+        
+        // 3. Trigger click and handle potential errors
+        try {
+            field.click();
+        } catch (error) {
+            console.error('Click failed:', error);
+            availableTargets.push(field); // Re-add if click failed
+        }
     },
     styling: {
         backGroundColorBoard: "var(--limeGreen)",  
@@ -138,10 +169,6 @@ export const grimhollow = {
     alreadyAttacked: [],
     hitCounter: 0,
     attack: async function(availableTargets) {
-        if (availableTargets.length == 0) return;
-    
-        let attackField;
-
         // attack patterns
         const getAttackLeft = (attackField, availableTargets) => {
             return availableTargets.find(item => 
@@ -167,52 +194,73 @@ export const grimhollow = {
                 parseInt(item.dataset.column) == parseInt(attackField.dataset.column)
             );
         };
+
+        // Filter out already-attacked fields FIRST
+        availableTargets = availableTargets.filter(field => 
+            !field.classList.contains('hit') &&
+            !field.classList.contains('missed') &&
+            !field.classList.contains('crossed-out')
+        );
+
+        if (availableTargets.length == 0) return;
     
+        let attackField;
+    
+        // select attack target and filter nextAttack
         if (this.nextAttack.length == 0) {
-            let index = getRandomIndex(availableTargets);
+            const index = getRandomIndex(availableTargets);
             attackField = availableTargets[index];
+
         } else {
+            this.nextAttack = this.nextAttack.filter(field => 
+                !field.classList.contains('hit') &&
+                !field.classList.contains('missed') &&
+                !field.classList.contains('crossed-out')
+            );
             attackField = this.nextAttack.shift();
         }
+
+        // Immediately remove from available targets AND add to alreadyAttacked
+        this.alreadyAttacked.push(attackField);
+        availableTargets = availableTargets.filter(field => field !== attackField);
+
     
         let gameField = attackField.gameField; // Get the actual field data
     
-        await simulateClickAndObserve(attackField)
-        .then(result => {
+        try {
+            const result =  await simulateClickAndObserve(attackField);
+
             if (result == "hit") {
                 this.hitCounter += 1;
-                this.alreadyAttacked.push(attackField);
         
                 if (this.hitCounter >= 2) { 
                     // reset next attacks
                     this.nextAttack.length = 0;
 
-                    // filter attackField out for next attacks
-                    availableTargets = availableTargets.filter(field => field !== attackField);
-        
                     // add all fields with this ship as next attack
-                    let nextTargets = availableTargets.filter(field => field.gameField?.ship && field.gameField.ship.length === gameField.ship.length);
-                    nextTargets.forEach(target => {
-                        if (!this.nextAttack.includes(target) && !this.alreadyAttacked.includes(target)) {
-                            this.nextAttack.push(target);
-                        }
-                    });
+                    const nextTargets = availableTargets.filter(field => field.gameField?.ship && field.gameField.ship.length === gameField.ship.length &&
+                        !this.alreadyAttacked.includes(field));
+
+                    this.nextAttack.push(...nextTargets);
                 } else {
                     // First hit: check all four directions
-                    let nextTargets = [
+                    const adjacentTargets = [
                         getAttackTop(attackField, availableTargets),
                         getAttackBottom(attackField, availableTargets),
                         getAttackLeft(attackField, availableTargets),
                         getAttackRight(attackField, availableTargets),
-                    ]
+                    ].filter(target => 
+                        target && 
+                        !target.classList.contains('hit') &&
+                        !target.classList.contains('missed') &&
+                        !target.classList.contains('crossed-out')
+                    );
         
-                    nextTargets.forEach(target => {
-                        if (target && !this.nextAttack.includes(target) && !this.alreadyAttacked.includes(target)) {
+                    adjacentTargets.forEach(target => {
+                        if (!this.nextAttack.includes(target) && !this.alreadyAttacked.includes(target)) {
                             this.nextAttack.push(target);
                         }
                     });
-        
-                    availableTargets = availableTargets.filter(field => field !== attackField);
                 }
             }
         
@@ -222,9 +270,9 @@ export const grimhollow = {
         
             console.log({attackField});
             console.log(this.nextAttack);
-        }).catch(error => {
+        } catch (error) {
             console.error('Attack failed:', error);
-        });
+        };
     },
     styling: {
         backGroundColorBoard: "var(--goldenYellow)",  
@@ -257,28 +305,25 @@ export const boneshard = {
     ],
     getSpeech: getSpeech,
     nextAttack: [],
-    lastSuccessfullAttack: null,
     attack: async function(availableTargets) {
         if (availableTargets.length === 0) return;
-    
+
         let attackField;
     
-        if (this.nextAttack.length === 0) {
-            let index = getRandomIndex(availableTargets);
-            attackField = availableTargets[index];
-        } else {
-            attackField = this.nextAttack.shift();
-        }
+        // get attack field
+        attackField = this.nextAttack.length === 0 ? availableTargets[getRandomIndex(availableTargets)] : attackField = this.nextAttack.shift();
     
-        await simulateClickAndObserve(attackField)
-        .then(result => {
-            availableTargets.splice(availableTargets.indexOf(attackField), 1);
-    
+        // immediately remove from available Targets
+        availableTargets.splice(availableTargets.indexOf(attackField), 1);
+
+        // wait for attack
+        let result = await simulateClickAndObserve(attackField);
+
+        try {
             let gameField = attackField.gameField; // Access the linked game field
     
             if (result === "hit" && gameField?.ship) {
-                availableTargets = availableTargets.filter(field => field !== attackField);
-                this.lastSuccessfullAttack = attackField;
+
                 let nextTargets = availableTargets.filter(field => field.gameField?.ship && field.gameField.ship.length === gameField.ship.length);
                 nextTargets.forEach(target => {
                     if (!this.nextAttack.includes(target)) {
@@ -286,9 +331,9 @@ export const boneshard = {
                     }
                 });
             }
-        }).catch(error => {
+        } catch(error) {
             console.error("Error during boneshard attack:", error);
-        });
+        };
     },
     styling: {
         backGroundColorBoard: "var(--glowingOrange)",  
