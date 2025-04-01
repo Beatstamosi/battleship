@@ -109,6 +109,7 @@ body {
     font-family: "Haunting";
     text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff;
     transition: text-shadow 0.3s ease-in-out, transform 0.2s;
+    transition: all 0.5s ease-out;
 }
 
 .choice-game-mode button:hover {
@@ -171,6 +172,7 @@ input[type=text]::placeholder {
     padding: 10px 20px;
     color: var(--neonCyan);
     cursor: pointer;
+    transition: all 0.2s ease-out;
 }
 
 .restart-btn {
@@ -228,6 +230,7 @@ input[type=text]::placeholder {
     border-radius: 2px;
     opacity: 0.8;
     margin-top: 80px;
+    transition: all 0.5s ease-out;
 }
 
 .fog {
@@ -248,9 +251,9 @@ input[type=text]::placeholder {
     opacity: 0.8;
     background-size: cover;
     background-color: rgba(0, 0, 0, 0.8);
+    transition: all 0.2s ease-out;
 }
 
-/* TODO: Update with icons */
 .missed {
     background-image: url(./img/sea_1.png);
     background-repeat: no-repeat;
@@ -277,6 +280,7 @@ input[type=text]::placeholder {
     text-align: center;
     font-size: 2em;
     font-family: "Haunting";
+    transition: all 0.2s ease-in;
 }
 
 #attack-instructions {
@@ -309,11 +313,12 @@ input[type=text]::placeholder {
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background-color: rgba(0, 85, 119, 0.2);
+    background-color: rgba(0, 85, 119, 0.3);
+    transition: all 0.2s ease-out;
 }
 
 .enemy-intro:hover {
-    cursor: pointer;
+    cursor: pointer;transition: all 0.2s ease-out;
 }
 
 .enemy-intro p {
@@ -373,7 +378,7 @@ input[type=text]::placeholder {
     color: var(--neonCyan);
 }
 
-.character-selection img{
+.character-selection img {
     width: 70px;
     border-radius: 50%;
     margin-bottom: 20px;
