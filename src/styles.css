@@ -131,6 +131,20 @@ body {
     justify-self: center;
     align-self: center;
     padding: 50px;
+    transition: transform 0.5s, ease-in-out, opacity 0.4s ease;
+}
+
+dialog[open] {
+    animation: fadein 1s ease-in forwards;
+  }
+  
+@keyframes fadein{
+    0%{
+      opacity:0;
+    }
+    100%{
+      opacity:1;
+    }
 }
 
 .container-input-user-name p {
@@ -177,6 +191,7 @@ input[type=text]::placeholder {
 
 .restart-btn {
     font-size: 1.5em;
+    animation: fadein 1s ease-in forwards;
 }
 
 .start-game-button:hover, .restart-btn:hover {
@@ -209,6 +224,7 @@ input[type=text]::placeholder {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    animation: fadein 1s ease-in forwards;
 }
 
 .column-left {
@@ -231,6 +247,7 @@ input[type=text]::placeholder {
     opacity: 0.8;
     margin-top: 80px;
     transition: all 0.5s ease-out;
+    animation: fadein 1s ease-in forwards;
 }
 
 .fog {
@@ -238,10 +255,12 @@ input[type=text]::placeholder {
     background-repeat: repeat;
     background-size: cover;
     opacity: 0.2;
+    animation: fadein 3s ease-in forwards, opacity 1s ease;
 }
 
 .show-grid {
     border: 0.5px solid var(--neonMagenta);
+    animation: fadein 1s ease-in forwards;
 }
 
 .field-board {
@@ -303,6 +322,7 @@ input[type=text]::placeholder {
     align-items: center;
     gap: 30px;
     margin-top: 50px;
+    animation: fadein 0.5s ease-in forwards;
 }
 
 .enemy-intro {
@@ -435,6 +455,7 @@ input[type=text]::placeholder {
     padding: 20px;
     display: flex;
     gap: 10px;
+    animation: fadein 0.5s ease-in forwards;
 }
 
 .container-ship {
@@ -470,6 +491,7 @@ input[type=text]::placeholder {
     font-family: "Haunting";
     color: var(--neonMagenta);
     font-size: 2.5em;
+    animation: fadein 1s ease-in forwards;
 }
 
 .crossed-out {
@@ -502,6 +524,7 @@ input[type=text]::placeholder {
     align-items: center;
     width: 35%;
     padding: 10px;
+    animation: fadein 1s ease-in forwards;
 }
 
 .container-enemy-speech img {
