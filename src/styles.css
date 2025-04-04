@@ -1,539 +1,602 @@
 * {
-    padding: 0;
-    margin: 0;
-    background: none;
-    border: none;
-    box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  background: none;
+  border: none;
+  box-sizing: border-box;
 }
 
 @font-face {
-    font-family: Haunting;
-    src: url(fonts/Haunting\ Attraction.woff2);
-  }
+  font-family: Haunting;
+  src: url(fonts/Haunting\ Attraction.woff2);
+}
 
 @font-face {
-    font-family: Creepster;
-    src: url(fonts/Creepster-Regular.woff2);
+  font-family: Creepster;
+  src: url(fonts/Creepster-Regular.woff2);
 }
 
 :root {
-    --neonCyan: #00FFFF;
-    --lightCyan: #66FFFF;
-    --deepBlue: #005577;
-    --neonMagenta: #FF00FF;
-    --limeGreen: #00FF00;
-    --goldenYellow: #FFD700;
-    --electricBlue: #1E90FF;
-    --glowingOrange: #FF4500;
+  --neonCyan: #00ffff;
+  --lightCyan: #66ffff;
+  --deepBlue: #005577;
+  --neonMagenta: #ff00ff;
+  --limeGreen: #00ff00;
+  --goldenYellow: #ffd700;
+  --electricBlue: #1e90ff;
+  --glowingOrange: #ff4500;
 }
 
 body {
-    background-image: url("./img/battleship_ghosts.jpeg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    font-family: monospace;
-    font-size: 18px;
+  background-image: url("./img/battleship_ghosts.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  font-family: monospace;
+  font-size: 18px;
 }
 
 #start-view {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.title, .title-small {
-    text-transform: uppercase;
-    font-size: 10em;
-    font-family: "Haunting";
-    text-shadow: 2px 2px 4px var(--deepBlue);
-    color: var(--neonMagenta);
-    text-shadow: 0 0 10px var(--lightCyan), 0 0 15px var(--lightCyan);
-    animation: soft-flicker 3s infinite alternate, slow-distortion 4s infinite;
+.title,
+.title-small {
+  text-transform: uppercase;
+  font-size: 10em;
+  font-family: "Haunting";
+  text-shadow: 2px 2px 4px var(--deepBlue);
+  color: var(--neonMagenta);
+  text-shadow:
+    0 0 10px var(--lightCyan),
+    0 0 15px var(--lightCyan);
+  animation:
+    soft-flicker 3s infinite alternate,
+    slow-distortion 4s infinite;
 }
 
 .title-small {
-    font-size: 3em;
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    color: var(--neonMagenta);
-    text-shadow: 0 0 10px var(--limeGreen), 0 0 15px var(--limeGreen);
+  font-size: 3em;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: var(--neonMagenta);
+  text-shadow:
+    0 0 10px var(--limeGreen),
+    0 0 15px var(--limeGreen);
 }
 
 .choice-game-mode::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -50px;
-    width: 100%;
-    height: 100%;
-    background: url(./img/clouds.png) repeat-x;
-    background-size: contain;
-    opacity: 0.7;
-    filter: blur(10px);
-    pointer-events: none;
-    animation: mist-move 10s infinite linear;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -50px;
+  width: 100%;
+  height: 100%;
+  background: url(./img/clouds.png) repeat-x;
+  background-size: contain;
+  opacity: 0.7;
+  filter: blur(10px);
+  pointer-events: none;
+  animation: mist-move 10s infinite linear;
 }
 
 /* Moving mist effect */
 @keyframes mist-move {
-    0% { transform: translateX(-50px); }
-    50% { transform: translateX(50px); }
-    100% { transform: translateX(-50px); }
+  0% {
+    transform: translateX(-50px);
+  }
+  50% {
+    transform: translateX(50px);
+  }
+  100% {
+    transform: translateX(-50px);
+  }
 }
 
 @keyframes soft-flicker {
-    0%, 100% { opacity: 1; text-shadow: 0 0 12px #00ffff, 0 0 18px #00ffff; }
-    50% { opacity: 0.9; text-shadow: 0 0 15px #00ffff, 0 0 22px #00ffff; }
+  0%,
+  100% {
+    opacity: 1;
+    text-shadow:
+      0 0 12px #00ffff,
+      0 0 18px #00ffff;
+  }
+  50% {
+    opacity: 0.9;
+    text-shadow:
+      0 0 15px #00ffff,
+      0 0 22px #00ffff;
+  }
 }
 
 @keyframes slow-distortion {
-    0%, 100% { transform: translateX(0) skewX(0deg); }
-    50% { transform: translateX(1px) skewX(0.5deg); }
+  0%,
+  100% {
+    transform: translateX(0) skewX(0deg);
+  }
+  50% {
+    transform: translateX(1px) skewX(0.5deg);
+  }
 }
 
 .choice-game-mode {
-    display: flex;
-    gap: 100px;
-    padding-left: 100px;
-    margin-top: 50px;
+  display: flex;
+  gap: 100px;
+  padding-left: 100px;
+  margin-top: 50px;
 }
 
 .choice-game-mode button {
-    font-size: 3em;
-    color: var(--lightCyan);
-    font-family: "Haunting";
-    text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff;
-    transition: text-shadow 0.3s ease-in-out, transform 0.2s;
-    transition: all 0.5s ease-out;
+  font-size: 3em;
+  color: var(--lightCyan);
+  font-family: "Haunting";
+  text-shadow:
+    0 0 5px #ffffff,
+    0 0 10px #ffffff;
+  transition:
+    text-shadow 0.3s ease-in-out,
+    transform 0.2s;
+  transition: all 0.5s ease-out;
 }
 
 .choice-game-mode button:hover {
-    cursor: pointer;
-    color: var(--limeGreen);
-    text-shadow: 0 0 15px #ffffff, 0 0 25px #ffffff;
-    transform: scale(1.1);
+  cursor: pointer;
+  color: var(--limeGreen);
+  text-shadow:
+    0 0 15px #ffffff,
+    0 0 25px #ffffff;
+  transform: scale(1.1);
 }
 
-#one-player-dialog, #two-players-dialog {
-    background-color: black;
-    opacity: 0.85;
-    font-family: "Haunting";
-    font-size: 3em;
-    border-radius: 5px;
-    border: thick double var(--limeGreen);
-    color: var(--limeGreen);
-    position: relative;
-    justify-self: center;
-    align-self: center;
-    padding: 50px;
-    transition: transform 0.5s, ease-in-out, opacity 0.4s ease;
+#one-player-dialog,
+#two-players-dialog {
+  background-color: black;
+  opacity: 0.85;
+  font-family: "Haunting";
+  font-size: 3em;
+  border-radius: 5px;
+  border: thick double var(--limeGreen);
+  color: var(--limeGreen);
+  position: relative;
+  justify-self: center;
+  align-self: center;
+  padding: 50px;
+  transition:
+    transform 0.5s,
+    ease-in-out,
+    opacity 0.4s ease;
 }
 
 dialog[open] {
-    animation: fadein 1s ease-in forwards;
+  animation: fadein 1s ease-in forwards;
+}
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
   }
-  
-@keyframes fadein{
-    0%{
-      opacity:0;
-    }
-    100%{
-      opacity:1;
-    }
+  100% {
+    opacity: 1;
+  }
 }
 
 .container-input-user-name p {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .close-dialog {
-    color: var(--limeGreen);
-    opacity: 0.8;
-    font-size: 0.5em;
-    font-weight: bold;
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    cursor: pointer;
+  color: var(--limeGreen);
+  opacity: 0.8;
+  font-size: 0.5em;
+  font-weight: bold;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  cursor: pointer;
 }
 
 dialog label {
-    font-size: 0.6em;
+  font-size: 0.6em;
 }
 
-input[type=text] {
-    font-size: 0.9em;
-    font-family: "Haunting";
-    color: var(--neonMagenta);
+input[type="text"] {
+  font-size: 0.9em;
+  font-family: "Haunting";
+  color: var(--neonMagenta);
 }
 
-input[type=text]::placeholder {
-    color: var(--neonCyan);
-    opacity: 0.6;
+input[type="text"]::placeholder {
+  color: var(--neonCyan);
+  opacity: 0.6;
 }
 
-.start-game-button, .restart-btn {
-    background-color: var(--neonMagenta);
-    opacity: 0.85;
-    font-family: "Haunting";
-    font-size: 0.5em;
-    margin-top: 50px;
-    padding: 10px 20px;
-    color: var(--neonCyan);
-    cursor: pointer;
-    transition: all 0.2s ease-out;
+.start-game-button,
+.restart-btn {
+  background-color: var(--neonMagenta);
+  opacity: 0.85;
+  font-family: "Haunting";
+  font-size: 0.5em;
+  margin-top: 50px;
+  padding: 10px 20px;
+  color: var(--neonCyan);
+  cursor: pointer;
+  transition: all 0.2s ease-out;
 }
 
 .restart-btn {
-    font-size: 1.5em;
-    animation: fadein 1s ease-in forwards;
+  font-size: 1.5em;
+  animation: fadein 1s ease-in forwards;
 }
 
-.start-game-button:hover, .restart-btn:hover {
-    cursor: pointer;
-    transform: scale(1.1);
-    opacity: 1;
-    box-shadow: 0 0 15px var(--neonCyan), 0 0 25px var(--neonCyan);
+.start-game-button:hover,
+.restart-btn:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+  opacity: 1;
+  box-shadow:
+    0 0 15px var(--neonCyan),
+    0 0 25px var(--neonCyan);
 }
 
 #game-view {
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .container-player-info {
-    display: grid;
-    grid-template-columns: 1fr 0.8fr 1fr;
-    gap: 20px;
-    justify-items: center;
-    align-items: center;
-    padding-left: 50px;
-    padding-right: 50px;
+  display: grid;
+  grid-template-columns: 1fr 0.8fr 1fr;
+  gap: 20px;
+  justify-items: center;
+  align-items: center;
+  padding-left: 50px;
+  padding-right: 50px;
 }
 
 .container-instructions {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    animation: fadein 1s ease-in forwards;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  animation: fadein 1s ease-in forwards;
 }
 
 .column-left {
-    grid-column: 1;
-    justify-self: center;
+  grid-column: 1;
+  justify-self: center;
 }
 
 .column-right {
-    grid-column: 3;
-    justify-self: center;
+  grid-column: 3;
+  justify-self: center;
 }
 
-#board-player-1, #board-player-2 {
-    display: grid;
-    grid-template-columns: repeat(10, 1fr);
-    grid-template-rows: repeat(10, 1fr);
-    width: 450px;
-    height: 450px;
-    border-radius: 2px;
-    opacity: 0.8;
-    margin-top: 80px;
-    transition: all 0.5s ease-out;
-    animation: fadein 1s ease-in forwards;
+#board-player-1,
+#board-player-2 {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  width: 450px;
+  height: 450px;
+  border-radius: 2px;
+  opacity: 0.8;
+  margin-top: 80px;
+  transition: all 0.5s ease-out;
+  animation: fadein 1s ease-in forwards;
 }
 
 .fog {
-    background-image: url(./img/fog2.jpg);
-    background-repeat: repeat;
-    background-size: cover;
-    opacity: 0.2;
-    animation: fadein 3s ease-in forwards, opacity 1s ease;
+  background-image: url(./img/fog2.jpg);
+  background-repeat: repeat;
+  background-size: cover;
+  opacity: 0.2;
+  animation:
+    fadein 3s ease-in forwards,
+    opacity 1s ease;
 }
 
 .show-grid {
-    border: 0.5px solid var(--neonMagenta);
-    animation: fadein 1s ease-in forwards;
+  border: 0.5px solid var(--neonMagenta);
+  animation: fadein 1s ease-in forwards;
 }
 
 .field-board {
-    width: 100%;
-    height: 100%;
-    cursor: url("./img/target.png") 16 16, auto;
-    opacity: 0.8;
-    background-size: cover;
-    background-color: rgba(0, 0, 0, 0.8);
-    transition: all 0.2s ease-out;
+  width: 100%;
+  height: 100%;
+  cursor:
+    url("./img/target.png") 16 16,
+    auto;
+  opacity: 0.8;
+  background-size: cover;
+  background-color: rgba(0, 0, 0, 0.8);
+  transition: all 0.2s ease-out;
 }
 
 .missed {
-    background-image: url(./img/sea_1.png);
-    background-repeat: no-repeat;
-    background-size: cover;
-    opacity: 0.8;
+  background-image: url(./img/sea_1.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0.8;
 }
 
 .hit {
-    background-repeat: no-repeat;
-    background-size: cover;
-    opacity: 0.8;
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0.8;
 }
 
 .hit img {
-    opacity: 1;
+  opacity: 1;
 }
 
 .disabled {
-    pointer-events: none;
+  pointer-events: none;
 }
 
 #instructions {
-    color: var(--neonMagenta);
-    text-align: center;
-    font-size: 2em;
-    font-family: "Haunting";
-    transition: all 0.2s ease-in;
+  color: var(--neonMagenta);
+  text-align: center;
+  font-size: 2em;
+  font-family: "Haunting";
+  transition: all 0.2s ease-in;
 }
 
 #attack-instructions {
-    color: var(--neonMagenta);
-    text-align: center;
-    padding: 5px 20px;
+  color: var(--neonMagenta);
+  text-align: center;
+  padding: 5px 20px;
 }
 
 #enemy-selection-view {
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 #container-enemies {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-    margin-top: 50px;
-    animation: fadein 0.5s ease-in forwards;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin-top: 50px;
+  animation: fadein 0.5s ease-in forwards;
 }
 
 .enemy-intro {
-    width: 400px;
-    height: 650px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: rgba(0, 85, 119, 0.3);
-    transition: all 0.2s ease-out;
+  width: 400px;
+  height: 650px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: rgba(0, 85, 119, 0.3);
+  transition: all 0.2s ease-out;
 }
 
 .enemy-intro:hover {
-    cursor: pointer;transition: all 0.2s ease-out;
+  cursor: pointer;
+  transition: all 0.2s ease-out;
 }
 
 .enemy-intro p {
-    font-size: 0.9em;
+  font-size: 0.9em;
 }
 
 .enemy-intro h2 {
-    text-transform: uppercase;
-    font-family: "Haunting";
-    font-size: 2.5em;
+  text-transform: uppercase;
+  font-family: "Haunting";
+  font-size: 2.5em;
 }
 
 .wraithmoor h2 {
-    color: var(--limeGreen);
+  color: var(--limeGreen);
 }
 
 .grimhollow h2 {
-    color: var(--goldenYellow);
+  color: var(--goldenYellow);
 }
 
 .boneshard h2 {
-    color: var(--glowingOrange);
+  color: var(--glowingOrange);
 }
 
 .wraithmoor img {
-    border: 1px solid var(--limeGreen);
+  border: 1px solid var(--limeGreen);
 }
 
 .grimhollow img {
-    border: 1px solid var(--goldenYellow);
+  border: 1px solid var(--goldenYellow);
 }
 
 .boneshard img {
-    border: 1px solid var(--glowingOrange);
+  border: 1px solid var(--glowingOrange);
 }
 
 .wraithmoor:hover {
-    box-shadow: 0 0 15px var(--limeGreen), 0 0 25px var(--limeGreen);
-    border: 1px solid var(--limeGreen);
+  box-shadow:
+    0 0 15px var(--limeGreen),
+    0 0 25px var(--limeGreen);
+  border: 1px solid var(--limeGreen);
 }
 
 .grimhollow:hover {
-    box-shadow: 0 0 15px var(--goldenYellow), 0 0 25px var(--goldenYellow);
-    border: 1px solid var(--goldenYellow);
+  box-shadow:
+    0 0 15px var(--goldenYellow),
+    0 0 25px var(--goldenYellow);
+  border: 1px solid var(--goldenYellow);
 }
 
 .boneshard:hover {
-    box-shadow: 0 0 15px var(--glowingOrange), 0 0 25px var(--glowingOrange);
-    border: 1px solid var(--glowingOrange);
+  box-shadow:
+    0 0 15px var(--glowingOrange),
+    0 0 25px var(--glowingOrange);
+  border: 1px solid var(--glowingOrange);
 }
 
 .enemy-intro img {
-    width: 350px;
+  width: 350px;
 }
 
 .enemy-intro p {
-    color: var(--neonCyan);
+  color: var(--neonCyan);
 }
 
 .character-selection img {
-    width: 70px;
-    border-radius: 50%;
-    margin-bottom: 20px;
+  width: 70px;
+  border-radius: 50%;
+  margin-bottom: 20px;
 }
 
-[type=radio] { 
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
+[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
 
-[type=radio] + img {
-    cursor: pointer;
+[type="radio"] + img {
+  cursor: pointer;
 }
 
-[type=radio]:checked + img {
-    outline: 2px solid var(--neonMagenta);
-    box-shadow: 0 0 15px var(--neonMagenta), 0 0 25px var(--neonMagenta);
-  }
+[type="radio"]:checked + img {
+  outline: 2px solid var(--neonMagenta);
+  box-shadow:
+    0 0 15px var(--neonMagenta),
+    0 0 25px var(--neonMagenta);
+}
 
-#playerOne-input, #playerTwo-input {
-    margin-bottom: 20px;
-    margin-top: 20px;
+#playerOne-input,
+#playerTwo-input {
+  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 @keyframes lightning-strike {
-    0% {
-        background-image: url('https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExMmlnMDZiYjZwZ3A4M3M0bHExdXBkZHczMGl0Y2FmN2x1bDAyMWtiYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3f4Km8SmluRb50fogD/giphy.gif');
-        opacity: 0.3;
-        filter: brightness(2);
-    }
-    50% {
-        opacity: 0.5;
-        filter: brightness(3); /* Brighten the image for a flash effect */
-    }
-    80% {
-        background-image: url('https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExMmlnMDZiYjZwZ3A4M3M0bHExdXBkZHczMGl0Y2FmN2x1bDAyMWtiYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3f4Km8SmluRb50fogD/giphy.gif');
-        opacity: 0.6;
-        filter: brightness(2);
-    }
-    100% {
-        background-image: none;
-        opacity: 0; /* Optional: fade out the image */
-    }
+  0% {
+    background-image: url("https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExMmlnMDZiYjZwZ3A4M3M0bHExdXBkZHczMGl0Y2FmN2x1bDAyMWtiYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3f4Km8SmluRb50fogD/giphy.gif");
+    opacity: 0.3;
+    filter: brightness(2);
+  }
+  50% {
+    opacity: 0.5;
+    filter: brightness(3); /* Brighten the image for a flash effect */
+  }
+  80% {
+    background-image: url("https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExMmlnMDZiYjZwZ3A4M3M0bHExdXBkZHczMGl0Y2FmN2x1bDAyMWtiYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3f4Km8SmluRb50fogD/giphy.gif");
+    opacity: 0.6;
+    filter: brightness(2);
+  }
+  100% {
+    background-image: none;
+    opacity: 0; /* Optional: fade out the image */
+  }
 }
 
 /* The class that triggers the lightning animation */
 .lightning-flash {
-    animation: lightning-strike 0.6s ease-out forwards;
+  animation: lightning-strike 0.6s ease-out forwards;
 }
 
 .container-ship-assignment {
-    padding: 20px;
-    display: flex;
-    gap: 10px;
-    animation: fadein 0.5s ease-in forwards;
+  padding: 20px;
+  display: flex;
+  gap: 10px;
+  animation: fadein 0.5s ease-in forwards;
 }
 
 .container-ship {
-    display: flex;
+  display: flex;
 }
 
 .container-ship img {
-    width: 45px;
-    height: 45px;
+  width: 45px;
+  height: 45px;
 }
 
 .field-board.drag-over {
-    border: 3px dashed var(--neonCyan);
-    opacity: 1;
+  border: 3px dashed var(--neonCyan);
+  opacity: 1;
 }
 
 .container-rotate-btn {
-    display: flex;
-    justify-content: center;
-    color: var(--neonCyan);
-    font-size: 0.8em;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
+  display: flex;
+  justify-content: center;
+  color: var(--neonCyan);
+  font-size: 0.8em;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
 }
 
 .container-rotate-btn img {
-    width: 20px;
+  width: 20px;
 }
 
-#ships-left-player-1, #ships-left-player-2 {
-    margin-top: 50px;
-    font-family: "Haunting";
-    color: var(--neonMagenta);
-    font-size: 2.5em;
-    animation: fadein 1s ease-in forwards;
+#ships-left-player-1,
+#ships-left-player-2 {
+  margin-top: 50px;
+  font-family: "Haunting";
+  color: var(--neonMagenta);
+  font-size: 2.5em;
+  animation: fadein 1s ease-in forwards;
 }
 
 .crossed-out {
-    position: relative;
+  position: relative;
 }
 
-
 @keyframes flicker {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
 }
 
 .crossed-out::after {
-    content: "☠";
-    font-size: 5em;
-    font-family: "Haunting";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    animation: flicker 5s infinite;
+  content: "☠";
+  font-size: 5em;
+  font-family: "Haunting";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: flicker 5s infinite;
 }
 
 .container-enemy-speech {
-    position: absolute;
-    top: 25px;
-    right: 25px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 35%;
-    padding: 10px;
-    animation: fadein 1s ease-in forwards;
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 35%;
+  padding: 10px;
+  animation: fadein 1s ease-in forwards;
 }
 
 .container-enemy-speech img {
-    width: 120px;
+  width: 120px;
 }
 
 .container-enemy-speech p {
-    padding-left: 10px;
-    font-family: "Haunting";
-    text-wrap: wrap;
-    font-size: 1.5em;
+  padding-left: 10px;
+  font-family: "Haunting";
+  text-wrap: wrap;
+  font-size: 1.5em;
 }

@@ -1,131 +1,132 @@
 import Ship from "./classShip";
 
 export default class Gameboard {
-    constructor() {
-        this.board = this.createBoardArray();
-        this.ships = [];
-        this.eventTarget = new EventTarget();
+  constructor() {
+    this.board = this.createBoardArray();
+    this.ships = [];
+    this.eventTarget = new EventTarget();
+  }
+
+  createBoardArray() {
+    const board = [];
+
+    for (let i = 0; i < 10; i++) {
+      board[i] = [];
+
+      for (let j = 0; j < 10; j++) {
+        board[i][j] = new Field();
+      }
     }
 
-    createBoardArray() {
-        const board = [];
+    return board;
+  }
 
-        for (let i = 0; i < 10; i++) {
-            board[i] = [];
+  placeShip(x, y, direction, length, imageURL) {
+    x = Number(x);
+    y = Number(y);
+    length = Number(length);
 
-            for (let j = 0; j < 10; j++) {
-                board[i][j] = new Field();
-            }
-        }
+    this.checkIfCoordsInBounds(x, y);
+    this.checkIfLengthInBounds(x, y, direction, length);
+    this.checkShipAlreadyPlaced(x, y, direction, length);
 
-        return board;
+    let newShip = new Ship(length, imageURL);
+    this.ships.push(newShip);
+
+    let shipFields = [];
+
+    for (let i = 0; i < length; i++) {
+      let currentField = this.getField(x, y, direction, i);
+      currentField.ship = newShip;
+      shipFields.push(currentField);
     }
 
-    placeShip(x, y, direction, length, imageURL) {
-        x = Number(x);
-        y = Number(y);
-        length = Number(length);
+    // Emit custom event after placing the ship
+    const event = new CustomEvent("shipPlaced", {
+      detail: {
+        shipFields,
+        imageURL, // Send useful data in the event
+      },
+    });
+    this.eventTarget.dispatchEvent(event);
 
+    // Emit custom event after all ships have been placed
+    const event2 = new CustomEvent("allShipsPlaced");
+    if (this.ships.length === 5) this.eventTarget.dispatchEvent(event2);
+  }
+
+  getField(x, y, direction, i) {
+    return direction === "horizontal"
+      ? this.board[x + i][y]
+      : this.board[x][y + i];
+  }
+
+  receiveAttack(x, y) {
+    return new Promise((resolve, reject) => {
+      try {
         this.checkIfCoordsInBounds(x, y);
-        this.checkIfLengthInBounds(x, y, direction, length);
-        this.checkShipAlreadyPlaced(x, y, direction, length);
 
-        let newShip = new Ship(length, imageURL);
-        this.ships.push(newShip);
+        let field = this.board[x][y];
 
-        let shipFields = [];
-
-        for (let i = 0; i < length; i++) {
-            let currentField = this.getField(x, y, direction, i);
-            currentField.ship = newShip;
-            shipFields.push(currentField);
-        }
-
-        // Emit custom event after placing the ship
-        const event = new CustomEvent("shipPlaced", {
-            detail: {
-                shipFields,
-                imageURL // Send useful data in the event
-            }
-        });
-        this.eventTarget.dispatchEvent(event);
-
-        // Emit custom event after all ships have been placed
-        const event2 = new CustomEvent("allShipsPlaced");
-        if (this.ships.length === 5) this.eventTarget.dispatchEvent(event2);
-    }
-
-    getField(x, y, direction, i) {
-        return direction === "horizontal" ? this.board[x + i][y] : this.board[x][y + i];
-    }
-
-    receiveAttack(x, y) {
-        return new Promise((resolve, reject) => {
-            try {
-                this.checkIfCoordsInBounds(x, y);
-    
-                let field = this.board[x][y];
-    
-                if (field.ship != null) {
-                    field.ship.hit();
-                    field.hit = true;
-                    if (field.ship.sunk) {
-                        this.removeShip(field.ship);
-                        resolve("hit-sunk");
-                    }
-                    resolve("hit");
-                } else {
-                    field.missed = true;
-                    resolve("missed");
-                }
-            } catch (error) {
-                reject(error);
-            }
-        });
-    }
-
-    checkIfCoordsInBounds(x, y) {
-        if (x < 0 || x > 9 || y < 0 || y > 9) throw Error("Coordinates must be from 0 - 9");
-    }
-
-    checkIfLengthInBounds(x, y, direction, length) {
-        if (direction === "horizontal") {
-            if ((x + (length - 1)) > 9) throw Error("Coordinates must stay in range of gameboard ((starting coordinates + length) < 9)");
+        if (field.ship != null) {
+          field.ship.hit();
+          field.hit = true;
+          if (field.ship.sunk) {
+            this.removeShip(field.ship);
+            resolve("hit-sunk");
+          }
+          resolve("hit");
         } else {
-            if ((y + (length - 1)) > 9) throw Error("Coordinates must stay in range of gameboard ((starting coordinates + length) < 9)");
+          field.missed = true;
+          resolve("missed");
         }
-    }
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
 
-    checkShipAlreadyPlaced(x, y, direction, length) {
-        for (let i = 0; i < length; i++) {
-            let currentField = this.getField(x, y, direction, i);
-            if (currentField.ship != null) throw Error("A ship has already been placed in this spot");
-        }
-    }
+  checkIfCoordsInBounds(x, y) {
+    if (x < 0 || x > 9 || y < 0 || y > 9)
+      throw Error("Coordinates must be from 0 - 9");
+  }
 
-    allShipsSunk() {
-        return this.ships.length === 0;
+  checkIfLengthInBounds(x, y, direction, length) {
+    if (direction === "horizontal") {
+      if (x + (length - 1) > 9)
+        throw Error(
+          "Coordinates must stay in range of gameboard ((starting coordinates + length) < 9)",
+        );
+    } else {
+      if (y + (length - 1) > 9)
+        throw Error(
+          "Coordinates must stay in range of gameboard ((starting coordinates + length) < 9)",
+        );
     }
+  }
 
-    removeShip(ship) {
-        let index = this.ships.indexOf(ship);
-        this.ships.splice(index, 1);
+  checkShipAlreadyPlaced(x, y, direction, length) {
+    for (let i = 0; i < length; i++) {
+      let currentField = this.getField(x, y, direction, i);
+      if (currentField.ship != null)
+        throw Error("A ship has already been placed in this spot");
     }
+  }
+
+  allShipsSunk() {
+    return this.ships.length === 0;
+  }
+
+  removeShip(ship) {
+    let index = this.ships.indexOf(ship);
+    this.ships.splice(index, 1);
+  }
 }
 
 class Field {
-    constructor() {
-        this.missed = false;
-        this.hit = false;
-        this.ship = null;
-    }
+  constructor() {
+    this.missed = false;
+    this.hit = false;
+    this.ship = null;
+  }
 }
-
-
-
-
-
-
-
-
-

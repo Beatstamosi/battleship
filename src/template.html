@@ -1,41 +1,41 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BattleShip</title>
-</head>
-<body>
+  </head>
+  <body>
     <!-- Start View -->
     <div id="start-view">
-        <div>
-            <h1 class="title">Phantom Fleet</h1>
-        </div>
-        <div class="choice-game-mode">
-            <button id="choice-one-player">1 Player</button>
-            <button id="choice-two-players">2 Players</button>
-        </div>
+      <div>
+        <h1 class="title">Phantom Fleet</h1>
+      </div>
+      <div class="choice-game-mode">
+        <button id="choice-one-player">1 Player</button>
+        <button id="choice-two-players">2 Players</button>
+      </div>
     </div>
 
     <!-- Game View -->
     <div id="game-view">
-        <div>
-            <h1 class="title-small">Phantom Fleet</h1>
+      <div>
+        <h1 class="title-small">Phantom Fleet</h1>
+      </div>
+      <div class="container-player-info">
+        <div class="column-left">
+          <div id="board-player-1"></div>
+          <div id="ships-left-player-1"></div>
         </div>
-        <div class="container-player-info">
-            <div class="column-left">
-                <div id="board-player-1"></div>
-                <div id="ships-left-player-1"></div>
-            </div>
-            <div class="container-instructions">
-                <p id="instructions"></p>
-                <span id="attack-instructions"></span>
-            </div>
-            <div class="column-right">
-                <div id="board-player-2"></div>
-                <div id="ships-left-player-2"></div>
-            </div>
+        <div class="container-instructions">
+          <p id="instructions"></p>
+          <span id="attack-instructions"></span>
         </div>
+        <div class="column-right">
+          <div id="board-player-2"></div>
+          <div id="ships-left-player-2"></div>
+        </div>
+      </div>
     </div>
 
     <!-- Enemy Selection 1 Player -->
@@ -43,73 +43,124 @@
 
     <!-- 1 Player Box -->
     <dialog id="one-player-dialog">
-        <button class="close-dialog" id="close-dialog-one-player">X</button>
-        <div class="container-input-user-name">
-            <form action="">
-                <div>
-                    <p>Tell us your name, Captain!</p>
-                    <input type="text" name="playerOne" id="playerOne-input" placeholder="Enter Name">
-                </div>
-                <div>
-                <button type="submit" class="start-game-button" id="start-game-one-player">Start Game</button>
-            </form>
-        </div>
+      <button class="close-dialog" id="close-dialog-one-player">X</button>
+      <div class="container-input-user-name">
+        <form action="">
+          <div>
+            <p>Tell us your name, Captain!</p>
+            <input
+              type="text"
+              name="playerOne"
+              id="playerOne-input"
+              placeholder="Enter Name"
+            />
+          </div>
+          <button
+            type="submit"
+            class="start-game-button"
+            id="start-game-one-player"
+          >
+            Start Game
+          </button>
+        </form>
+      </div>
     </dialog>
 
     <!-- 2 Player Box -->
     <dialog id="two-players-dialog" id="close-dialog-two-players">
-        <button class="close-dialog" id="close-dialog-two-players">X</button>
-        <div class="container-input-user-name">
-            <form action="">
-                <div>
-                    <p>Who do you want to be, Captain's?</p>
-                    <label for="playerOne">Player One</label>
-                    <input type="text" name="playerOne" id="playerOne-input-2-players" placeholder="Enter Name">
-                </div>
-                <div class="character-selection">
-                    <label>
-                        <input type="radio" name="player-1-character" value="human" checked>
-                        <img src="img/human/human_pirate.jpeg" alt="Option 1">
-                    </label>
-                    <label>
-                        <input type="radio" name="player-1-character" value="wraithmoor">
-                        <img src="img/wraithmoor/wraithmoor.jpeg" alt="Option 2">
-                    </label>
-                    <label>
-                        <input type="radio" name="player-1-character" value="grimhollow">
-                        <img src="img/grimhollow/grimhollow.jpeg" alt="Option 3">
-                    </label>
-                    <label>
-                        <input type="radio" name="player-1-character" value="boneshard">
-                        <img src="img/boneshard/boneshard.jpeg" alt="Option 4">
-                    </label>
-                </div>
-                <div>
-                    <label for="playerTwo">Player Two</label>
-                    <input type="text" name="playerTwo" id="playerTwo-input" placeholder="Enter Name">
-                </div>
-                <div class="character-selection">
-                    <label>
-                        <input type="radio" name="player-2-character" value="human" checked>
-                        <img src="img/human/human_pirate.jpeg" alt="Option 1">
-                    </label>
-                    <label>
-                        <input type="radio" name="player-2-character" value="wraithmoor">
-                        <img src="img/wraithmoor/wraithmoor.jpeg" alt="Option 2">
-                    </label>
-                    <label>
-                        <input type="radio" name="player-2-character" value="grimhollow">
-                        <img src="img/grimhollow/grimhollow.jpeg" alt="Option 3">
-                    </label>
-                    <label>
-                        <input type="radio" name="player-2-character" value="boneshard">
-                        <img src="img/boneshard/boneshard.jpeg" alt="Option 4">
-                    </label>
-                </div>
-                <button type="submit" class="start-game-button" id="start-game-two-players">Start Game</button>
-            </form>
-        </div>
+      <button class="close-dialog" id="close-dialog-two-players">X</button>
+      <div class="container-input-user-name">
+        <form action="">
+          <div>
+            <p>Who do you want to be, Captain's?</p>
+            <label for="playerOne">Player One</label>
+            <input
+              type="text"
+              name="playerOne"
+              id="playerOne-input-2-players"
+              placeholder="Enter Name"
+            />
+          </div>
+          <div class="character-selection">
+            <label>
+              <input
+                type="radio"
+                name="player-1-character"
+                value="human"
+                checked
+              />
+              <img src="img/human/human_pirate.jpeg" alt="Option 1" />
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="player-1-character"
+                value="wraithmoor"
+              />
+              <img src="img/wraithmoor/wraithmoor.jpeg" alt="Option 2" />
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="player-1-character"
+                value="grimhollow"
+              />
+              <img src="img/grimhollow/grimhollow.jpeg" alt="Option 3" />
+            </label>
+            <label>
+              <input type="radio" name="player-1-character" value="boneshard" />
+              <img src="img/boneshard/boneshard.jpeg" alt="Option 4" />
+            </label>
+          </div>
+          <div>
+            <label for="playerTwo">Player Two</label>
+            <input
+              type="text"
+              name="playerTwo"
+              id="playerTwo-input"
+              placeholder="Enter Name"
+            />
+          </div>
+          <div class="character-selection">
+            <label>
+              <input
+                type="radio"
+                name="player-2-character"
+                value="human"
+                checked
+              />
+              <img src="img/human/human_pirate.jpeg" alt="Option 1" />
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="player-2-character"
+                value="wraithmoor"
+              />
+              <img src="img/wraithmoor/wraithmoor.jpeg" alt="Option 2" />
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="player-2-character"
+                value="grimhollow"
+              />
+              <img src="img/grimhollow/grimhollow.jpeg" alt="Option 3" />
+            </label>
+            <label>
+              <input type="radio" name="player-2-character" value="boneshard" />
+              <img src="img/boneshard/boneshard.jpeg" alt="Option 4" />
+            </label>
+          </div>
+          <button
+            type="submit"
+            class="start-game-button"
+            id="start-game-two-players"
+          >
+            Start Game
+          </button>
+        </form>
+      </div>
     </dialog>
-    
-</body>
+  </body>
 </html>
